@@ -10,12 +10,23 @@ namespace mcorten87\messagequeue_management\jobs;
 
 
 use mcorten87\messagequeue_management\objects\Password;
+use mcorten87\messagequeue_management\objects\QueueName;
 use mcorten87\messagequeue_management\objects\User;
 use mcorten87\messagequeue_management\objects\VirtualHost;
 
-class JobQueuesList extends JobBase
+class JobQueueList extends JobBase
 {
+    private $queueName;
+
     private $virtualhost;
+
+    /**
+     * @return QueueName
+     */
+    public function getQueueName() : QueueName
+    {
+        return $this->queueName;
+    }
 
     /**
      * @return VirtualHost
@@ -23,6 +34,14 @@ class JobQueuesList extends JobBase
     public function getVirtualhost()
     {
         return $this->virtualhost;
+    }
+
+    /**
+     * @param QueueName $queueName
+     */
+    public function setQueueName(QueueName $queueName)
+    {
+        $this->queueName = $queueName;
     }
 
     /**

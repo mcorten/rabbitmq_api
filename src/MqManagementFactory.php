@@ -5,6 +5,7 @@ namespace mcorten87\messagequeue_management;
 
 use mcorten87\messagequeue_management\exceptions\NoMapperForJob;
 use mcorten87\messagequeue_management\jobs\JobBase;
+use mcorten87\messagequeue_management\jobs\JobQueueList;
 use mcorten87\messagequeue_management\jobs\JobQueuesList;
 use mcorten87\messagequeue_management\jobs\JobVirtualHostCreate;
 use mcorten87\messagequeue_management\jobs\JobVirtualHostDelete;
@@ -14,6 +15,7 @@ use mcorten87\messagequeue_management\mappers\BaseMapper;
 use mcorten87\messagequeue_management\mappers\JobVirtualHostCreateMapper;
 use mcorten87\messagequeue_management\objects\JobResult;
 use mcorten87\messagequeue_management\objects\Password;
+use mcorten87\messagequeue_management\objects\QueueName;
 use mcorten87\messagequeue_management\objects\User;
 use mcorten87\messagequeue_management\objects\VirtualHost;
 use mcorten87\messagequeue_management\services\JobService;
@@ -43,6 +45,8 @@ class MqManagementFactory
     const JOB_LISTQUEUES = 'JobListQueues';
     const JOB_LISTQUEUESMAPPER = 'JobListQueuesMapper';
 
+    const JOB_LISTQUEUE = 'JobListQueue';
+    const JOB_LISTQUEUEMAPPER = 'JobListQueueMapper';
 
 
     /** @var MqManagementConfig */
@@ -145,6 +149,17 @@ class MqManagementFactory
             ->addArgument($this->config)
         ;
 
+        $definition = new Definition('mcorten87\messagequeue_management\jobs\JobQueueList');
+        $definition->setShared(false);
+        $this->container->setDefinition(self::JOB_LISTQUEUE, $definition)
+            ->addArgument($this->config->getUser())
+            ->addArgument($this->config->getPassword())
+        ;
+
+        $this->container->register(self::JOB_LISTQUEUEMAPPER, 'mcorten87\messagequeue_management\mappers\JobQueueListMapper')
+            ->addArgument($this->config)
+        ;
+
     }
 
     public function getJobResult($response) : JobResult {
@@ -190,8 +205,19 @@ class MqManagementFactory
         return $job;
     }
 
-    public function getJobListQueues() : JobQueuesList {
-        return $this->container->get(self::JOB_LISTQUEUES);
+    public function getJobListQueues(VirtualHost $virtualHost = null) : JobQueuesList {
+        /** @var JobQueuesList $job */
+        $job = $this->container->get(self::JOB_LISTQUEUES);
+        if ($virtualHost !== null) { $job->setVirtualhost($virtualHost); }
+        return $job;
+    }
+
+    public function getJobListQueue(VirtualHost $virtualHost, QueueName $queueName) : JobQueueList {
+        /** @var JobQueueList $job */
+        $job = $this->container->get(self::JOB_LISTQUEUE);
+        $job->setVirtualhost($virtualHost);
+        $job->setQueueName($queueName);
+        return $job;
     }
 
     /**
@@ -220,6 +246,9 @@ class MqManagementFactory
             // queue
             case $job instanceof JobQueuesList:
                 return $this->container->get(self::JOB_LISTQUEUESMAPPER);
+                break;
+            case $job instanceof JobQueueList:
+                return $this->container->get(self::JOB_LISTQUEUEMAPPER);
                 break;
             default:
                 throw new NoMapperForJob($job);

@@ -18,7 +18,11 @@ class JobQueuesListMapper  extends BaseMapper
 }
 
     protected function mapUrl(JobBase $job) : Url {
-        return new Url('queues');
+        $url = 'queues';
+        if ($job->getVirtualhost() !== null) {
+            $url .= '/'.urlencode($job->getVirtualhost());
+        }
+        return new Url($url);
     }
 
     protected function mapConfig(JobBase $job) : array {
