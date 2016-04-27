@@ -6,6 +6,7 @@ namespace mcorten87\messagequeue_management;
 use mcorten87\messagequeue_management\exceptions\NoMapperForJob;
 use mcorten87\messagequeue_management\jobs\JobBase;
 use mcorten87\messagequeue_management\jobs\JobCreateVirtualHost;
+use mcorten87\messagequeue_management\jobs\JobDeleteVirtualHost;
 use mcorten87\messagequeue_management\jobs\JobListVirtualHosts;
 use mcorten87\messagequeue_management\mappers\BaseMapper;
 use mcorten87\messagequeue_management\mappers\JobCreateVirtualHostMapper;
@@ -30,6 +31,9 @@ class MqManagementFactory
 
     const JOB_LISTVHOSTS = 'JobListVhosts';
     const JOB_LISTVHOSTSMAPPER = 'JobListVhostsMapper';
+
+    const JOB_DELETEVHOSTS = 'JobDeleteVhosts';
+    const JOB_DELETEVHOSTSMAPPER = 'JobDeleteVhostsMapper';
 
 
 
@@ -98,6 +102,17 @@ class MqManagementFactory
         $this->container->register(self::JOB_CREATEVHOSTMAPPER, 'mcorten87\messagequeue_management\mappers\JobCreateVirtualHostMapper')
             ->addArgument($this->config)
         ;
+
+        $definition = new Definition('mcorten87\messagequeue_management\jobs\JobDeleteVirtualHost');
+        $definition->setShared(false);
+        $this->container->setDefinition(self::JOB_DELETEVHOSTS, $definition)
+            ->addArgument($this->config->getUser())
+            ->addArgument($this->config->getPassword())
+        ;
+
+        $this->container->register(self::JOB_DELETEVHOSTSMAPPER, 'mcorten87\messagequeue_management\mappers\JobDeleteVirtualHostMapper')
+            ->addArgument($this->config)
+        ;
     }
 
     public function getJobResult($response) : JobResult {
@@ -124,9 +139,12 @@ class MqManagementFactory
         $job = $this->container->get(self::JOB_CREATEVHOST);
         $job->setVhost($vhost);
         return $job;
+    }
 
-//        $job = new JobCreateVirtualHost($this->config->getUser(), $this->config->getPassword(), $vhost);
-//        return $job;
+    public function getJobDeleteVirtualHost(VirtualHost $vhost) : JobDeleteVirtualHost {
+        $job = $this->container->get(self::JOB_DELETEVHOSTS);
+        $job->setVhost($vhost);
+        return $job;
     }
 
     /**
@@ -143,6 +161,9 @@ class MqManagementFactory
                 break;
             case $job instanceof JobCreateVirtualHost:
                 return $this->container->get(self::JOB_CREATEVHOSTMAPPER);
+                break;
+            case $job instanceof JobDeleteVirtualHost:
+                return $this->container->get(self::JOB_DELETEVHOSTSMAPPER);
                 break;
             default:
                 throw new NoMapperForJob($job);
