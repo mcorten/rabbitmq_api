@@ -5,6 +5,7 @@ namespace mcorten87\messagequeue_management;
 
 use mcorten87\messagequeue_management\exceptions\NoMapperForJob;
 use mcorten87\messagequeue_management\jobs\JobBase;
+use mcorten87\messagequeue_management\jobs\JobQueuesList;
 use mcorten87\messagequeue_management\jobs\JobVirtualHostCreate;
 use mcorten87\messagequeue_management\jobs\JobVirtualHostDelete;
 use mcorten87\messagequeue_management\jobs\JobVirtualHostList;
@@ -38,6 +39,9 @@ class MqManagementFactory
 
     const JOB_DELETEVHOSTS = 'JobDeleteVhosts';
     const JOB_DELETEVHOSTSMAPPER = 'JobDeleteVhostsMapper';
+
+    const JOB_LISTQUEUES = 'JobListQueues';
+    const JOB_LISTQUEUESMAPPER = 'JobListQueuesMapper';
 
 
 
@@ -128,6 +132,19 @@ class MqManagementFactory
         $this->container->register(self::JOB_DELETEVHOSTSMAPPER, 'mcorten87\messagequeue_management\mappers\JobVirtualHostDeleteMapper')
             ->addArgument($this->config)
         ;
+
+        // queues
+        $definition = new Definition('mcorten87\messagequeue_management\jobs\JobQueuesList');
+        $definition->setShared(false);
+        $this->container->setDefinition(self::JOB_LISTQUEUES, $definition)
+            ->addArgument($this->config->getUser())
+            ->addArgument($this->config->getPassword())
+        ;
+
+        $this->container->register(self::JOB_LISTQUEUESMAPPER, 'mcorten87\messagequeue_management\mappers\JobQueuesListMapper')
+            ->addArgument($this->config)
+        ;
+
     }
 
     public function getJobResult($response) : JobResult {
@@ -173,6 +190,10 @@ class MqManagementFactory
         return $job;
     }
 
+    public function getJobListQueues() : JobQueuesList {
+        return $this->container->get(self::JOB_LISTQUEUES);
+    }
+
     /**
      * Gets a mapper for the job, if non found it throws an NoMapperForJob exception
      *
@@ -182,6 +203,7 @@ class MqManagementFactory
      */
     public function getJobMapper(JobBase $job) : BaseMapper {
         switch ($job) {
+            // virtual host
             case $job instanceof JobVirtualHostsList:
                 return $this->container->get(self::JOB_LISTVHOSTSMAPPER);
                 break;
@@ -193,6 +215,11 @@ class MqManagementFactory
                 break;
             case $job instanceof JobVirtualHostDelete:
                 return $this->container->get(self::JOB_DELETEVHOSTSMAPPER);
+                break;
+
+            // queue
+            case $job instanceof JobQueuesList:
+                return $this->container->get(self::JOB_LISTQUEUESMAPPER);
                 break;
             default:
                 throw new NoMapperForJob($job);
