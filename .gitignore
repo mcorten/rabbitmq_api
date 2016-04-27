@@ -1,0 +1,8 @@
+#
+.idea/*
+.vagrant/*
+composer.phar
+vendor/*
+
+
+index.php

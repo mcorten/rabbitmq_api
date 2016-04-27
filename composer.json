@@ -1,0 +1,23 @@
+{
+  "name": "mcorten/messagequeue_management",
+  "description": "description_text",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "version": "0.0.1",
+  "authors": [
+    {
+      "name": "Mathijs Corten",
+      "email": "messagequeue_management@mcorten.nl"
+    }
+  ],
+  "autoload" : {
+    "psr-4": {
+      "mcorten87\\messagequeue_management\\" : "src/"
+    }
+  },
+  "require" : {
+    "php": ">=7.0.0",
+    "guzzlehttp/guzzle": "6.2.*",
+    "symfony/dependency-injection": "v3.0.*"
+  }
+}
