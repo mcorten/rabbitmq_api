@@ -3,8 +3,13 @@
 namespace mcorten87\messagequeue_management;
 
 
+use mcorten87\messagequeue_management\exceptions\NoMapperForJob;
+use mcorten87\messagequeue_management\jobs\JobBase;
 use mcorten87\messagequeue_management\jobs\JobCreateVirtualHost;
+use mcorten87\messagequeue_management\jobs\JobListVirtualHosts;
+use mcorten87\messagequeue_management\mappers\BaseMapper;
 use mcorten87\messagequeue_management\mappers\JobCreateVirtualHostMapper;
+use mcorten87\messagequeue_management\objects\JobResult;
 use mcorten87\messagequeue_management\objects\Password;
 use mcorten87\messagequeue_management\objects\User;
 use mcorten87\messagequeue_management\objects\VirtualHost;
@@ -18,8 +23,15 @@ class MqManagementFactory
 
     const SERVICE_JOB = 'JobService';
 
+    const JOB_RESULT = 'JobResult';
+
     const JOB_CREATEVHOST = 'JobCreateVhost';
     const JOB_CREATEVHOSTMAPPER = 'JobCreateVhostMapper';
+
+    const JOB_LISTVHOSTS = 'JobListVhosts';
+    const JOB_LISTVHOSTSMAPPER = 'JobListVhostsMapper';
+
+
 
     /** @var MqManagementConfig */
     private $config;
@@ -48,6 +60,34 @@ class MqManagementFactory
 
         $this->container->register(self::HTTPCLIENT,'GuzzleHttp\Client');
 
+        $this->container->register(self::SERVICE_JOB,'mcorten87\messagequeue_management\services\JobService')
+            ->addArgument($this)
+            ->addArgument($this->container->get(self::HTTPCLIENT))
+        ;
+
+
+
+        $this->registerJobs();
+    }
+
+    protected function registerJobs() {
+        // results
+        $definition = new Definition('mcorten87\messagequeue_management\objects\JobResult');
+        $definition->setShared(false);
+        $this->container->setDefinition(self::JOB_RESULT, $definition);
+
+        // virtual hosts
+        $definition = new Definition('mcorten87\messagequeue_management\jobs\JobListVirtualHosts');
+        $definition->setShared(false);
+        $this->container->setDefinition(self::JOB_LISTVHOSTS, $definition)
+            ->addArgument($this->config->getUser())
+            ->addArgument($this->config->getPassword())
+        ;
+
+        $this->container->register(self::JOB_LISTVHOSTSMAPPER, 'mcorten87\messagequeue_management\mappers\JobListVirtualHostMapper')
+            ->addArgument($this->config)
+        ;
+
         $definition = new Definition('mcorten87\messagequeue_management\jobs\JobCreateVirtualHost');
         $definition->setShared(false);
         $this->container->setDefinition(self::JOB_CREATEVHOST, $definition)
@@ -55,14 +95,24 @@ class MqManagementFactory
             ->addArgument($this->config->getPassword())
         ;
 
-        $this->container->register(self::SERVICE_JOB,'mcorten87\messagequeue_management\services\JobService')
-            ->addArgument($this)
-            ->addArgument($this->container->get(self::HTTPCLIENT))
-        ;
-
         $this->container->register(self::JOB_CREATEVHOSTMAPPER, 'mcorten87\messagequeue_management\mappers\JobCreateVirtualHostMapper')
             ->addArgument($this->config)
         ;
+    }
+
+    public function getJobResult($response) : JobResult {
+        /** @var JobResult */
+        $result = $this->container->get(self::JOB_RESULT);
+        $result->setResponse($response);
+        return $result;
+    }
+
+    /**
+     * @param VirtualHost $vhost
+     * @return JobCreateVirtualHost
+     */
+    public function getJobListVirtualHosts() : JobListVirtualHosts {
+        return $this->container->get(self::JOB_LISTVHOSTS);
     }
 
     /**
@@ -80,10 +130,23 @@ class MqManagementFactory
     }
 
     /**
+     * Gets a mapper for the job, if non found it throws an NoMapperForJob exception
+     *
+     * @param JobBase $job
      * @return JobCreateVirtualHostMapper
+     * @throws NoMapperForJob
      */
-    public function getJobCreateVirtualHostMapper() : JobCreateVirtualHostMapper {
-        return $this->container->get(self::JOB_CREATEVHOSTMAPPER);
+    public function getJobMapper(JobBase $job) : BaseMapper {
+        switch ($job) {
+            case $job instanceof JobListVirtualHosts:
+                return $this->container->get(self::JOB_LISTVHOSTSMAPPER);
+                break;
+            case $job instanceof JobCreateVirtualHost:
+                return $this->container->get(self::JOB_CREATEVHOSTMAPPER);
+                break;
+            default:
+                throw new NoMapperForJob($job);
+        }
     }
 
     /**
