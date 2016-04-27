@@ -6,7 +6,7 @@ use mcorten87\messagequeue_management\objects\Password;
 use mcorten87\messagequeue_management\objects\User;
 use mcorten87\messagequeue_management\objects\VirtualHost;
 
-class JobCreateVirtualHost extends JobBase
+class JobVirtualHostCreate extends JobBase
 {
     /**
      * @var VirtualHost

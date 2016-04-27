@@ -12,7 +12,7 @@ namespace mcorten87\messagequeue_management\jobs;
 use mcorten87\messagequeue_management\objects\Password;
 use mcorten87\messagequeue_management\objects\User;
 
-class JobListVirtualHosts extends JobBase
+class JobVirtualHostsList extends JobBase
 {
     public function __construct(User $user, Password $password)
     {

@@ -3,7 +3,7 @@
 namespace mcorten87\messagequeue_management\services;
 
 
-use mcorten87\messagequeue_management\jobs\JobCreateVirtualHost;
+use mcorten87\messagequeue_management\jobs\JobVirtualHostCreate;
 use mcorten87\messagequeue_management\MqManagementConfig;
 use mcorten87\messagequeue_management\MqManagementFactory;
 use mcorten87\messagequeue_management\objects\Host;

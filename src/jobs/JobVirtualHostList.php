@@ -13,7 +13,7 @@ use mcorten87\messagequeue_management\objects\Password;
 use mcorten87\messagequeue_management\objects\User;
 use mcorten87\messagequeue_management\objects\VirtualHost;
 
-class JobListVirtualHost extends JobBase
+class JobVirtualHostList extends JobBase
 {
     /**
      * @var VirtualHost
