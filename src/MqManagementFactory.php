@@ -5,6 +5,7 @@ namespace mcorten87\messagequeue_management;
 
 use mcorten87\messagequeue_management\exceptions\NoMapperForJob;
 use mcorten87\messagequeue_management\jobs\JobBase;
+use mcorten87\messagequeue_management\jobs\JobQueueCreate;
 use mcorten87\messagequeue_management\jobs\JobQueueList;
 use mcorten87\messagequeue_management\jobs\JobQueuesList;
 use mcorten87\messagequeue_management\jobs\JobVirtualHostCreate;
@@ -47,6 +48,9 @@ class MqManagementFactory
 
     const JOB_LISTQUEUE = 'JobListQueue';
     const JOB_LISTQUEUEMAPPER = 'JobListQueueMapper';
+
+    const JOB_CREATEQUEUE = 'JobCreateQueue';
+    const JOB_CREATEQUEUEMAPPER = 'JobCreateQueueMapper';
 
 
     /** @var MqManagementConfig */
@@ -160,6 +164,17 @@ class MqManagementFactory
             ->addArgument($this->config)
         ;
 
+        $definition = new Definition('mcorten87\messagequeue_management\jobs\JobQueueCreate');
+        $definition->setShared(false);
+        $this->container->setDefinition(self::JOB_CREATEQUEUE, $definition)
+            ->addArgument($this->config->getUser())
+            ->addArgument($this->config->getPassword())
+        ;
+
+        $this->container->register(self::JOB_CREATEQUEUEMAPPER, 'mcorten87\messagequeue_management\mappers\JobQueueCreateMapper')
+            ->addArgument($this->config)
+        ;
+
     }
 
     public function getJobResult($response) : JobResult {
@@ -220,6 +235,14 @@ class MqManagementFactory
         return $job;
     }
 
+    public function getJobCreateQueue(VirtualHost $virtualHost, QueueName $queueName) : JobQueueCreate {
+        /** @var JobQueueCreate $job */
+        $job = $this->container->get(self::JOB_CREATEQUEUE);
+        $job->setVirtualhost($virtualHost);
+        $job->setQueueName($queueName);
+        return $job;
+    }
+
     /**
      * Gets a mapper for the job, if non found it throws an NoMapperForJob exception
      *
@@ -249,6 +272,9 @@ class MqManagementFactory
                 break;
             case $job instanceof JobQueueList:
                 return $this->container->get(self::JOB_LISTQUEUEMAPPER);
+                break;
+            case $job instanceof JobQueueCreate:
+                return $this->container->get(self::JOB_CREATEQUEUEMAPPER);
                 break;
             default:
                 throw new NoMapperForJob($job);

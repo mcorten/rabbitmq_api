@@ -3,6 +3,8 @@
 namespace mcorten87\messagequeue_management\services;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Psr7\Response;
 use mcorten87\messagequeue_management\jobs\JobBase;
 use mcorten87\messagequeue_management\MqManagementFactory;
 use mcorten87\messagequeue_management\objects\JobResult;
@@ -30,8 +32,21 @@ class JobService
         $mapper = $this->factory->getJobMapper($job);
 
         $mapResult = $mapper->map($job);
-        $res = $this->client->request($mapResult->getMethod(), $this->factory->getConfig()->getUrl().$mapResult->getUrl(), $mapResult->getConfig());
 
+        try {
+            $res = $this->client->request($mapResult->getMethod(), $this->factory->getConfig()->getUrl().$mapResult->getUrl(), $mapResult->getConfig());
+        } catch (ClientException $e) {
+            $data = json_decode($e->getResponse()->getBody());
+
+            // find out what kind of error happend and give some extra help
+            if (strpos($data->reason,'inequivalent arg \'durable\'') !== false) {
+                $data->cause = 'Queue already exists with different durable stat, delete the queue first';
+                $res = new Response($e->getCode(),$e->getResponse()->getHeaders(), json_encode($data));
+            } else {
+                throw $e;
+            }
+
+        }
         $jobResult = $this->factory->getJobResult($res);
         return $jobResult;
     }
