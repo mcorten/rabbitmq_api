@@ -1,12 +1,12 @@
-.gitignore text eol=lf
-.gitattributes text eol=lf
+.gitignore text eol=auto
+.gitattributes text eol=auto
 
-VagrantFile text eol=lf
+VagrantFile text eol=auto
 
-composer.json text eol=lf
-composer.lock text eol=lf
+composer.json text eol=auto
+composer.lock text eol=auto
 
-setup/*.sh text eol=lf
+setup/*.sh text eol=auto
 
-*.php text eol=lf
+*.php text eol=auto
 
