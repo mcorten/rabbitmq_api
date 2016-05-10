@@ -31,10 +31,8 @@ class JobQueueCreateMapper extends BaseMapper
             'arguments'     => []   // TODO
         ];
 
-        return $config = [
-            'auth'      =>  array($this->config->getUser(), $this->config->getPassword()),
-            'headers'   =>  ['content-type' => 'application/json'],
+        return array_merge(parent::mapConfig($job), [
             'json'      =>  $body,
-        ];
+        ]);
     }
 }

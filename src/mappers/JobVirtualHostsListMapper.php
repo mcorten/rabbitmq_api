@@ -20,10 +20,4 @@ class JobVirtualHostsListMapper extends BaseMapper
     protected function mapUrl(JobBase $job) : Url {
         return new Url('vhosts');
     }
-
-    protected function mapConfig(JobBase $job) : array {
-        return $config = [
-            'auth'    => array($this->config->getUser(), $this->config->getPassword()),
-        ];
-    }
 }

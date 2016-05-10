@@ -32,10 +32,4 @@ class JobQueuesList extends JobBase
     {
         $this->virtualhost = $virtualhost;
     }
-
-    public function __construct(User $user, Password $password)
-    {
-        $this->user = $user;
-        $this->password = $password;
-    }
 }

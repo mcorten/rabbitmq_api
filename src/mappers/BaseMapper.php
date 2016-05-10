@@ -35,5 +35,10 @@ abstract class BaseMapper
 
     abstract protected function mapUrl(JobBase $job) : Url;
 
-    abstract protected function mapConfig(JobBase $job) : array;
+    protected function mapConfig(JobBase $job) : array {
+        return [
+            'auth'      =>  array($this->config->getUser(), $this->config->getPassword()),
+            'headers'   =>  ['content-type' => 'application/json'],
+        ];
+    }
 }

@@ -36,25 +36,9 @@ class JobQueueList extends JobBase
         return $this->virtualhost;
     }
 
-    /**
-     * @param QueueName $queueName
-     */
-    public function setQueueName(QueueName $queueName)
+    public function __construct(VirtualHost $virtualHost, QueueName $queueName)
     {
+        $this->virtualhost = $virtualHost;
         $this->queueName = $queueName;
-    }
-
-    /**
-     * @param VirtualHost $virtualhost
-     */
-    public function setVirtualhost(VirtualHost $virtualhost)
-    {
-        $this->virtualhost = $virtualhost;
-    }
-
-    public function __construct(User $user, Password $password)
-    {
-        $this->user = $user;
-        $this->password = $password;
     }
 }

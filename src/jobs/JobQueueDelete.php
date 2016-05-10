@@ -36,26 +36,8 @@ class JobQueueDelete extends JobBase
         return $this->virtualhost;
     }
 
-    /**
-     * @param QueueName $queueName
-     */
-    public function setQueueName(QueueName $queueName)
+    public function __construct(VirtualHost $virtualHost, QueueName $queueName)
     {
-        $this->queueName = $queueName;
-    }
-
-    /**
-     * @param VirtualHost $virtualhost
-     */
-    public function setVirtualhost(VirtualHost $virtualhost)
-    {
-        $this->virtualhost = $virtualhost;
-    }
-
-    public function __construct(User $user, Password $password, VirtualHost $virtualHost, QueueName $queueName)
-    {
-        $this->user = $user;
-        $this->password = $password;
         $this->virtualhost = $virtualHost;
         $this->queueName = $queueName;
     }

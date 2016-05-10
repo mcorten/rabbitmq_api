@@ -42,6 +42,8 @@ class JobService
             if (strpos($data->reason,'inequivalent arg \'durable\'') !== false) {
                 $data->cause = 'Queue already exists with different durable stat, delete the queue first';
                 $res = new Response($e->getCode(),$e->getResponse()->getHeaders(), json_encode($data));
+            } elseif ($data->error === 'Object Not Found') {
+                $res = new Response($e->getCode(),$e->getResponse()->getHeaders(), json_encode($data));
             } else {
                 throw $e;
             }

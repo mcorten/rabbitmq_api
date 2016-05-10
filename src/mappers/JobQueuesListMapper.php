@@ -24,10 +24,4 @@ class JobQueuesListMapper  extends BaseMapper
         }
         return new Url($url);
     }
-
-    protected function mapConfig(JobBase $job) : array {
-        return $config = [
-            'auth'    => array($this->config->getUser(), $this->config->getPassword()),
-        ];
-    }
 }

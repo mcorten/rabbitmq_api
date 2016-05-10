@@ -14,9 +14,4 @@ use mcorten87\messagequeue_management\objects\User;
 
 class JobVirtualHostsList extends JobBase
 {
-    public function __construct(User $user, Password $password)
-    {
-        $this->user = $user;
-        $this->password = $password;
-    }
 }

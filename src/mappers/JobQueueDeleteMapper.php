@@ -19,15 +19,4 @@ class JobQueueDeleteMapper extends BaseMapper
     protected function mapUrl(JobBase $job) : Url {
         return new Url('queues/'.urlencode($job->getVirtualHost()).'/'.urlencode($job->getQueueName()));
     }
-
-    /**
-     * @param JobQueueCreate $job
-     * @return array
-     */
-    protected function mapConfig(JobBase $job) : array {
-        return $config = [
-            'auth'      =>  array($this->config->getUser(), $this->config->getPassword()),
-            'headers'   =>  ['content-type' => 'application/json'],
-        ];
-    }
 }
