@@ -9,6 +9,7 @@ use mcorten87\messagequeue_management\jobs\JobQueueCreate;
 use mcorten87\messagequeue_management\jobs\JobQueueDelete;
 use mcorten87\messagequeue_management\jobs\JobQueueList;
 use mcorten87\messagequeue_management\jobs\JobQueuesList;
+use mcorten87\messagequeue_management\jobs\JobUserList;
 use mcorten87\messagequeue_management\jobs\JobVirtualHostCreate;
 use mcorten87\messagequeue_management\jobs\JobVirtualHostDelete;
 use mcorten87\messagequeue_management\jobs\JobVirtualHostList;
@@ -54,6 +55,8 @@ class MqManagementFactory
     const JOB_CREATEQUEUEMAPPER = 'JobCreateQueueMapper';
 
     const JOB_DELETEQUEUEMAPPER = 'JobDeleteQueueMapper';
+
+    const JOB_LISTUSERMAPPER = 'JobDeleteQueueMapper';
 
 
     /** @var MqManagementConfig */
@@ -131,6 +134,12 @@ class MqManagementFactory
             ->addArgument($this->config)
         ;
 
+        // users
+        $this->container->register(self::JOB_LISTUSERMAPPER, 'mcorten87\messagequeue_management\mappers\JobUserListMapper')
+            ->addArgument($this->config)
+        ;
+
+
     }
 
     public function getJobResult($response) : JobResult {
@@ -194,6 +203,11 @@ class MqManagementFactory
         return $job;
     }
 
+    public function getJobListUser() : JobUserList {
+        $job = new JobUserList();
+        return $job;
+    }
+
     /**
      * Gets a mapper for the job, if non found it throws an NoMapperForJob exception
      *
@@ -229,6 +243,11 @@ class MqManagementFactory
                 break;
             case $job instanceof JobQueueDelete:
                 return $this->container->get(self::JOB_DELETEQUEUEMAPPER);
+                break;
+
+            // user
+            case $job instanceof JobUserList:
+                return $this->container->get(self::JOB_LISTUSERMAPPER);
                 break;
             default:
                 throw new NoMapperForJob($job);
