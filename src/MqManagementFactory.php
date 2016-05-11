@@ -203,8 +203,9 @@ class MqManagementFactory
         return $job;
     }
 
-    public function getJobListUser() : JobUserList {
+    public function getJobListUser(User $user = null) : JobUserList {
         $job = new JobUserList();
+        if ($user !== null) { $job->setUser($user); }
         return $job;
     }
 

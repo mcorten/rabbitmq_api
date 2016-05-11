@@ -5,6 +5,7 @@ namespace mcorten87\messagequeue_management\mappers;
 
 use mcorten87\messagequeue_management\jobs\JobBase;
 use mcorten87\messagequeue_management\jobs\JobQueueList;
+use mcorten87\messagequeue_management\jobs\JobUserList;
 use mcorten87\messagequeue_management\jobs\JobVirtualHostCreate;
 use mcorten87\messagequeue_management\objects\MapResult;
 use mcorten87\messagequeue_management\objects\Method;
@@ -19,12 +20,13 @@ class JobUserListMapper  extends BaseMapper
     }
 
     /**
-     * @param JobQueueList $job
+     * @param JobUserList $job
      * @return Url
      */
     protected function mapUrl(JobBase $job) : Url {
 
         $url = 'users';
+        if ($job->getUser() !== null) { $url .= '/'.$job->getUser(); }
 
         return new Url($url);
     }
