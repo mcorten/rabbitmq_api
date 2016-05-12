@@ -24,6 +24,8 @@ class JobVirtualHostListMapper extends BaseMapper
     }
 
     protected function mapUrl(JobBase $job) : Url {
-        return new Url('vhosts/'.urlencode($job->getVirtaulHost()));
+        $url = 'vhosts';
+        if (!empty($job->hasVirtualHost())) { $url .= '/'.urlencode($job->getVirtaulHost()); }
+        return new Url($url);
     }
 }

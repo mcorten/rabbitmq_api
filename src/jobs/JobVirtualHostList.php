@@ -20,14 +20,23 @@ class JobVirtualHostList extends JobBase
      */
     private $virtualHost;
 
-    /** @return VirtualHost */
+    /**
+     * @param VirtualHost $virtualHost
+     */
+    public function setVirtualHost($virtualHost)
+    {
+        $this->virtualHost = $virtualHost;
+    }
+
+    /**
+     * @return VirtualHost
+     */
     public function getVirtaulHost() : VirtualHost
     {
         return $this->virtualHost;
     }
 
-    public function __construct(VirtualHost $virtualHost)
-    {
-        $this->virtualHost = $virtualHost;
+    public function hasVirtualHost() {
+        return $this->virtualHost !== null;
     }
 }

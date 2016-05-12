@@ -105,10 +105,6 @@ class MqManagementFactory
         $this->container->setDefinition(self::JOB_RESULT, $definition);
 
         // virtual hosts
-        $this->container->register(self::JOB_LISTVHOSTSMAPPER, 'mcorten87\messagequeue_management\mappers\JobVirtualHostsListMapper')
-            ->addArgument($this->config)
-        ;
-
         $this->container->register(self::JOB_LISTVHOSTMAPPER, 'mcorten87\messagequeue_management\mappers\JobVirtualHostListMapper')
             ->addArgument($this->config)
         ;
@@ -156,18 +152,12 @@ class MqManagementFactory
     }
 
     /**
-     * @return JobVirtualHostsList
-     */
-    public function getJobListVirtualHosts() : JobVirtualHostsList {
-        return new JobVirtualHostsList();
-    }
-
-    /**
      * @param VirtualHost $vhost
      * @return JobVirtualHostList
      */
-    public function getJobListVirtualHost(VirtualHost $virtualHost) : JobVirtualHostList {
-        $job = new JobVirtualHostList($virtualHost);
+    public function getJobListVirtualHost(VirtualHost $virtualHost = null) : JobVirtualHostList {
+        $job = new JobVirtualHostList();
+        if ($virtualHost !== null) { $job->setVirtualHost($virtualHost); }
         return $job;
     }
 
