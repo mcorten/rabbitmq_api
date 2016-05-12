@@ -9,6 +9,7 @@ use mcorten87\messagequeue_management\jobs\JobQueueCreate;
 use mcorten87\messagequeue_management\jobs\JobQueueDelete;
 use mcorten87\messagequeue_management\jobs\JobQueueList;
 use mcorten87\messagequeue_management\jobs\JobQueuesList;
+use mcorten87\messagequeue_management\jobs\JobUserCreate;
 use mcorten87\messagequeue_management\jobs\JobUserList;
 use mcorten87\messagequeue_management\jobs\JobVirtualHostCreate;
 use mcorten87\messagequeue_management\jobs\JobVirtualHostDelete;
@@ -20,6 +21,7 @@ use mcorten87\messagequeue_management\objects\JobResult;
 use mcorten87\messagequeue_management\objects\Password;
 use mcorten87\messagequeue_management\objects\QueueName;
 use mcorten87\messagequeue_management\objects\User;
+use mcorten87\messagequeue_management\objects\UserTag;
 use mcorten87\messagequeue_management\objects\VirtualHost;
 use mcorten87\messagequeue_management\services\JobService;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -56,7 +58,9 @@ class MqManagementFactory
 
     const JOB_DELETEQUEUEMAPPER = 'JobDeleteQueueMapper';
 
-    const JOB_LISTUSERMAPPER = 'JobDeleteQueueMapper';
+    const JOB_LISTUSERMAPPER = 'JobListUserMapper';
+
+    const JOB_CREATEUSERMAPPER = 'JoCreateUserMapper';
 
 
     /** @var MqManagementConfig */
@@ -139,7 +143,9 @@ class MqManagementFactory
             ->addArgument($this->config)
         ;
 
-
+        $this->container->register(self::JOB_CREATEUSERMAPPER, 'mcorten87\messagequeue_management\mappers\JobUserCreateMapper')
+            ->addArgument($this->config)
+        ;
     }
 
     public function getJobResult($response) : JobResult {
@@ -209,6 +215,12 @@ class MqManagementFactory
         return $job;
     }
 
+    public function getJobCreateUser(User $user, UserTag $userTag, Password $password = null) : JobUserCreate {
+        $job = new JobUserCreate($user, $userTag);
+        if ($password !== null) { $job->setPassword($password); }
+        return $job;
+    }
+
     /**
      * Gets a mapper for the job, if non found it throws an NoMapperForJob exception
      *
@@ -249,6 +261,9 @@ class MqManagementFactory
             // user
             case $job instanceof JobUserList:
                 return $this->container->get(self::JOB_LISTUSERMAPPER);
+                break;
+            case $job instanceof JobUserCreate:
+                return $this->container->get(self::JOB_CREATEUSERMAPPER);
                 break;
             default:
                 throw new NoMapperForJob($job);
