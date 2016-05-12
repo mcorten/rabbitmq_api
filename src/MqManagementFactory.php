@@ -20,6 +20,7 @@ use mcorten87\messagequeue_management\mappers\BaseMapper;
 use mcorten87\messagequeue_management\mappers\JobVirtualHostCreateMapper;
 use mcorten87\messagequeue_management\objects\JobResult;
 use mcorten87\messagequeue_management\objects\Password;
+use mcorten87\messagequeue_management\objects\PasswordHash;
 use mcorten87\messagequeue_management\objects\QueueName;
 use mcorten87\messagequeue_management\objects\User;
 use mcorten87\messagequeue_management\objects\UserTag;
@@ -212,9 +213,10 @@ class MqManagementFactory
         return $job;
     }
 
-    public function getJobCreateUser(User $user, UserTag $userTag, Password $password = null) : JobUserCreate {
+    public function getJobCreateUser(User $user, UserTag $userTag, Password $password = null, PasswordHash $passwordHash = null) : JobUserCreate {
         $job = new JobUserCreate($user, $userTag);
         if ($password !== null) { $job->setPassword($password); }
+        if ($passwordHash !== null) { $job->setPasswordHash($passwordHash); }
         return $job;
     }
 
