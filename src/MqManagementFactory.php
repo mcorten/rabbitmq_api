@@ -10,6 +10,7 @@ use mcorten87\messagequeue_management\jobs\JobQueueDelete;
 use mcorten87\messagequeue_management\jobs\JobQueueList;
 use mcorten87\messagequeue_management\jobs\JobQueuesList;
 use mcorten87\messagequeue_management\jobs\JobUserCreate;
+use mcorten87\messagequeue_management\jobs\JobUserDelete;
 use mcorten87\messagequeue_management\jobs\JobUserList;
 use mcorten87\messagequeue_management\jobs\JobVirtualHostCreate;
 use mcorten87\messagequeue_management\jobs\JobVirtualHostDelete;
@@ -60,7 +61,9 @@ class MqManagementFactory
 
     const JOB_LISTUSERMAPPER = 'JobListUserMapper';
 
-    const JOB_CREATEUSERMAPPER = 'JoCreateUserMapper';
+    const JOB_CREATEUSERMAPPER = 'JobCreateUserMapper';
+
+    const JOB_DELETEUSERMAPPER = 'JobDeleteUserMapper';
 
 
     /** @var MqManagementConfig */
@@ -142,6 +145,10 @@ class MqManagementFactory
         $this->container->register(self::JOB_CREATEUSERMAPPER, 'mcorten87\messagequeue_management\mappers\JobUserCreateMapper')
             ->addArgument($this->config)
         ;
+
+        $this->container->register(self::JOB_DELETEUSERMAPPER, 'mcorten87\messagequeue_management\mappers\JobUserDeleteMapper')
+            ->addArgument($this->config)
+        ;
     }
 
     public function getJobResult($response) : JobResult {
@@ -211,6 +218,11 @@ class MqManagementFactory
         return $job;
     }
 
+    public function getJobDeleteUser(User $user) : JobUserDelete {
+        $job = new JobUserDelete($user);
+        return $job;
+    }
+
     /**
      * Gets a mapper for the job, if non found it throws an NoMapperForJob exception
      *
@@ -254,6 +266,9 @@ class MqManagementFactory
                 break;
             case $job instanceof JobUserCreate:
                 return $this->container->get(self::JOB_CREATEUSERMAPPER);
+                break;
+            case $job instanceof JobUserDelete:
+                return $this->container->get(self::JOB_DELETEUSERMAPPER);
                 break;
             default:
                 throw new NoMapperForJob($job);
