@@ -1,13 +1,13 @@
 {
-  "name": "mcorten/messagequeue_management",
-  "description": "description_text",
+  "name": "mcorten/rabbitmq_api",
+  "description": "Manage rabbitmq from your PHP application",
   "minimum-stability": "stable",
   "license": "proprietary",
-  "version": "0.0.1",
+  "version": "0.0.13",
   "authors": [
     {
       "name": "Mathijs Corten",
-      "email": "messagequeue_management@mcorten.nl"
+      "email": "rabbitmq_api@mcorten.nl"
     }
   ],
   "autoload" : {
