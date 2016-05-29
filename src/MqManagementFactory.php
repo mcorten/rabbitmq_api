@@ -5,6 +5,9 @@ namespace mcorten87\rabbitmq_api;
 
 use mcorten87\rabbitmq_api\exceptions\NoMapperForJob;
 use mcorten87\rabbitmq_api\jobs\JobBase;
+use mcorten87\rabbitmq_api\jobs\JobPermissionList;
+use mcorten87\rabbitmq_api\jobs\JobPermissionUserList;
+use mcorten87\rabbitmq_api\jobs\JobPermissionVirtualHostList;
 use mcorten87\rabbitmq_api\jobs\JobQueueCreate;
 use mcorten87\rabbitmq_api\jobs\JobQueueDelete;
 use mcorten87\rabbitmq_api\jobs\JobQueueList;
@@ -65,6 +68,8 @@ class MqManagementFactory
     const JOB_CREATEUSERMAPPER = 'JobCreateUserMapper';
 
     const JOB_DELETEUSERMAPPER = 'JobDeleteUserMapper';
+
+    const JOB_LISTPERMISSIONRMAPPER = 'JobListPermissionMapper';
 
 
     /** @var MqManagementConfig */
@@ -150,6 +155,10 @@ class MqManagementFactory
         $this->container->register(self::JOB_DELETEUSERMAPPER, 'mcorten87\rabbitmq_api\mappers\JobUserDeleteMapper')
             ->addArgument($this->config)
         ;
+
+        $this->container->register(self::JOB_LISTPERMISSIONRMAPPER, 'mcorten87\rabbitmq_api\mappers\JobPermissionListMapper')
+            ->addArgument($this->config)
+        ;
     }
 
     public function getJobResult($response) : JobResult {
@@ -225,6 +234,21 @@ class MqManagementFactory
         return $job;
     }
 
+    public function getJobListPermission() : JobPermissionList {
+        $job = new JobPermissionList();
+        return $job;
+    }
+
+    public function getJobListVirtualHostPermission(VirtualHost $virtualHost) : JobPermissionVirtualHostList {
+        $job = new JobPermissionVirtualHostList($virtualHost);
+        return $job;
+    }
+
+    public function getJobListUserPermission(User $user) : JobPermissionUserList {
+        $job = new JobPermissionUserList($user);
+        return $job;
+    }
+
     /**
      * Gets a mapper for the job, if non found it throws an NoMapperForJob exception
      *
@@ -274,6 +298,13 @@ class MqManagementFactory
                 break;
             default:
                 throw new NoMapperForJob($job);
+
+            // permission
+            case $job instanceof JobPermissionList:
+            case $job instanceof JobPermissionVirtualHostList:
+            case $job instanceof JobPermissionUserList:
+                return $this->container->get(self::JOB_LISTPERMISSIONRMAPPER);
+                break;
         }
     }
 
