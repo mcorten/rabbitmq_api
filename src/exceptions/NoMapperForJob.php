@@ -6,10 +6,10 @@
  * Time: 19:03
  */
 
-namespace mcorten87\messagequeue_management\exceptions;
+namespace mcorten87\rabbitmq_api\exceptions;
 
 
-use mcorten87\messagequeue_management\jobs\JobBase;
+use mcorten87\rabbitmq_api\jobs\JobBase;
 
 class NoMapperForJob extends BaseException
 {

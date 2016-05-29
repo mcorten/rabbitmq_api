@@ -1,8 +1,8 @@
 <?php
 
-namespace mcorten87\messagequeue_management\objects;
+namespace mcorten87\rabbitmq_api\objects;
 
-use mcorten87\messagequeue_management\exceptions\InvalidDataException;
+use mcorten87\rabbitmq_api\exceptions\InvalidDataException;
 
 class BaseObject
 {

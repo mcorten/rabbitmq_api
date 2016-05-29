@@ -1,6 +1,6 @@
 <?php
 
-namespace mcorten87\messagequeue_management\exceptions;
+namespace mcorten87\rabbitmq_api\exceptions;
 
 class InvalidDataException extends BaseException
 {

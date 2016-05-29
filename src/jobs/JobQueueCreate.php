@@ -1,11 +1,11 @@
 <?php
 
-namespace mcorten87\messagequeue_management\jobs;
+namespace mcorten87\rabbitmq_api\jobs;
 
-use mcorten87\messagequeue_management\objects\Password;
-use mcorten87\messagequeue_management\objects\QueueName;
-use mcorten87\messagequeue_management\objects\User;
-use mcorten87\messagequeue_management\objects\VirtualHost;
+use mcorten87\rabbitmq_api\objects\Password;
+use mcorten87\rabbitmq_api\objects\QueueName;
+use mcorten87\rabbitmq_api\objects\User;
+use mcorten87\rabbitmq_api\objects\VirtualHost;
 
 class JobQueueCreate extends JobBase
 {

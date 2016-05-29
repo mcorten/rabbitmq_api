@@ -6,7 +6,7 @@
  * Time: 19:24
  */
 
-namespace mcorten87\messagequeue_management\objects;
+namespace mcorten87\rabbitmq_api\objects;
 
 use \GuzzleHttp\Psr7\Response;
 
@@ -14,7 +14,7 @@ use \GuzzleHttp\Psr7\Response;
  * A wrapper for \GuzzleHttp\Psr7\Response
  *
  * Class JobResult
- * @package mcorten87\messagequeue_management\objects
+ * @package mcorten87\rabbitmq_api\objects
  */
 class JobResult
 {

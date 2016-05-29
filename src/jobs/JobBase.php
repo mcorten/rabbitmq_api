@@ -1,6 +1,6 @@
 <?php
 
-namespace mcorten87\messagequeue_management\jobs;
+namespace mcorten87\rabbitmq_api\jobs;
 
 
 class JobBase

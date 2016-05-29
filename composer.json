@@ -12,7 +12,7 @@
   ],
   "autoload" : {
     "psr-4": {
-      "mcorten87\\messagequeue_management\\" : "src/"
+      "mcorten87\\rabbitmq_api\\" : "src/"
     }
   },
   "require" : {

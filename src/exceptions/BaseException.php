@@ -1,9 +1,9 @@
 <?php
 
-namespace mcorten87\messagequeue_management\exceptions;
+namespace mcorten87\rabbitmq_api\exceptions;
 
 
-use mcorten87\messagequeue_management\objects\CallerObjectInfo;
+use mcorten87\rabbitmq_api\objects\CallerObjectInfo;
 
 class BaseException extends \Exception
 {

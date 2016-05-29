@@ -1,15 +1,15 @@
 <?php
 
-namespace mcorten87\messagequeue_management\services;
+namespace mcorten87\rabbitmq_api\services;
 
 
-use mcorten87\messagequeue_management\jobs\JobVirtualHostCreate;
-use mcorten87\messagequeue_management\MqManagementConfig;
-use mcorten87\messagequeue_management\MqManagementFactory;
-use mcorten87\messagequeue_management\objects\Host;
-use mcorten87\messagequeue_management\objects\Password;
-use mcorten87\messagequeue_management\objects\User;
-use mcorten87\messagequeue_management\objects\VirtualHost;
+use mcorten87\rabbitmq_api\jobs\JobVirtualHostCreate;
+use mcorten87\rabbitmq_api\MqManagementConfig;
+use mcorten87\rabbitmq_api\MqManagementFactory;
+use mcorten87\rabbitmq_api\objects\Host;
+use mcorten87\rabbitmq_api\objects\Password;
+use mcorten87\rabbitmq_api\objects\User;
+use mcorten87\rabbitmq_api\objects\VirtualHost;
 
 class MqManagermentService
 {

@@ -1,13 +1,13 @@
 <?php
 
-namespace mcorten87\messagequeue_management\services;
+namespace mcorten87\rabbitmq_api\services;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Psr7\Response;
-use mcorten87\messagequeue_management\jobs\JobBase;
-use mcorten87\messagequeue_management\MqManagementFactory;
-use mcorten87\messagequeue_management\objects\JobResult;
+use mcorten87\rabbitmq_api\jobs\JobBase;
+use mcorten87\rabbitmq_api\MqManagementFactory;
+use mcorten87\rabbitmq_api\objects\JobResult;
 
 class JobService
 {
@@ -26,7 +26,7 @@ class JobService
     /**
      * @param JobBase $job
      * @return JobResult
-     * @throws \mcorten87\messagequeue_management\exceptions\NoMapperForJob
+     * @throws \mcorten87\rabbitmq_api\exceptions\NoMapperForJob
      */
     public function execute(JobBase $job) : JobResult {
         $mapper = $this->factory->getJobMapper($job);

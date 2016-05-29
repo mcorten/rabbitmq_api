@@ -1,12 +1,12 @@
 <?php
 
-namespace mcorten87\messagequeue_management;
+namespace mcorten87\rabbitmq_api;
 
 
-use mcorten87\messagequeue_management\objects\Host;
-use mcorten87\messagequeue_management\objects\Password;
-use mcorten87\messagequeue_management\objects\Url;
-use mcorten87\messagequeue_management\objects\User;
+use mcorten87\rabbitmq_api\objects\Host;
+use mcorten87\rabbitmq_api\objects\Password;
+use mcorten87\rabbitmq_api\objects\Url;
+use mcorten87\rabbitmq_api\objects\User;
 
 class MqManagementConfig
 {

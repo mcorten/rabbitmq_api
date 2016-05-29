@@ -1,20 +1,20 @@
 <?php
 
-namespace mcorten87\messagequeue_management\mappers;
+namespace mcorten87\rabbitmq_api\mappers;
 
 
-use mcorten87\messagequeue_management\jobs\JobBase;
-use mcorten87\messagequeue_management\jobs\JobVirtualHostCreate;
-use mcorten87\messagequeue_management\objects\MapResult;
-use mcorten87\messagequeue_management\objects\Method;
-use mcorten87\messagequeue_management\objects\Url;
-use mcorten87\messagequeue_management\services\MqManagementConfig;
+use mcorten87\rabbitmq_api\jobs\JobBase;
+use mcorten87\rabbitmq_api\jobs\JobVirtualHostCreate;
+use mcorten87\rabbitmq_api\objects\MapResult;
+use mcorten87\rabbitmq_api\objects\Method;
+use mcorten87\rabbitmq_api\objects\Url;
+use mcorten87\rabbitmq_api\services\MqManagementConfig;
 
 /**
  * Lists details about a given virtual host
  *
  * Class JobListVirtualHostMapper
- * @package mcorten87\messagequeue_management\mappers
+ * @package mcorten87\rabbitmq_api\mappers
  */
 class JobVirtualHostListMapper extends BaseMapper
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace mcorten87\messagequeue_management\objects;
+namespace mcorten87\rabbitmq_api\objects;
 
 class Host extends BaseObject
 {

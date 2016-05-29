@@ -1,31 +1,31 @@
 <?php
 
-namespace mcorten87\messagequeue_management;
+namespace mcorten87\rabbitmq_api;
 
 
-use mcorten87\messagequeue_management\exceptions\NoMapperForJob;
-use mcorten87\messagequeue_management\jobs\JobBase;
-use mcorten87\messagequeue_management\jobs\JobQueueCreate;
-use mcorten87\messagequeue_management\jobs\JobQueueDelete;
-use mcorten87\messagequeue_management\jobs\JobQueueList;
-use mcorten87\messagequeue_management\jobs\JobQueuesList;
-use mcorten87\messagequeue_management\jobs\JobUserCreate;
-use mcorten87\messagequeue_management\jobs\JobUserDelete;
-use mcorten87\messagequeue_management\jobs\JobUserList;
-use mcorten87\messagequeue_management\jobs\JobVirtualHostCreate;
-use mcorten87\messagequeue_management\jobs\JobVirtualHostDelete;
-use mcorten87\messagequeue_management\jobs\JobVirtualHostList;
-use mcorten87\messagequeue_management\jobs\JobVirtualHostsList;
-use mcorten87\messagequeue_management\mappers\BaseMapper;
-use mcorten87\messagequeue_management\mappers\JobVirtualHostCreateMapper;
-use mcorten87\messagequeue_management\objects\JobResult;
-use mcorten87\messagequeue_management\objects\Password;
-use mcorten87\messagequeue_management\objects\PasswordHash;
-use mcorten87\messagequeue_management\objects\QueueName;
-use mcorten87\messagequeue_management\objects\User;
-use mcorten87\messagequeue_management\objects\UserTag;
-use mcorten87\messagequeue_management\objects\VirtualHost;
-use mcorten87\messagequeue_management\services\JobService;
+use mcorten87\rabbitmq_api\exceptions\NoMapperForJob;
+use mcorten87\rabbitmq_api\jobs\JobBase;
+use mcorten87\rabbitmq_api\jobs\JobQueueCreate;
+use mcorten87\rabbitmq_api\jobs\JobQueueDelete;
+use mcorten87\rabbitmq_api\jobs\JobQueueList;
+use mcorten87\rabbitmq_api\jobs\JobQueuesList;
+use mcorten87\rabbitmq_api\jobs\JobUserCreate;
+use mcorten87\rabbitmq_api\jobs\JobUserDelete;
+use mcorten87\rabbitmq_api\jobs\JobUserList;
+use mcorten87\rabbitmq_api\jobs\JobVirtualHostCreate;
+use mcorten87\rabbitmq_api\jobs\JobVirtualHostDelete;
+use mcorten87\rabbitmq_api\jobs\JobVirtualHostList;
+use mcorten87\rabbitmq_api\jobs\JobVirtualHostsList;
+use mcorten87\rabbitmq_api\mappers\BaseMapper;
+use mcorten87\rabbitmq_api\mappers\JobVirtualHostCreateMapper;
+use mcorten87\rabbitmq_api\objects\JobResult;
+use mcorten87\rabbitmq_api\objects\Password;
+use mcorten87\rabbitmq_api\objects\PasswordHash;
+use mcorten87\rabbitmq_api\objects\QueueName;
+use mcorten87\rabbitmq_api\objects\User;
+use mcorten87\rabbitmq_api\objects\UserTag;
+use mcorten87\rabbitmq_api\objects\VirtualHost;
+use mcorten87\rabbitmq_api\services\JobService;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 
@@ -94,7 +94,7 @@ class MqManagementFactory
 
         $this->container->register(self::HTTPCLIENT,'GuzzleHttp\Client');
 
-        $this->container->register(self::SERVICE_JOB,'mcorten87\messagequeue_management\services\JobService')
+        $this->container->register(self::SERVICE_JOB,'mcorten87\rabbitmq_api\services\JobService')
             ->addArgument($this)
             ->addArgument($this->container->get(self::HTTPCLIENT))
         ;
@@ -104,50 +104,50 @@ class MqManagementFactory
 
     protected function registerJobs() {
         // results
-        $definition = new Definition('mcorten87\messagequeue_management\objects\JobResult');
+        $definition = new Definition('mcorten87\rabbitmq_api\objects\JobResult');
         $definition->setShared(false);
         $this->container->setDefinition(self::JOB_RESULT, $definition);
 
         // virtual hosts
-        $this->container->register(self::JOB_LISTVHOSTMAPPER, 'mcorten87\messagequeue_management\mappers\JobVirtualHostListMapper')
+        $this->container->register(self::JOB_LISTVHOSTMAPPER, 'mcorten87\rabbitmq_api\mappers\JobVirtualHostListMapper')
             ->addArgument($this->config)
         ;
 
-        $this->container->register(self::JOB_CREATEVHOSTMAPPER, 'mcorten87\messagequeue_management\mappers\JobVirtualHostCreateMapper')
+        $this->container->register(self::JOB_CREATEVHOSTMAPPER, 'mcorten87\rabbitmq_api\mappers\JobVirtualHostCreateMapper')
             ->addArgument($this->config)
         ;
 
-        $this->container->register(self::JOB_DELETEVHOSTSMAPPER, 'mcorten87\messagequeue_management\mappers\JobVirtualHostDeleteMapper')
+        $this->container->register(self::JOB_DELETEVHOSTSMAPPER, 'mcorten87\rabbitmq_api\mappers\JobVirtualHostDeleteMapper')
             ->addArgument($this->config)
         ;
 
         // queues
-        $this->container->register(self::JOB_LISTQUEUESMAPPER, 'mcorten87\messagequeue_management\mappers\JobQueuesListMapper')
+        $this->container->register(self::JOB_LISTQUEUESMAPPER, 'mcorten87\rabbitmq_api\mappers\JobQueuesListMapper')
             ->addArgument($this->config)
         ;
 
-        $this->container->register(self::JOB_LISTQUEUEMAPPER, 'mcorten87\messagequeue_management\mappers\JobQueueListMapper')
+        $this->container->register(self::JOB_LISTQUEUEMAPPER, 'mcorten87\rabbitmq_api\mappers\JobQueueListMapper')
             ->addArgument($this->config)
         ;
 
-        $this->container->register(self::JOB_CREATEQUEUEMAPPER, 'mcorten87\messagequeue_management\mappers\JobQueueCreateMapper')
+        $this->container->register(self::JOB_CREATEQUEUEMAPPER, 'mcorten87\rabbitmq_api\mappers\JobQueueCreateMapper')
             ->addArgument($this->config)
         ;
 
-        $this->container->register(self::JOB_DELETEQUEUEMAPPER, 'mcorten87\messagequeue_management\mappers\JobQueueDeleteMapper')
+        $this->container->register(self::JOB_DELETEQUEUEMAPPER, 'mcorten87\rabbitmq_api\mappers\JobQueueDeleteMapper')
             ->addArgument($this->config)
         ;
 
         // users
-        $this->container->register(self::JOB_LISTUSERMAPPER, 'mcorten87\messagequeue_management\mappers\JobUserListMapper')
+        $this->container->register(self::JOB_LISTUSERMAPPER, 'mcorten87\rabbitmq_api\mappers\JobUserListMapper')
             ->addArgument($this->config)
         ;
 
-        $this->container->register(self::JOB_CREATEUSERMAPPER, 'mcorten87\messagequeue_management\mappers\JobUserCreateMapper')
+        $this->container->register(self::JOB_CREATEUSERMAPPER, 'mcorten87\rabbitmq_api\mappers\JobUserCreateMapper')
             ->addArgument($this->config)
         ;
 
-        $this->container->register(self::JOB_DELETEUSERMAPPER, 'mcorten87\messagequeue_management\mappers\JobUserDeleteMapper')
+        $this->container->register(self::JOB_DELETEUSERMAPPER, 'mcorten87\rabbitmq_api\mappers\JobUserDeleteMapper')
             ->addArgument($this->config)
         ;
     }
