@@ -5,6 +5,7 @@ namespace mcorten87\rabbitmq_api;
 
 use mcorten87\rabbitmq_api\exceptions\NoMapperForJob;
 use mcorten87\rabbitmq_api\jobs\JobBase;
+use mcorten87\rabbitmq_api\jobs\JobPermissionCreate;
 use mcorten87\rabbitmq_api\jobs\JobPermissionList;
 use mcorten87\rabbitmq_api\jobs\JobPermissionUserList;
 use mcorten87\rabbitmq_api\jobs\JobPermissionVirtualHostList;
@@ -70,6 +71,8 @@ class MqManagementFactory
     const JOB_DELETEUSERMAPPER = 'JobDeleteUserMapper';
 
     const JOB_LISTPERMISSIONRMAPPER = 'JobListPermissionMapper';
+
+    const JOB_CREATEPERMISSIONRMAPPER = 'JobCreatePermissionMapper';
 
 
     /** @var MqManagementConfig */
@@ -157,6 +160,10 @@ class MqManagementFactory
         ;
 
         $this->container->register(self::JOB_LISTPERMISSIONRMAPPER, 'mcorten87\rabbitmq_api\mappers\JobPermissionListMapper')
+            ->addArgument($this->config)
+        ;
+
+        $this->container->register(self::JOB_CREATEPERMISSIONRMAPPER, 'mcorten87\rabbitmq_api\mappers\JobPermissionCreateMapper')
             ->addArgument($this->config)
         ;
     }
@@ -249,6 +256,11 @@ class MqManagementFactory
         return $job;
     }
 
+    public function getJobCreatePermission(VirtualHost $virtualHost, User $user) : JobPermissionCreate {
+        $job = new JobPermissionCreate($virtualHost, $user);
+        return $job;
+    }
+
     /**
      * Gets a mapper for the job, if non found it throws an NoMapperForJob exception
      *
@@ -304,6 +316,10 @@ class MqManagementFactory
             case $job instanceof JobPermissionVirtualHostList:
             case $job instanceof JobPermissionUserList:
                 return $this->container->get(self::JOB_LISTPERMISSIONRMAPPER);
+                break;
+
+            case $job instanceof JobPermissionCreate:
+                return $this->container->get(self::JOB_CREATEPERMISSIONRMAPPER);
                 break;
         }
     }
