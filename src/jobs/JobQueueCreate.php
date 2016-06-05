@@ -3,6 +3,7 @@
 namespace mcorten87\rabbitmq_api\jobs;
 
 use mcorten87\rabbitmq_api\objects\Password;
+use mcorten87\rabbitmq_api\objects\QueueArgument;
 use mcorten87\rabbitmq_api\objects\QueueName;
 use mcorten87\rabbitmq_api\objects\User;
 use mcorten87\rabbitmq_api\objects\VirtualHost;
@@ -29,9 +30,10 @@ class JobQueueCreate extends JobBase
      */
     private $durable = false;
 
-    // arguments, TODO
-    private $maxPriority;
-    private $messageTtl;
+    /**
+     * @var QueueArgument[]
+     */
+    private $arguments = [];
 
 
     /**
@@ -48,6 +50,22 @@ class JobQueueCreate extends JobBase
     public function setDurable($durable)
     {
         $this->durable = $durable;
+    }
+
+    /**
+     * @return \mcorten87\rabbitmq_api\objects\QueueArgument[]
+     */
+    public function getArguments()
+    {
+        return $this->arguments;
+    }
+
+    /**
+     * @param QueueArgument[] $arguments
+     */
+    public function addArgument(QueueArgument $newArgument)
+    {
+        $this->arguments[] = $newArgument;
     }
 
     /** @return VirtualHost */

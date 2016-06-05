@@ -31,6 +31,10 @@ class JobQueueCreateMapper extends BaseMapper
             'arguments'     => []   // TODO
         ];
 
+        foreach($job->getArguments() as $argument) {
+            $body['arguments'][$argument->getArgumentName()] = $argument->getValue();
+        };
+
         return array_merge(parent::mapConfig($job), [
             'json'      =>  $body,
         ]);
