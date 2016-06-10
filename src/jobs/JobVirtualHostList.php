@@ -31,7 +31,7 @@ class JobVirtualHostList extends JobBase
     /**
      * @return VirtualHost
      */
-    public function getVirtaulHost() : VirtualHost
+    public function getVirtualHost() : VirtualHost
     {
         return $this->virtualHost;
     }

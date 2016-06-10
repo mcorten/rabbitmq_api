@@ -32,7 +32,7 @@ sudo debconf-set-selections <<< "mysql-server mysql-server/root_password_again p
 sudo apt-get -y install mysql-server
 sudo apt-get -y install php7.0-mysql
 sudo apt-get -y install php7.0-xml
-
+sudo apt-get -y install phpunit
 # install phpmyadmin and give password(s) to installer
 # for simplicity I'm using the same password for mysql and phpmyadmin
 #sudo debconf-set-selections <<< "phpmyadmin phpmyadmin/dbconfig-install boolean true"
