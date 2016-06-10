@@ -283,9 +283,6 @@ class MqManagementFactory
     public function getJobMapper(JobBase $job) : BaseMapper {
         switch ($job) {
             // virtual host
-            case $job instanceof JobVirtualHostsList:
-                return $this->container->get(self::JOB_LISTVHOSTSMAPPER);
-                break;
             case $job instanceof JobVirtualHostList:
                 return $this->container->get(self::JOB_LISTVHOSTMAPPER);
                 break;
