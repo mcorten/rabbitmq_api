@@ -35,7 +35,6 @@ class JobPermissionListMapper extends BaseMapper
     }
 
     /**
-     * @param JobPermissionList $job
      * @return Url
      */
     private function mapPermissionList() : Url {
