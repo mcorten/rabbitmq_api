@@ -11,7 +11,7 @@ use mcorten87\rabbitmq_api\objects\Method;
 use mcorten87\rabbitmq_api\objects\Url;
 use mcorten87\rabbitmq_api\services\MqManagementConfig;
 
-class JobPermissionListMapper  extends BaseMapper
+class JobPermissionListMapper extends BaseMapper
 {
 
     protected function mapMethod(JobBase $job) : Method {
@@ -24,7 +24,7 @@ class JobPermissionListMapper  extends BaseMapper
      */
     protected function mapUrl(JobBase $job) : Url {
         if ($job instanceof JobPermissionList) {
-            return $this->mapPermissionList($job);
+            return $this->mapPermissionList();
         } elseif ($job instanceof JobPermissionVirtualHostList) {
             return $this->mapPermissionVirtualHostList($job);
         } elseif ($job instanceof JobPermissionUserList) {
@@ -38,7 +38,7 @@ class JobPermissionListMapper  extends BaseMapper
      * @param JobPermissionList $job
      * @return Url
      */
-    private function mapPermissionList(JobPermissionList $job) : Url {
+    private function mapPermissionList() : Url {
         $url = 'permissions';
         return new Url($url);
     }

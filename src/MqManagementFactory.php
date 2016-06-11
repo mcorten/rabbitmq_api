@@ -370,8 +370,6 @@ class MqManagementFactory
                 return $this->container->get(self::JOB_CREATEUSERMAPPER);
             case $job instanceof JobUserDelete:
                 return $this->container->get(self::JOB_DELETEUSERMAPPER);
-            default:
-                throw new NoMapperForJob($job);
 
             // permission
             case $job instanceof JobPermissionList:
@@ -382,6 +380,9 @@ class MqManagementFactory
                 return $this->container->get(self::JOB_CREATEPERMISSIONRMAPPER);
             case $job instanceof JobPermissionDelete:
                 return $this->container->get(self::JOB_DELETEPERMISSIONRMAPPER);
+
+            default:
+                throw new NoMapperForJob($job);
         }
     }
 

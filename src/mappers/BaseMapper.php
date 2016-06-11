@@ -38,7 +38,7 @@ abstract class BaseMapper
      * @throws
      */
     protected function mapMethod(JobBase $job) : Method {
-        throw \Exception('Not implemented yet');
+        throw \Exception(srpintf('Method[$1$s] not implemented for class[%2$s]', 'mapMethod',get_class($job)));
     }
 
     /**
@@ -49,7 +49,7 @@ abstract class BaseMapper
      * @throws
      */
     protected function mapUrl(JobBase $job) : Url {
-        throw \Exception('Not implemented yet');
+        throw \Exception(srpintf('Method[$1$s] not implemented for class[%2$s]', 'mapUrl',get_class($job)));
     }
 
     /**
