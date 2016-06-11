@@ -9,10 +9,7 @@
 namespace mcorten87\rabbitmq_api\jobs;
 
 
-use mcorten87\rabbitmq_api\objects\Password;
-use mcorten87\rabbitmq_api\objects\QueueName;
 use mcorten87\rabbitmq_api\objects\User;
-use mcorten87\rabbitmq_api\objects\VirtualHost;
 
 class JobPermissionUserList extends JobBase
 {
@@ -31,7 +28,8 @@ class JobPermissionUserList extends JobBase
     }
 
     /**
-     * @param VirtualHost $virtualHost
+     * JobPermissionUserList constructor.
+     * @param User $user
      */
     public function __construct(User $user)
     {

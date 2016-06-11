@@ -1,7 +1,6 @@
 <?php
 namespace mcorten87\rabbitmq_api\tests\jobs;
 
-use mcorten87\rabbitmq_api\jobs\JobQueueList;
 use mcorten87\rabbitmq_api\jobs\JobQueuesList;
 use mcorten87\rabbitmq_api\objects\QueueName;
 use mcorten87\rabbitmq_api\objects\VirtualHost;

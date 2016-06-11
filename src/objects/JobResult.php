@@ -8,8 +8,6 @@
 
 namespace mcorten87\rabbitmq_api\objects;
 
-use \GuzzleHttp\Psr7\Response;
-
 /**
  * A wrapper for \GuzzleHttp\Psr7\Response
  *

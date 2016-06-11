@@ -2,10 +2,8 @@
 
 namespace mcorten87\rabbitmq_api\jobs;
 
-use mcorten87\rabbitmq_api\objects\Password;
 use mcorten87\rabbitmq_api\objects\QueueArgument;
 use mcorten87\rabbitmq_api\objects\QueueName;
-use mcorten87\rabbitmq_api\objects\User;
 use mcorten87\rabbitmq_api\objects\VirtualHost;
 
 class JobQueueCreate extends JobBase
@@ -61,7 +59,7 @@ class JobQueueCreate extends JobBase
     }
 
     /**
-     * @param QueueArgument[] $arguments
+     * @param QueueArgument $newArgument
      */
     public function addArgument(QueueArgument $newArgument)
     {

@@ -9,8 +9,6 @@
 namespace mcorten87\rabbitmq_api\jobs;
 
 
-use mcorten87\rabbitmq_api\objects\Password;
-use mcorten87\rabbitmq_api\objects\User;
 use mcorten87\rabbitmq_api\objects\VirtualHost;
 
 class JobQueuesList extends JobBase

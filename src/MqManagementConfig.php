@@ -3,7 +3,6 @@
 namespace mcorten87\rabbitmq_api;
 
 
-use mcorten87\rabbitmq_api\objects\Host;
 use mcorten87\rabbitmq_api\objects\Password;
 use mcorten87\rabbitmq_api\objects\Url;
 use mcorten87\rabbitmq_api\objects\User;

@@ -1,15 +1,11 @@
 <?php
 namespace mcorten87\rabbitmq_api\tests\jobs;
 
-use mcorten87\rabbitmq_api\jobs\JobQueueList;
-use mcorten87\rabbitmq_api\jobs\JobQueuesList;
 use mcorten87\rabbitmq_api\jobs\JobUserCreate;
 use mcorten87\rabbitmq_api\objects\Password;
 use mcorten87\rabbitmq_api\objects\PasswordHash;
-use mcorten87\rabbitmq_api\objects\QueueName;
 use mcorten87\rabbitmq_api\objects\User;
 use mcorten87\rabbitmq_api\objects\UserTag;
-use mcorten87\rabbitmq_api\objects\VirtualHost;
 use PHPUnit\Framework\TestCase;
 
 class JobUserCreateTest extends TestCase
