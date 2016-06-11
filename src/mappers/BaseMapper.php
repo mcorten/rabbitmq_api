@@ -2,7 +2,6 @@
 
 namespace mcorten87\rabbitmq_api\mappers;
 
-use GuzzleHttp\Client;
 use mcorten87\rabbitmq_api\jobs\JobBase;
 use mcorten87\rabbitmq_api\MqManagementConfig;
 use mcorten87\rabbitmq_api\objects\MapResult;
@@ -31,14 +30,39 @@ abstract class BaseMapper
         );
     }
 
-    abstract protected function mapMethod(JobBase $job) : Method;
+    /**
+     * Created a HTTP method
+     *
+     * @param JobBase $job
+     * @return Method
+     * @throws
+     */
+    protected function mapMethod(JobBase $job) : Method {
+        throw \Exception('Not implemented yet');
+    }
 
-    abstract protected function mapUrl(JobBase $job) : Url;
+    /**
+     * Determens which url to call
+     *
+     * @param JobBase $job
+     * @return Url
+     * @throws
+     */
+    protected function mapUrl(JobBase $job) : Url {
+        throw \Exception('Not implemented yet');
+    }
 
+    /**
+     * Maps the basic config of every API call
+     *
+     * @param JobBase $job
+     * @return array
+     */
     protected function mapConfig(JobBase $job) : array {
         return [
             'auth'      =>  array($this->config->getUser(), $this->config->getPassword()),
             'headers'   =>  ['content-type' => 'application/json'],
+//            'debug'     =>  true,
         ];
     }
 }

@@ -3,9 +3,7 @@
 namespace mcorten87\rabbitmq_api\mappers;
 
 
-use mcorten87\rabbitmq_api\jobs\JobBase;
-use mcorten87\rabbitmq_api\jobs\JobQueueCreate;
-use mcorten87\rabbitmq_api\jobs\JobUserCreate;
+use mcorten87\rabbitmq_api\jobs\JobUserDelete;
 use mcorten87\rabbitmq_api\objects\Method;
 use mcorten87\rabbitmq_api\objects\Url;
 use mcorten87\rabbitmq_api\services\MqManagementConfig;
@@ -13,15 +11,19 @@ use mcorten87\rabbitmq_api\services\MqManagementConfig;
 class JobUserDeleteMapper extends BaseMapper
 {
 
-    protected function mapMethod(JobBase $job) : Method {
+    /**
+     * @param JobUserDelete $job
+     * @return Method
+     */
+    protected function mapMethod(JobUserDelete $job) : Method {
         return new Method(Method::METHOD_DELETE);
     }
 
     /**
-     * @param JobUserCreate $job
+     * @param JobUserDelete $job
      * @return Url
      */
-    protected function mapUrl(JobBase $job) : Url {
+    protected function mapUrl(JobUserDelete $job) : Url {
         $url = 'users';
         $url .= '/'.$job->getUser();
 
