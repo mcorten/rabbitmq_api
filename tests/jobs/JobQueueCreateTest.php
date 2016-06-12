@@ -10,10 +10,6 @@ use PHPUnit\Framework\TestCase;
 class JobQueueCreateTest extends TestCase
 {
 
-    private $virtualHost;
-    private $queueName;
-
-
     public function providerDependencyInjection() {
         $virtualHost = new VirtualHost('/test/');
         $queueName = new QueueName("test");
@@ -39,17 +35,12 @@ class JobQueueCreateTest extends TestCase
     }
 
     public function providerAddArguments() {
-        $virtualHost = new VirtualHost('/test/');
-        $queueName = new QueueName("test");
-
-        $job = new JobQueueCreate($virtualHost, $queueName);
-
         $argument1 = new QueueArgument(QueueArgument::MESSAGE_TTL, 1000);
         $argument2 = new QueueArgument(QueueArgument::MESSAGE_TTL, 10);
 
 
         return [
-            [$job, $virtualHost, $queueName, $argument1, $argument2],
+            [$argument1, $argument2],
         ];
     }
 
@@ -58,9 +49,11 @@ class JobQueueCreateTest extends TestCase
      *
      * @dataProvider providerAddArguments
      */
-    public function testAddArguments($job, $virtualHost, $queueName, $argument1, $argument2) {
-        /** @var JobQueueCreate $job */
-        $job = func_get_args()[0];
+    public function testAddArguments($argument1, $argument2) {
+        $virtualHost = new VirtualHost('/test/');
+        $queueName = new QueueName("test");
+
+        $job = new JobQueueCreate($virtualHost, $queueName);
 
         $job->addArgument($argument1);
         $job->addArgument($argument2);
