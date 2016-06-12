@@ -22,7 +22,7 @@ class BaseObject
         $this->value = $value;
 
         if (!$this->validate($this->value)) {
-            throw new InvalidDataException("", $this->value);
+            throw new InvalidDataException();
         }
     }
 

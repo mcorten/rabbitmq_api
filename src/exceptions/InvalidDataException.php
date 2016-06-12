@@ -7,7 +7,7 @@ class InvalidDataException extends BaseException
     protected $code = 1;
     private $baseMessage = 'Invalid value[%1$s] for class[%2$s]';
 
-    public function __construct($class, $value)
+    public function __construct()
     {
         $caller = $this->getCallerInfo();
 
