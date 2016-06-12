@@ -67,4 +67,19 @@ class JobQueueCreateTest extends TestCase
         $this->assertEquals($argument1, $job->getArguments()[0]);
         $this->assertEquals($argument2, $job->getArguments()[1]);
     }
+
+    public function testSettersAndGetters() {
+        $virtualHost = new VirtualHost('/test/');
+        $queueName = new QueueName("test");
+
+        $job = new JobQueueCreate($virtualHost, $queueName);
+
+        $this->assertEquals(false, $job->isAutoDelete());
+        $job->setAutoDelete(true);
+        $this->assertEquals(true, $job->isAutoDelete());
+
+        $this->assertEquals(true, $job->isDurable());
+        $job->setDurable(false);
+        $this->assertEquals(false, $job->isDurable());
+    }
 }

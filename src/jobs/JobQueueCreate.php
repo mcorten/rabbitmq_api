@@ -26,7 +26,7 @@ class JobQueueCreate extends JobBase
     /**
      * @var bool
      */
-    private $durable = false;
+    private $durable = true;
 
     /**
      * @var QueueArgument[]
