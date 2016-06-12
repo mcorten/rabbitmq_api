@@ -3,6 +3,7 @@
 namespace mcorten87\rabbitmq_api\mappers;
 
 
+use mcorten87\rabbitmq_api\jobs\JobBase;
 use mcorten87\rabbitmq_api\jobs\JobUserCreate;
 use mcorten87\rabbitmq_api\objects\Method;
 use mcorten87\rabbitmq_api\objects\Url;
@@ -10,12 +11,8 @@ use mcorten87\rabbitmq_api\services\MqManagementConfig;
 
 class JobUserCreateMapper extends BaseMapper
 {
-
-    /**
-     * @param JobUserCreate $job
-     * @return Method
-     */
-    protected function mapMethod(JobUserCreate $job) : Method {
+    protected function mapMethod(JobBase $job) : Method
+    {
         return new Method(Method::METHOD_PUT);
     }
 
@@ -23,7 +20,7 @@ class JobUserCreateMapper extends BaseMapper
      * @param JobUserCreate $job
      * @return Url
      */
-    protected function mapUrl(JobUserCreate $job) : Url {
+    protected function mapUrl(JobBase $job) : Url {
         $url = 'users';
         $url .= '/'.$job->getUser();
 
@@ -34,7 +31,7 @@ class JobUserCreateMapper extends BaseMapper
      * @param JobUserCreate $job
      * @return array
      */
-    protected function mapConfig(JobUserCreate $job) : array {
+    protected function mapConfig(JobBase $job) : array {
         $password = null;
         if ($job->hasPassword()) { }
         elseif ($job->hasPasswordHash()) { $password = $job->getPasswordHash(); }

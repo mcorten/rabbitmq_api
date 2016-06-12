@@ -3,6 +3,7 @@
 namespace mcorten87\rabbitmq_api\mappers;
 
 
+use mcorten87\rabbitmq_api\jobs\JobBase;
 use mcorten87\rabbitmq_api\jobs\JobQueueList;
 use mcorten87\rabbitmq_api\objects\Method;
 use mcorten87\rabbitmq_api\objects\Url;
@@ -10,20 +11,12 @@ use mcorten87\rabbitmq_api\services\MqManagementConfig;
 
 class JobQueueListMapper  extends BaseMapper
 {
-
-    /**
-     * @param JobQueueList $job
-     * @return Method
-     */
-    protected function mapMethod(JobQueueList $job) : Method {
+    protected function mapMethod(JobBase $job) : Method
+    {
         return new Method(Method::METHOD_GET);
     }
 
-    /**
-     * @param JobQueueList $job
-     * @return Url
-     */
-    protected function mapUrl(JobQueueList $job) : Url {
+    protected function mapUrl(JobBase $job) : Url {
 
         $url = 'queues';
         $url .= '/'.urlencode($job->getVirtualhost());

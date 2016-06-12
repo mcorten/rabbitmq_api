@@ -16,7 +16,7 @@ class JobVirtualHostCreateMapper extends BaseMapper
      * @param JobVirtualHostCreate $job
      * @return Method
      */
-    protected function mapMethod(JobVirtualHostCreate $job) : Method {
+    protected function mapMethod(JobBase $job) : Method {
         return new Method(Method::METHOD_PUT);
     }
 
@@ -24,7 +24,7 @@ class JobVirtualHostCreateMapper extends BaseMapper
      * @param JobVirtualHostCreate $job
      * @return Url
      */
-    protected function mapUrl(JobVirtualHostCreate $job) : Url {
+    protected function mapUrl(JobBase $job) : Url {
         return new Url('vhosts/'.urlencode($job->getVirtualHost()));
     }
 }

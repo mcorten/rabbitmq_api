@@ -46,7 +46,7 @@ class JobPermissionListMapper extends BaseMapper
      * @param JobPermissionVirtualHostList $job
      * @return Url
      */
-    private function mapPermissionVirtualHostList(JobPermissionVirtualHostList $job) : Url {
+    private function mapPermissionVirtualHostList(JobBase $job) : Url {
         $url = 'vhosts';
         $url .= '/'.urlencode($job->getVirtualHost());
         $url .= '/permissions';
@@ -57,7 +57,7 @@ class JobPermissionListMapper extends BaseMapper
      * @param JobPermissionUserList $job
      * @return Url
      */
-    private function mapPermissionUserList(JobPermissionUserList $job) : Url {
+    private function mapPermissionUserList(JobBase $job) : Url {
         $url = 'users';
         $url .= '/'.urlencode($job->getUser());
         $url .= '/permissions';

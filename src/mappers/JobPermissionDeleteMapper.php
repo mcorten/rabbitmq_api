@@ -20,7 +20,7 @@ class JobPermissionDeleteMapper extends BaseMapper
      * @param JobPermissionDelete $job
      * @return Url
      */
-    protected function mapUrl(JobPermissionDelete $job) : Url {
+    protected function mapUrl(JobBase $job) : Url {
         return new Url('permissions/'.urlencode($job->getVirtualHost()).'/'.urlencode($job->getUser()));
     }
 }

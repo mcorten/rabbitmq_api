@@ -18,6 +18,7 @@ sudo apt-get update
 sudo apt-get -y upgrade
 
 # install apache 2.5 and php 7
+apt-get install php-dev -y
 sudo apt-get install -y apache2
 sudo apt-get install libapache2-mod-php7.0
 sudo apt-get install -y php7.0

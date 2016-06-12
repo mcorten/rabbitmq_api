@@ -37,9 +37,7 @@ abstract class BaseMapper
      * @return Method
      * @throws
      */
-    protected function mapMethod(JobBase $job) : Method {
-        throw \Exception(srpintf('Method[$1$s] not implemented for class[%2$s]', 'mapMethod',get_class($job)));
-    }
+    abstract protected function mapMethod(JobBase $job) : Method;
 
     /**
      * Determens which url to call
@@ -48,9 +46,7 @@ abstract class BaseMapper
      * @return Url
      * @throws
      */
-    protected function mapUrl(JobBase $job) : Url {
-        throw \Exception(srpintf('Method[$1$s] not implemented for class[%2$s]', 'mapUrl',get_class($job)));
-    }
+    abstract protected function mapUrl(JobBase $job) : Url ;
 
     /**
      * Maps the basic config of every API call

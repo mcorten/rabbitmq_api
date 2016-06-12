@@ -20,7 +20,7 @@ class JobPermissionCreateMapper extends BaseMapper
      * @param JobPermissionCreate $job
      * @return Url
      */
-    protected function mapUrl(JobPermissionCreate $job) : Url {
+    protected function mapUrl(JobBase $job) : Url {
         return new Url('permissions/'.urlencode($job->getVirtualHost()).'/'.urlencode($job->getUser()));
     }
 
@@ -28,7 +28,7 @@ class JobPermissionCreateMapper extends BaseMapper
      * @param JobPermissionCreate $job
      * @return array
      */
-    protected function mapConfig(JobPermissionCreate $job) : array {
+    protected function mapConfig(JobBase $job) : array {
         $body = [
             'configure'     => '.*',
             'write'         => '.*',

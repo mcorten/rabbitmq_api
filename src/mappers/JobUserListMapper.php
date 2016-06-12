@@ -16,7 +16,7 @@ class JobUserListMapper  extends BaseMapper
      * @param JobUserList $job
      * @return Method
      */
-    protected function mapMethod(JobUserList $job) : Method {
+    protected function mapMethod(JobBase $job) : Method {
         return new Method(Method::METHOD_GET);
     }
 
@@ -24,7 +24,7 @@ class JobUserListMapper  extends BaseMapper
      * @param JobUserList $job
      * @return Url
      */
-    protected function mapUrl(JobUserList $job) : Url {
+    protected function mapUrl(JobBase $job) : Url {
 
         $url = 'users';
         if ($job->getUser() !== null) { $url .= '/'.$job->getUser(); }

@@ -16,7 +16,7 @@ class JobVirtualHostDeleteMapper extends BaseMapper
      * @param JobVirtualHostDelete $job
      * @return Method
      */
-    protected function mapMethod(JobVirtualHostDelete $job) : Method {
+    protected function mapMethod(JobBase $job) : Method {
         return new Method(Method::METHOD_DELETE);
     }
 
@@ -24,7 +24,7 @@ class JobVirtualHostDeleteMapper extends BaseMapper
      * @param JobVirtualHostDelete $job
      * @return Url
      */
-    protected function mapUrl(JobVirtualHostDelete $job) : Url {
+    protected function mapUrl(JobBase $job) : Url {
         return new Url('vhosts/'.urlencode($job->getVirtualHost()));
     }
 }

@@ -22,7 +22,7 @@ class JobVirtualHostListMapper extends BaseMapper
      * @param JobVirtualHostList $job
      * @return Method
      */
-    protected function mapMethod(JobVirtualHostList $job) : Method {
+    protected function mapMethod(JobBase $job) : Method {
         return new Method(Method::METHOD_GET);
     }
 
@@ -30,7 +30,7 @@ class JobVirtualHostListMapper extends BaseMapper
      * @param JobVirtualHostList $job
      * @return Url
      */
-    protected function mapUrl(JobVirtualHostList $job) : Url {
+    protected function mapUrl(JobBase $job) : Url {
         $url = 'vhosts';
         if (!empty($job->hasVirtualHost())) { $url .= '/'.urlencode($job->getVirtualHost()); }
         return new Url($url);
