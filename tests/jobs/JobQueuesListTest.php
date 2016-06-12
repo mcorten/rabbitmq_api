@@ -13,11 +13,9 @@ class JobQueuesListTest extends TestCase
      */
     public function test_dependencyInjection() {
         $virtualHost = new VirtualHost('/test/');
-        $queueName = new QueueName('test');
 
         $job = new JobQueuesList();
         $job->setVirtualhost($virtualHost);
-
 
         $this->assertEquals($virtualHost, $job->getVirtualHost());
     }
