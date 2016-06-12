@@ -13,6 +13,7 @@
     </testsuite>
 
     <logging>
-        <log type="coverage-html" target="tests/report/" charset="UTF-8" />
+        <log type="coverage-html" target="tests/report/html/" charset="UTF-8" />
+        <log type="coverage-xml" target="tests/report/xml/" charset="UTF-8" />
     </logging>
 </phpunit>

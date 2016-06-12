@@ -22,6 +22,6 @@
   },
   "require-dev": {
     "phpunit/phpunit": "5.4.*",
-    "codeclimate/php-test-reporter": "dev-master"
+    "codacy/coverage": "dev-master"
   }
 }
