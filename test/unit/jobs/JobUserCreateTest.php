@@ -39,10 +39,12 @@ class JobUserCreateTest extends TestCase
 
         $password = new Password('test');
         $job->setPassword($password);
+        $this->assertTrue($job->hasPassword());
         $this->assertEquals($password, $job->getPassword());
 
         $passwordHash = new PasswordHash('test');
         $job->setPasswordHash($passwordHash);
+        $this->assertTrue($job->hasPasswordHash());
         $this->assertEquals($passwordHash, $job->getPasswordHash());
     }
 }
