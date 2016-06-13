@@ -1,11 +1,11 @@
 <?php
-namespace mcorten87\rabbitmq_api\tests\jobs;
+namespace mcorten87\rabbitmq_api\test\unit\jobs;
 
-use mcorten87\rabbitmq_api\jobs\JobUserDelete;
+use mcorten87\rabbitmq_api\jobs\JobPermissionUserList;
 use mcorten87\rabbitmq_api\objects\User;
 use PHPUnit\Framework\TestCase;
 
-class JobUserDeleteTest extends TestCase
+class JobPermissionUserListTest extends TestCase
 {
     /**
      * Tests if the dependency injection in the constructor works
@@ -13,7 +13,7 @@ class JobUserDeleteTest extends TestCase
     public function test_dependencyInjection() {
         $user = new User('test');
 
-        $job = new JobUserDelete($user);
+        $job = new JobPermissionUserList($user);
 
         $this->assertEquals($user, $job->getUser());
     }

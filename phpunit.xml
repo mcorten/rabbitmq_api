@@ -9,11 +9,16 @@
     </filter>
 
     <testsuite name="mq_management">
-        <directory>./tests/</directory>
+        <directory>./test/unit/</directory>
     </testsuite>
 
     <logging>
-        <log type="coverage-html" target="tests/report/html/" charset="UTF-8" />
-        <log type="coverage-xml" target="tests/report/xml/" charset="UTF-8" />
+        <log type="coverage-html" target="test/report/html/" charset="UTF-8" />
+        <log type="coverage-xml" target="test/report/xml/" charset="UTF-8" />
     </logging>
+
+    <php>
+        <ini name="display_errors" value="On" />
+        <ini name="display_startup_errors" value="On" />
+    </php>
 </phpunit>

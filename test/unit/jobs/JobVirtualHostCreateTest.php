@@ -1,11 +1,11 @@
 <?php
-namespace mcorten87\rabbitmq_api\tests\jobs;
+namespace mcorten87\rabbitmq_api\test\unit\jobs;
 
-use mcorten87\rabbitmq_api\jobs\JobVirtualHostList;
+use mcorten87\rabbitmq_api\jobs\JobVirtualHostCreate;
 use mcorten87\rabbitmq_api\objects\VirtualHost;
 use PHPUnit\Framework\TestCase;
 
-class JobVirtualHostDListTest extends TestCase
+class JobVirtualHostCreateTest extends TestCase
 {
     /**
      * Tests if the dependency injection in the constructor works
@@ -13,10 +13,8 @@ class JobVirtualHostDListTest extends TestCase
     public function test_dependencyInjection() {
         $virtualHost = new VirtualHost('/test/');
 
-        $job = new JobVirtualHostList();
-        $this->assertFalse($job->hasVirtualHost());
+        $job = new JobVirtualHostCreate($virtualHost);
 
-        $job->setVirtualHost($virtualHost);
         $this->assertEquals($virtualHost, $job->getVirtualHost());
     }
 }

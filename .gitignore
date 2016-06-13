@@ -3,6 +3,7 @@
 .vagrant/*
 composer.phar
 vendor/*
-tests/report/*
+example/*
+test/report/*
 
 test_manual.php

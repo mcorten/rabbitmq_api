@@ -1,5 +1,5 @@
 <?php
-namespace mcorten87\rabbitmq_api\tests\jobs;
+namespace mcorten87\rabbitmq_api\test\unit\jobs;
 
 use mcorten87\rabbitmq_api\jobs\JobVirtualHostDelete;
 use mcorten87\rabbitmq_api\objects\VirtualHost;

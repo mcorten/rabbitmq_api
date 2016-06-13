@@ -12,6 +12,7 @@
   ],
   "autoload" : {
     "psr-4": {
+      "mcorten87\\rabbitmq_api\\test\\" : "test/",
       "mcorten87\\rabbitmq_api\\" : "src/"
     }
   },
