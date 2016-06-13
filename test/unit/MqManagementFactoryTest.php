@@ -144,11 +144,10 @@ class MqManagementFactoryTest extends TestCase
     /**
      * Tests if we get the right mapper if we insert a job
      *
-     * @dataProvider providerGetJobMapper
      * @expectedException \mcorten87\rabbitmq_api\exceptions\NoMapperForJob
      */
-    public function testNonExistingJob($job, $mapperExpected) {
+    public function testNonExistingJob() {
         $job = new JobDoesNotExist();
-        $mapper = $this->factory->getJobMapper($job);
+        $this->factory->getJobMapper($job);
     }
 }
