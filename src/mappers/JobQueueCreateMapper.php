@@ -29,7 +29,7 @@ class JobQueueCreateMapper extends BaseMapper
         $body = [
             'auto_delete'   => $job->isAutoDelete(),
             'durable'       => $job->isDurable(),
-            'arguments'     => []   // TODO
+            'arguments'     => []
         ];
 
         foreach($job->getArguments() as $argument) {

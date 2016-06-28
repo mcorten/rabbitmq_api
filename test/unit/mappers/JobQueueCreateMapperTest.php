@@ -5,18 +5,21 @@ use mcorten87\rabbitmq_api\jobs\JobPermissionDelete;
 use mcorten87\rabbitmq_api\jobs\JobPermissionList;
 use mcorten87\rabbitmq_api\jobs\JobPermissionUserList;
 use mcorten87\rabbitmq_api\jobs\JobPermissionVirtualHostList;
+use mcorten87\rabbitmq_api\jobs\JobQueueCreate;
 use mcorten87\rabbitmq_api\mappers\JobPermissionDeleteMapper;
 use mcorten87\rabbitmq_api\mappers\JobPermissionListMapper;
+use mcorten87\rabbitmq_api\mappers\JobQueueCreateMapper;
 use mcorten87\rabbitmq_api\MqManagementConfig;
 use mcorten87\rabbitmq_api\objects\Method;
 use mcorten87\rabbitmq_api\objects\Password;
+use mcorten87\rabbitmq_api\objects\QueueName;
 use mcorten87\rabbitmq_api\objects\Url;
 use mcorten87\rabbitmq_api\objects\User;
 use mcorten87\rabbitmq_api\objects\VirtualHost;
 use mcorten87\rabbitmq_api\test\unit\jobs\mocks\JobDoesNotExist;
 use PHPUnit\Framework\TestCase;
 
-class JobPermissionListMapperTest extends TestCase
+class JobQueueCreateMapperTest extends TestCase
 {
 
     /** @var  MqManagementConfig */
@@ -39,56 +42,37 @@ class JobPermissionListMapperTest extends TestCase
 
 
     public function test_jobPermissionList() {
-        $job = new JobPermissionList();
-
-        $mapper = new JobPermissionListMapper($this->config);
-        $mapResult = $mapper->map($job);
-
-        $this->assertEquals(Method::METHOD_GET, $mapResult->getMethod()->getValue());
-        $this->assertEquals('permissions', $mapResult->getUrl()->getValue());
-
-        $config = $mapResult->getConfig();
-
-        $this->assertEquals('application/json', $config['headers']['content-type']);
-    }
-
-    public function test_JobPermissionVirtualHostList() {
         $virtualHost = new VirtualHost('/test/');
-        $job = new JobPermissionVirtualHostList($virtualHost);
+        $queueName = new QueueName('test');
+        $job = new JobQueueCreate($virtualHost, $queueName);
 
-        $mapper = new JobPermissionListMapper($this->config);
+        $mapper = new JobQueueCreateMapper($this->config);
         $mapResult = $mapper->map($job);
 
-        $this->assertEquals(Method::METHOD_GET, $mapResult->getMethod()->getValue());
-        $this->assertEquals('vhosts/%2Ftest%2F/permissions', $mapResult->getUrl()->getValue());
+        $this->assertEquals(Method::METHOD_PUT, $mapResult->getMethod()->getValue());
+        $this->assertEquals('queues/%2Ftest%2F/test', $mapResult->getUrl()->getValue());
 
         $config = $mapResult->getConfig();
 
         $this->assertEquals('application/json', $config['headers']['content-type']);
+        $this->assertFalse($config['json']['auto_delete']);
+        $this->assertTrue($config['json']['durable']);
     }
 
-    public function test_JobPermissionUserList() {
-        $user = new User('test');
-        $job = new JobPermissionUserList($user);
+    public function test_AutoDeleteAndDureable() {
+        $virtualHost = new VirtualHost('/test/');
+        $queueName = new QueueName('test');
 
-        $mapper = new JobPermissionListMapper($this->config);
+        $job = new JobQueueCreate($virtualHost, $queueName);
+        $job->setDurable(false);
+        $job->setAutoDelete(true);
+
+        $mapper = new JobQueueCreateMapper($this->config);
         $mapResult = $mapper->map($job);
-
-        $this->assertEquals(Method::METHOD_GET, $mapResult->getMethod()->getValue());
-        $this->assertEquals('users/test/permissions', $mapResult->getUrl()->getValue());
 
         $config = $mapResult->getConfig();
 
-        $this->assertEquals('application/json', $config['headers']['content-type']);
-    }
-
-    /**
-     * @expectedException \RuntimeException
-     */
-    public function test_invalidJob() {
-        $job = new JobDoesNotExist();
-
-        $mapper = new JobPermissionListMapper($this->config);
-        $mapResult = $mapper->map($job);
+        $this->assertTrue($config['json']['auto_delete']);
+        $this->assertFalse($config['json']['durable']);
     }
 }
