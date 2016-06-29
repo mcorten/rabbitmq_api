@@ -102,9 +102,9 @@ class MqManagementFactory
     public function register(MqManagementConfig $config) {
         $this->config = $config;
 
-        $this->container->register(self::HTTPCLIENT,'GuzzleHttp\Client');
+        $this->container->register(self::HTTPCLIENT, 'GuzzleHttp\Client');
 
-        $this->container->register(self::SERVICE_JOB,'mcorten87\rabbitmq_api\services\JobService')
+        $this->container->register(self::SERVICE_JOB, 'mcorten87\rabbitmq_api\services\JobService')
             ->addArgument($this)
             ->addArgument($this->container->get(self::HTTPCLIENT))
         ;

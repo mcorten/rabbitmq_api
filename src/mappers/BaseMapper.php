@@ -58,7 +58,7 @@ abstract class BaseMapper
         return [
             'auth'      =>  array($this->config->getUser(), $this->config->getPassword()),
             'headers'   =>  ['content-type' => 'application/json'],
-//            'debug'     =>  true,
+            //'debug'     =>  true,
         ];
     }
 }

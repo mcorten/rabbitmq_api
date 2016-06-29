@@ -27,7 +27,9 @@ class JobUserListMapper  extends BaseMapper
     protected function mapUrl(JobBase $job) : Url {
 
         $url = 'users';
-        if ($job->getUser() !== null) { $url .= '/'.$job->getUser(); }
+        if ($job->getUser() !== null) {
+            $url .= '/'.$job->getUser();
+        }
 
         return new Url($url);
     }

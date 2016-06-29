@@ -34,7 +34,11 @@ class JobService
         $mapResult = $mapper->map($job);
 
         try {
-            $res = $this->client->request($mapResult->getMethod(), $this->factory->getConfig()->getUrl().$mapResult->getUrl(), $mapResult->getConfig());
+            $res = $this->client->request(
+                $mapResult->getMethod(),
+                $this->factory->getConfig()->getUrl().$mapResult->getUrl(),
+                $mapResult->getConfig()
+            );
         } catch (ClientException $e) {
             $data = json_decode($e->getResponse()->getBody());
 

@@ -39,8 +39,10 @@ class JobPermissionDeleteMapperTest extends TestCase
         $mapper = new JobPermissionDeleteMapper($this->config);
         $mapResult = $mapper->map($job);
 
+        $url = 'permissions/'.urlencode($job->getVirtualHost()).'/'.urlencode($job->getUser());
+
         $this->assertEquals(Method::METHOD_DELETE, $mapResult->getMethod()->getValue());
-        $this->assertEquals('permissions/'.urlencode($job->getVirtualHost()).'/'.urlencode($job->getUser()), $mapResult->getUrl()->getValue());
+        $this->assertEquals($url, $mapResult->getUrl()->getValue());
 
         $config = $mapResult->getConfig();
 

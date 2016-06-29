@@ -10,7 +10,7 @@ class JobVirtualHostDeleteTest extends TestCase
     /**
      * Tests if the dependency injection in the constructor works
      */
-    public function test_dependencyInjection() {
+    public function testDdependencyInjection() {
         $virtualHost = new VirtualHost('/test/');
 
         $job = new JobVirtualHostDelete($virtualHost);

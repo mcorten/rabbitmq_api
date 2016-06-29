@@ -1,13 +1,7 @@
 <?php
 namespace mcorten87\rabbitmq_api\test\unit\jobs;
 
-use mcorten87\rabbitmq_api\jobs\JobPermissionDelete;
-use mcorten87\rabbitmq_api\jobs\JobPermissionList;
-use mcorten87\rabbitmq_api\jobs\JobPermissionUserList;
-use mcorten87\rabbitmq_api\jobs\JobPermissionVirtualHostList;
 use mcorten87\rabbitmq_api\jobs\JobQueueCreate;
-use mcorten87\rabbitmq_api\mappers\JobPermissionDeleteMapper;
-use mcorten87\rabbitmq_api\mappers\JobPermissionListMapper;
 use mcorten87\rabbitmq_api\mappers\JobQueueCreateMapper;
 use mcorten87\rabbitmq_api\MqManagementConfig;
 use mcorten87\rabbitmq_api\objects\Method;
@@ -16,7 +10,6 @@ use mcorten87\rabbitmq_api\objects\QueueName;
 use mcorten87\rabbitmq_api\objects\Url;
 use mcorten87\rabbitmq_api\objects\User;
 use mcorten87\rabbitmq_api\objects\VirtualHost;
-use mcorten87\rabbitmq_api\test\unit\jobs\mocks\JobDoesNotExist;
 use PHPUnit\Framework\TestCase;
 
 class JobQueueCreateMapperTest extends TestCase
