@@ -32,7 +32,7 @@ class JobQueueCreateMapper extends BaseMapper
             'arguments'     => []
         ];
 
-        foreach($job->getArguments() as $argument) {
+        foreach ($job->getArguments() as $argument) {
             $body['arguments'][$argument->getArgumentName()] = $argument->getValue();
         };
 

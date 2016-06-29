@@ -17,7 +17,6 @@ class JobQueueListTest extends TestCase
 
         $job = new JobQueueList($virtualHost, $queueName);
 
-
         $this->assertEquals($virtualHost, $job->getVirtualHost());
         $this->assertEquals($queueName, $job->getQueueName());
     }

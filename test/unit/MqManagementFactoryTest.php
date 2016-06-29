@@ -112,7 +112,7 @@ class MqManagementFactoryTest extends TestCase
 
         return [
             [new JobUserList(), new JobUserListMapper($this->config)],
-            [new JobUserCreate($user,$userTag), new JobUserCreateMapper($this->config)],
+            [new JobUserCreate($user, $userTag), new JobUserCreateMapper($this->config)],
             [new JobUserDelete($user), new JobUserDeleteMapper($this->config)],
         ];
     }

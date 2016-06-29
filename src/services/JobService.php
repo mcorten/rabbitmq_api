@@ -39,11 +39,11 @@ class JobService
             $data = json_decode($e->getResponse()->getBody());
 
             // find out what kind of error happend and give some extra help
-            if (strpos($data->reason,'inequivalent arg \'durable\'') !== false) {
+            if (strpos($data->reason, 'inequivalent arg \'durable\'') !== false) {
                 $data->cause = 'Queue already exists with different durable stat, delete the queue first';
-                $res = new Response($e->getCode(),$e->getResponse()->getHeaders(), json_encode($data));
+                $res = new Response($e->getCode(), $e->getResponse()->getHeaders(), json_encode($data));
             } elseif ($data->error === 'Object Not Found') {
-                $res = new Response($e->getCode(),$e->getResponse()->getHeaders(), json_encode($data));
+                $res = new Response($e->getCode(), $e->getResponse()->getHeaders(), json_encode($data));
             } else {
                 throw $e;
             }

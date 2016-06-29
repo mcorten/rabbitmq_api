@@ -42,7 +42,8 @@ class QueueArgument extends BaseObject
 
     /**
      * @var integer
-     * Maximum number of priority levels for the queue to support; if not set, the queue will not support message priorities.
+     * Maximum number of priority levels for the queue to support;
+     *      if not set, the queue will not support message priorities.
      */
     const MAX_PRIORITY = 'max-priority';
 

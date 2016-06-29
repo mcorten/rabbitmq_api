@@ -11,7 +11,9 @@ class QueueName extends BaseObject
 
     public function validate($value) : bool
     {
-        if (empty($value)) { return false; }
+        if (empty($value)) {
+            return false;
+        }
         return parent::validate($value);
     }
 }

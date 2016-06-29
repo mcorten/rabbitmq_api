@@ -33,13 +33,17 @@ class JobUserCreateMapper extends BaseMapper
      */
     protected function mapConfig(JobBase $job) : array {
         $password = null;
-        if ($job->hasPassword()) { }
-        elseif ($job->hasPasswordHash()) { $password = $job->getPasswordHash(); }
+        if ($job->hasPassword()) {
+            $password = $job->getPassword();
+        }
+        elseif ($job->hasPasswordHash()) {
+            $password = $job->getPasswordHash();
+        }
 
 
         $body = [
             'password'   => (string)$password,
-            'tags'       => implode($job->getUserTags(),','),
+            'tags'       => implode($job->getUserTags(), ','),
         ];
 
         return array_merge(parent::mapConfig($job), [
