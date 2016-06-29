@@ -33,7 +33,7 @@ class JobPermissionDeleteMapperTest extends TestCase
     }
 
 
-    public function test_basicConfig() {
+    public function testBasicConfig() {
         $job = new JobPermissionDelete(new VirtualHost('/test/'), new User('test'));
 
         $mapper = new JobPermissionDeleteMapper($this->config);

@@ -31,7 +31,7 @@ class BaseMapperTest extends TestCase
     }
 
 
-    public function test_auth()
+    public function testAuth()
     {
         $job = new JobDoesNotExist();
 

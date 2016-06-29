@@ -11,7 +11,7 @@ class JobPermissionCreateTest extends TestCase
     /**
      * Tests if the dependency injection in the constructor works
      */
-    public function test_dependencyInjection() {
+    public function testDependencyInjection() {
         $user = new User('test');
         $virtualHost = new VirtualHost('/test/');
 

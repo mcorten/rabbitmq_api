@@ -13,7 +13,7 @@ class JobUserCreateTest extends TestCase
     /**
      * Tests if the dependency injection in the constructor works
      */
-    public function test_dependencyInjection() {
+    public function testDependencyInjection() {
         $user = new User('test');
         $tag = new UserTag(UserTag::MONITORING);
 
@@ -26,7 +26,7 @@ class JobUserCreateTest extends TestCase
     /**
      * Tests if addUserTag is working like we want it to
      */
-    public function test_setters() {
+    public function testSetters() {
         $user = new User('test');
         $tag1 = new UserTag(UserTag::MONITORING);
         $tag2 = new UserTag(UserTag::ADMINISTRATOR);

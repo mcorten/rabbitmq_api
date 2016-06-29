@@ -33,7 +33,7 @@ class JobPermissionCreateMapperTest extends TestCase
     }
 
 
-    public function test_basicConfig() {
+    public function testBasicConfig() {
         $job = new JobPermissionCreate(new VirtualHost('/test/'), new User('test'));
 
         $mapper = new JobPermissionCreateMapper($this->config);

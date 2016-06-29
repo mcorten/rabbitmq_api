@@ -41,7 +41,7 @@ class JobQueueCreateMapperTest extends TestCase
     }
 
 
-    public function test_jobPermissionList() {
+    public function testJobPermissionList() {
         $virtualHost = new VirtualHost('/test/');
         $queueName = new QueueName('test');
         $job = new JobQueueCreate($virtualHost, $queueName);
@@ -59,7 +59,7 @@ class JobQueueCreateMapperTest extends TestCase
         $this->assertTrue($config['json']['durable']);
     }
 
-    public function test_AutoDeleteAndDureable() {
+    public function testAutoDeleteAndDureable() {
         $virtualHost = new VirtualHost('/test/');
         $queueName = new QueueName('test');
 

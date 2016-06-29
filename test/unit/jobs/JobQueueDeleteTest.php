@@ -11,7 +11,7 @@ class JobQueueDeleteTest extends TestCase
     /**
      * Tests if the dependency injection in the constructor works
      */
-    public function test_dependencyInjection() {
+    public function testDependencyInjection() {
         $virtualHost = new VirtualHost('/test/');
         $queueName = new QueueName('test');
 

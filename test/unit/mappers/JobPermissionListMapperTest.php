@@ -38,7 +38,7 @@ class JobPermissionListMapperTest extends TestCase
     }
 
 
-    public function test_jobPermissionList() {
+    public function testJobPermissionList() {
         $job = new JobPermissionList();
 
         $mapper = new JobPermissionListMapper($this->config);
@@ -52,7 +52,7 @@ class JobPermissionListMapperTest extends TestCase
         $this->assertEquals('application/json', $config['headers']['content-type']);
     }
 
-    public function test_JobPermissionVirtualHostList() {
+    public function testJobPermissionVirtualHostList() {
         $virtualHost = new VirtualHost('/test/');
         $job = new JobPermissionVirtualHostList($virtualHost);
 
@@ -67,7 +67,7 @@ class JobPermissionListMapperTest extends TestCase
         $this->assertEquals('application/json', $config['headers']['content-type']);
     }
 
-    public function test_JobPermissionUserList() {
+    public function testJobPermissionUserList() {
         $user = new User('test');
         $job = new JobPermissionUserList($user);
 
@@ -85,10 +85,10 @@ class JobPermissionListMapperTest extends TestCase
     /**
      * @expectedException \RuntimeException
      */
-    public function test_invalidJob() {
+    public function testInvalidJob() {
         $job = new JobDoesNotExist();
 
         $mapper = new JobPermissionListMapper($this->config);
-        $mapResult = $mapper->map($job);
+        $mapper->map($job);
     }
 }
