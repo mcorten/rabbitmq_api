@@ -123,53 +123,65 @@ class MqManagementFactory
             ->addArgument($this->config)
         ;
 
-        $this->container->register(self::JOB_CREATEVHOSTMAPPER, 'mcorten87\rabbitmq_api\mappers\JobVirtualHostCreateMapper')
+        $this->container
+            ->register(self::JOB_CREATEVHOSTMAPPER, 'mcorten87\rabbitmq_api\mappers\JobVirtualHostCreateMapper')
             ->addArgument($this->config)
         ;
 
-        $this->container->register(self::JOB_DELETEVHOSTSMAPPER, 'mcorten87\rabbitmq_api\mappers\JobVirtualHostDeleteMapper')
+        $this->container
+            ->register(self::JOB_DELETEVHOSTSMAPPER, 'mcorten87\rabbitmq_api\mappers\JobVirtualHostDeleteMapper')
             ->addArgument($this->config)
         ;
 
         // queues
-        $this->container->register(self::JOB_LISTQUEUESMAPPER, 'mcorten87\rabbitmq_api\mappers\JobQueuesListMapper')
+        $this->container
+            ->register(self::JOB_LISTQUEUESMAPPER, 'mcorten87\rabbitmq_api\mappers\JobQueuesListMapper')
             ->addArgument($this->config)
         ;
 
-        $this->container->register(self::JOB_LISTQUEUEMAPPER, 'mcorten87\rabbitmq_api\mappers\JobQueueListMapper')
+        $this->container
+            ->register(self::JOB_LISTQUEUEMAPPER, 'mcorten87\rabbitmq_api\mappers\JobQueueListMapper')
             ->addArgument($this->config)
         ;
 
-        $this->container->register(self::JOB_CREATEQUEUEMAPPER, 'mcorten87\rabbitmq_api\mappers\JobQueueCreateMapper')
+        $this->container
+            ->register(self::JOB_CREATEQUEUEMAPPER, 'mcorten87\rabbitmq_api\mappers\JobQueueCreateMapper')
             ->addArgument($this->config)
         ;
 
-        $this->container->register(self::JOB_DELETEQUEUEMAPPER, 'mcorten87\rabbitmq_api\mappers\JobQueueDeleteMapper')
+        $this->container
+            ->register(self::JOB_DELETEQUEUEMAPPER, 'mcorten87\rabbitmq_api\mappers\JobQueueDeleteMapper')
             ->addArgument($this->config)
         ;
 
         // users
-        $this->container->register(self::JOB_LISTUSERMAPPER, 'mcorten87\rabbitmq_api\mappers\JobUserListMapper')
+        $this->container
+            ->register(self::JOB_LISTUSERMAPPER, 'mcorten87\rabbitmq_api\mappers\JobUserListMapper')
             ->addArgument($this->config)
         ;
 
-        $this->container->register(self::JOB_CREATEUSERMAPPER, 'mcorten87\rabbitmq_api\mappers\JobUserCreateMapper')
+        $this->container
+            ->register(self::JOB_CREATEUSERMAPPER, 'mcorten87\rabbitmq_api\mappers\JobUserCreateMapper')
             ->addArgument($this->config)
         ;
 
-        $this->container->register(self::JOB_DELETEUSERMAPPER, 'mcorten87\rabbitmq_api\mappers\JobUserDeleteMapper')
+        $this->container
+            ->register(self::JOB_DELETEUSERMAPPER, 'mcorten87\rabbitmq_api\mappers\JobUserDeleteMapper')
             ->addArgument($this->config)
         ;
 
-        $this->container->register(self::JOB_LISTPERMISSIONRMAPPER, 'mcorten87\rabbitmq_api\mappers\JobPermissionListMapper')
+        $this->container
+            ->register(self::JOB_LISTPERMISSIONRMAPPER, 'mcorten87\rabbitmq_api\mappers\JobPermissionListMapper')
             ->addArgument($this->config)
         ;
 
-        $this->container->register(self::JOB_CREATEPERMISSIONRMAPPER, 'mcorten87\rabbitmq_api\mappers\JobPermissionCreateMapper')
+        $this->container
+            ->register(self::JOB_CREATEPERMISSIONRMAPPER, 'mcorten87\rabbitmq_api\mappers\JobPermissionCreateMapper')
             ->addArgument($this->config)
         ;
 
-        $this->container->register(self::JOB_DELETEPERMISSIONRMAPPER, 'mcorten87\rabbitmq_api\mappers\JobPermissionDeleteMapper')
+        $this->container
+            ->register(self::JOB_DELETEPERMISSIONRMAPPER, 'mcorten87\rabbitmq_api\mappers\JobPermissionDeleteMapper')
             ->addArgument($this->config)
         ;
     }
@@ -191,7 +203,9 @@ class MqManagementFactory
      */
     public function getJobListVirtualHost(VirtualHost $virtualHost = null) : JobVirtualHostList {
         $job = new JobVirtualHostList();
-        if ($virtualHost !== null) { $job->setVirtualHost($virtualHost); }
+        if ($virtualHost !== null) {
+            $job->setVirtualHost($virtualHost);
+        }
         return $job;
     }
 
@@ -222,7 +236,9 @@ class MqManagementFactory
     public function getJobListQueues(VirtualHost $virtualHost = null) : JobQueuesList {
         /** @var JobQueuesList $job */
         $job = new JobQueuesList();
-        if ($virtualHost !== null) { $job->setVirtualhost($virtualHost); }
+        if ($virtualHost !== null) {
+            $job->setVirtualhost($virtualHost);
+        }
         return $job;
     }
 
@@ -263,7 +279,9 @@ class MqManagementFactory
      */
     public function getJobListUser(User $user = null) : JobUserList {
         $job = new JobUserList();
-        if ($user !== null) { $job->setUser($user); }
+        if ($user !== null) {
+            $job->setUser($user);
+        }
         return $job;
     }
 
@@ -276,8 +294,12 @@ class MqManagementFactory
      */
     public function getJobCreateUser(User $user, UserTag $userTag, Password $password = null, PasswordHash $passwordHash = null) : JobUserCreate {
         $job = new JobUserCreate($user, $userTag);
-        if ($password !== null) { $job->setPassword($password); }
-        if ($passwordHash !== null) { $job->setPasswordHash($passwordHash); }
+        if ($password !== null) {
+            $job->setPassword($password);
+        }
+        if ($passwordHash !== null) {
+            $job->setPasswordHash($passwordHash);
+        }
         return $job;
     }
 
