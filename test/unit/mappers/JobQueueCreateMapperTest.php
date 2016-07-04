@@ -67,8 +67,8 @@ class JobQueueCreateMapperTest extends TestCase
         $virtualHost = new VirtualHost('/test/');
         $queueName = new QueueName('test');
 
-        $argument1 = new QueueArgument(QueueArgument::MAX_LENGTH,10);
-        $argument2 = new QueueArgument(QueueArgument::MESSAGE_TTL,1000);
+        $argument1 = new QueueArgument(QueueArgument::MAX_LENGTH, 10);
+        $argument2 = new QueueArgument(QueueArgument::MESSAGE_TTL, 1000);
 
         $job = new JobQueueCreate($virtualHost, $queueName);
         $job->addArgument($argument1);
