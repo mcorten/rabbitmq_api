@@ -6,6 +6,7 @@ use mcorten87\rabbitmq_api\mappers\JobQueueCreateMapper;
 use mcorten87\rabbitmq_api\MqManagementConfig;
 use mcorten87\rabbitmq_api\objects\Method;
 use mcorten87\rabbitmq_api\objects\Password;
+use mcorten87\rabbitmq_api\objects\QueueArgument;
 use mcorten87\rabbitmq_api\objects\QueueName;
 use mcorten87\rabbitmq_api\objects\Url;
 use mcorten87\rabbitmq_api\objects\User;
@@ -50,22 +51,39 @@ class JobQueueCreateMapperTest extends TestCase
         $this->assertEquals('application/json', $config['headers']['content-type']);
         $this->assertFalse($config['json']['auto_delete']);
         $this->assertTrue($config['json']['durable']);
+
+        // test setters
+        $job->setDurable(false);
+        $job->setAutoDelete(true);
+
+        $mapResult = $mapper->map($job);
+        $config = $mapResult->getConfig();
+
+        $this->assertTrue($config['json']['auto_delete']);
+        $this->assertFalse($config['json']['durable']);
     }
 
-    public function testAutoDeleteAndDureable() {
+    public function testAddArguments() {
         $virtualHost = new VirtualHost('/test/');
         $queueName = new QueueName('test');
 
+        $argument1 = new QueueArgument(QueueArgument::MAX_LENGTH,10);
+        $argument2 = new QueueArgument(QueueArgument::MESSAGE_TTL,1000);
+
         $job = new JobQueueCreate($virtualHost, $queueName);
-        $job->setDurable(false);
-        $job->setAutoDelete(true);
+        $job->addArgument($argument1);
+        $job->addArgument($argument2);
+
+        $arguments = $job->getArguments();
+        $this->assertEquals($argument1, $arguments[0]);
+        $this->assertEquals($argument2, $arguments[1]);
 
         $mapper = new JobQueueCreateMapper($this->config);
         $mapResult = $mapper->map($job);
 
         $config = $mapResult->getConfig();
 
-        $this->assertTrue($config['json']['auto_delete']);
-        $this->assertFalse($config['json']['durable']);
+        $this->assertEquals($argument1->getValue(), $config['json']['arguments'][$argument1->getArgumentName()]);
+        $this->assertEquals($argument2->getValue(), $config['json']['arguments'][$argument2->getArgumentName()]);
     }
 }
