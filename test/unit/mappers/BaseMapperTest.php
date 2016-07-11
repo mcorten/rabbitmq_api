@@ -22,8 +22,8 @@ class BaseMapperTest extends TestCase
     public function __construct($name = null, array $data = [], $dataName = '')
     {
         $url = new Url('http://localhost:15672/api/');
-        $user = new User('user');
-        $password = new Password('password');
+        $user = new User('u!@#$%^&*()-=[]\'\;/.,mser');
+        $password = new Password('passw!@#$%^&*()-=[]\'\;/.,mord');
 
         $this->config = new MqManagementConfig($user, $password, $url);
 

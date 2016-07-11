@@ -24,8 +24,8 @@ class JobPermissionCreateMapperTest extends TestCase
     public function __construct($name = null, array $data = [], $dataName = '')
     {
         $url = new Url('http://localhost:15672/api/');
-        $user = new User('user');
-        $password = new Password('password');
+        $user = new User('!@#456us!@#$%^&*()-=[]\'\;/.,mer&*(^%%$');
+        $password = new Password('%^*&(passw!@#$%^&*()-=[]\'\;/.,mord+_)(789');
 
         $this->config = new MqManagementConfig($user, $password, $url);
 
@@ -34,7 +34,7 @@ class JobPermissionCreateMapperTest extends TestCase
 
 
     public function testBasicConfig() {
-        $job = new JobPermissionCreate(new VirtualHost('/test/'), new User('test'));
+        $job = new JobPermissionCreate(new VirtualHost('/te!@#$%^&*()-=[]\'\;/.,mst/'), new User('te!@#$%^&*()-=[]\'\;/.,mst'));
 
         $mapper = new JobPermissionCreateMapper($this->config);
         $mapResult = $mapper->map($job);

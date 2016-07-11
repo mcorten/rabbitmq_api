@@ -26,8 +26,8 @@ class JobQueueCreateMapperTest extends TestCase
     public function __construct($name = null, array $data = [], $dataName = '')
     {
         $url = new Url('http://localhost:15672/api/');
-        $user = new User('user');
-        $password = new Password('password');
+        $user = new User('!@#$%^&*()-=[]\'\;/.,mM<user');
+        $password = new Password('passw!@#$%^&*()-=[]\'\;/.,mM<ord');
 
         $this->config = new MqManagementConfig($user, $password, $url);
 
@@ -36,15 +36,15 @@ class JobQueueCreateMapperTest extends TestCase
 
 
     public function testJobPermissionList() {
-        $virtualHost = new VirtualHost('/test/');
-        $queueName = new QueueName('test');
+        $virtualHost = new VirtualHost('/te!@#$%^&*()-=[]\'\;/.,mst/');
+        $queueName = new QueueName('t!@#$%^&*()-=[]\'\;/.,mest');
         $job = new JobQueueCreate($virtualHost, $queueName);
 
         $mapper = new JobQueueCreateMapper($this->config);
         $mapResult = $mapper->map($job);
 
         $this->assertEquals(Method::METHOD_PUT, $mapResult->getMethod()->getValue());
-        $this->assertEquals('queues/%2Ftest%2F/test', $mapResult->getUrl()->getValue());
+        $this->assertEquals('queues/'.urlencode($virtualHost).'/'.urlencode($queueName), $mapResult->getUrl()->getValue());
 
         $config = $mapResult->getConfig();
 
@@ -64,8 +64,8 @@ class JobQueueCreateMapperTest extends TestCase
     }
 
     public function testAddArguments() {
-        $virtualHost = new VirtualHost('/test/');
-        $queueName = new QueueName('test');
+        $virtualHost = new VirtualHost('/tes!@#$%^&*()-=[]\'\;/.,mt/');
+        $queueName = new QueueName('t!@#$%^&*()-=[]\'\;/.,mest');
 
         $argument1 = new QueueArgument(QueueArgument::MAX_LENGTH, 10);
         $argument2 = new QueueArgument(QueueArgument::MESSAGE_TTL, 1000);

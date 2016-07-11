@@ -33,8 +33,8 @@ class JobUserDeleteMapperTest extends TestCase
     public function __construct($name = null, array $data = [], $dataName = '')
     {
         $url = new Url('http://localhost:15672/api/');
-        $user = new User('user');
-        $password = new Password('password');
+        $user = new User('use@#$%^&*()-=[]\'\;/.,r');
+        $password = new Password('p@#$%^&*()-=[]\'\;/.,assword');
 
         $this->config = new MqManagementConfig($user, $password, $url);
 

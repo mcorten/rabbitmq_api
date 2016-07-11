@@ -35,8 +35,8 @@ class JobUserListMapperTest extends TestCase
     public function __construct($name = null, array $data = [], $dataName = '')
     {
         $url = new Url('http://localhost:15672/api/');
-        $user = new User('user');
-        $password = new Password('password');
+        $user = new User('us@#$%^&*()-=[]\'\;/.,er');
+        $password = new Password('passwo@#$%^&*()-=[]\'\;/.,rd');
 
         $this->config = new MqManagementConfig($user, $password, $url);
 
@@ -53,7 +53,7 @@ class JobUserListMapperTest extends TestCase
         $this->assertEquals(Method::METHOD_GET, $mapResult->getMethod()->getValue());
         $this->assertEquals('users', $mapResult->getUrl());
 
-        $user = new User('test');
+        $user = new User('t@#$%^&*()-=[]\'\;/.,est');
         $job->setUser($user);
 
         $mapResult = $mapper->map($job);

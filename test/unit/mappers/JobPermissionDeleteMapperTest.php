@@ -24,8 +24,8 @@ class JobPermissionDeleteMapperTest extends TestCase
     public function __construct($name = null, array $data = [], $dataName = '')
     {
         $url = new Url('http://localhost:15672/api/');
-        $user = new User('user');
-        $password = new Password('password');
+        $user = new User('!!@#$%^&*()-=[]\'\;/.,mM<user');
+        $password = new Password('!@#$%^&*()-=[]\'\;/.,mM<password');
 
         $this->config = new MqManagementConfig($user, $password, $url);
 
@@ -34,7 +34,7 @@ class JobPermissionDeleteMapperTest extends TestCase
 
 
     public function testBasicConfig() {
-        $job = new JobPermissionDelete(new VirtualHost('/test/'), new User('test'));
+        $job = new JobPermissionDelete(new VirtualHost('/te!@#$%^&*()-=[]\'\;/.,mst/'), new User('!@#$%^&*()-=[]\'\;/.,mtest'));
 
         $mapper = new JobPermissionDeleteMapper($this->config);
         $mapResult = $mapper->map($job);

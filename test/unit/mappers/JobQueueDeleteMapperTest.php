@@ -25,8 +25,8 @@ class JobQueueDeleteMapperTest extends TestCase
     public function __construct($name = null, array $data = [], $dataName = '')
     {
         $url = new Url('http://localhost:15672/api/');
-        $user = new User('user');
-        $password = new Password('password');
+        $user = new User('use!@#$%^&*()-=[]\'\;/.,mM<r');
+        $password = new Password('pa!@#$%^&*()-=[]\'\;/.,mM<ssword');
 
         $this->config = new MqManagementConfig($user, $password, $url);
 
@@ -35,8 +35,8 @@ class JobQueueDeleteMapperTest extends TestCase
 
 
     public function testJob() {
-        $virtualHost = new VirtualHost('/test/');
-        $queueName = new QueueName('test');
+        $virtualHost = new VirtualHost('/te!@#$%^&*()-=[]\'\;/.,mM<st/');
+        $queueName = new QueueName('t!@#$%^&*()-=[]\'\;/.,mM<est');
         $job = new JobQueueDelete($virtualHost, $queueName);
 
         $mapper = new JobQueueDeleteMapper($this->config);
@@ -44,6 +44,6 @@ class JobQueueDeleteMapperTest extends TestCase
 
 
         $this->assertEquals(Method::METHOD_DELETE, $mapResult->getMethod()->getValue());
-        $this->assertEquals('queues/'.urlencode($virtualHost).'/test', $mapResult->getUrl()->getValue());
+        $this->assertEquals('queues/'.urlencode($virtualHost).'/'.urlencode($queueName), $mapResult->getUrl()->getValue());
     }
 }

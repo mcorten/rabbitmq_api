@@ -41,8 +41,8 @@ class JobVirtualHostListMapperTest extends TestCase
     public function __construct($name = null, array $data = [], $dataName = '')
     {
         $url = new Url('http://localhost:15672/api/');
-        $user = new User('user');
-        $password = new Password('password');
+        $user = new User('us@#$%^&*()-=[]\'\;/.,er');
+        $password = new Password('pas@#$%^&*()-=[]\'\;/.,sword');
 
         $this->config = new MqManagementConfig($user, $password, $url);
 
@@ -51,7 +51,7 @@ class JobVirtualHostListMapperTest extends TestCase
 
 
     public function testBasicJob() {
-        $virtualHost = new VirtualHost('/test/');
+        $virtualHost = new VirtualHost('/te@#$%^&*()-=[]\'\;/.,st/');
         $job = new JobVirtualHostList();
 
         $mapper = new JobVirtualHostListMapper($this->config);

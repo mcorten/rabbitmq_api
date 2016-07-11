@@ -27,8 +27,8 @@ class JobPermissionListMapperTest extends TestCase
     public function __construct($name = null, array $data = [], $dataName = '')
     {
         $url = new Url('http://localhost:15672/api/');
-        $user = new User('user');
-        $password = new Password('password');
+        $user = new User('user!@#$%^&*()-=[]\'\;/.,mM<');
+        $password = new Password('!@#$%^&*()-=[]\'\;/.,mM<password');
 
         $this->config = new MqManagementConfig($user, $password, $url);
 
@@ -51,14 +51,14 @@ class JobPermissionListMapperTest extends TestCase
     }
 
     public function testJobPermissionVirtualHostList() {
-        $virtualHost = new VirtualHost('/test/');
+        $virtualHost = new VirtualHost('/te!@#$%^&*()-=[]\'\;/.,mst/');
         $job = new JobPermissionVirtualHostList($virtualHost);
 
         $mapper = new JobPermissionListMapper($this->config);
         $mapResult = $mapper->map($job);
 
         $this->assertEquals(Method::METHOD_GET, $mapResult->getMethod()->getValue());
-        $this->assertEquals('vhosts/%2Ftest%2F/permissions', $mapResult->getUrl()->getValue());
+        $this->assertEquals('vhosts/'.urlencode($virtualHost).'/permissions', $mapResult->getUrl()->getValue());
 
         $config = $mapResult->getConfig();
 
@@ -66,14 +66,14 @@ class JobPermissionListMapperTest extends TestCase
     }
 
     public function testJobPermissionUserList() {
-        $user = new User('test');
+        $user = new User('te!@#$%^&*()-=[]\'\;/.,mst');
         $job = new JobPermissionUserList($user);
 
         $mapper = new JobPermissionListMapper($this->config);
         $mapResult = $mapper->map($job);
 
         $this->assertEquals(Method::METHOD_GET, $mapResult->getMethod()->getValue());
-        $this->assertEquals('users/test/permissions', $mapResult->getUrl()->getValue());
+        $this->assertEquals('users/'.urlencode($user).'/permissions', $mapResult->getUrl()->getValue());
 
         $config = $mapResult->getConfig();
 

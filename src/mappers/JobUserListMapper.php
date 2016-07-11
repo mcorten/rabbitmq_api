@@ -28,7 +28,7 @@ class JobUserListMapper  extends BaseMapper
 
         $url = 'users';
         if ($job->getUser() !== null) {
-            $url .= '/'.$job->getUser();
+            $url .= '/'.urlencode($job->getUser());
         }
 
         return new Url($url);

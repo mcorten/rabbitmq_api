@@ -39,14 +39,14 @@ class JobQueueListMapperTest extends TestCase
 
 
     public function testBasicJob() {
-        $virtualHost = new VirtualHost('/test/');
-        $queueName = new QueueName('test');
+        $virtualHost = new VirtualHost('/t!@#$%^&*()-=[]\'\;/.,mest/');
+        $queueName = new QueueName('t!@#$%^&*()-=[]\'\;/.,mest');
         $job = new JobQueueList($virtualHost, $queueName);
 
         $mapper = new JobQueueListMapper($this->config);
         $mapResult = $mapper->map($job);
 
         $this->assertEquals(Method::METHOD_GET, $mapResult->getMethod()->getValue());
-        $this->assertEquals('queues/'.urlencode($virtualHost).'/test', $mapResult->getUrl());
+        $this->assertEquals('queues/'.urlencode($virtualHost).'/'.urlencode($queueName), $mapResult->getUrl());
     }
 }

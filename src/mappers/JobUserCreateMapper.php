@@ -22,7 +22,7 @@ class JobUserCreateMapper extends BaseMapper
      */
     protected function mapUrl(JobBase $job) : Url {
         $url = 'users';
-        $url .= '/'.$job->getUser();
+        $url .= '/'.urlencode($job->getUser());
 
         return new Url($url);
     }
