@@ -34,7 +34,9 @@ class JobPermissionDeleteMapperTest extends TestCase
 
 
     public function testBasicConfig() {
-        $job = new JobPermissionDelete(new VirtualHost('/te!@#$%^&*()-=[]\'\;/.,mst/'), new User('!@#$%^&*()-=[]\'\;/.,mtest'));
+        $virtualHost = new VirtualHost('/te!@#$%^&*()-=[]\'\;/.,mst/');
+        $user = new User('te!@#$%^&*()-=[]\'\;/.,mst');
+        $job = new JobPermissionDelete($virtualHost, $user);
 
         $mapper = new JobPermissionDeleteMapper($this->config);
         $mapResult = $mapper->map($job);

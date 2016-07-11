@@ -44,6 +44,10 @@ class JobQueueDeleteMapperTest extends TestCase
 
 
         $this->assertEquals(Method::METHOD_DELETE, $mapResult->getMethod()->getValue());
-        $this->assertEquals('queues/'.urlencode($virtualHost).'/'.urlencode($queueName), $mapResult->getUrl()->getValue());
+        $this->assertEquals('queues/'
+                                .urlencode($virtualHost).'/'
+                                .urlencode($queueName)
+                            , $mapResult->getUrl()->getValue()
+                            );
     }
 }

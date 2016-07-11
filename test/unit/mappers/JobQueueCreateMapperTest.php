@@ -44,7 +44,11 @@ class JobQueueCreateMapperTest extends TestCase
         $mapResult = $mapper->map($job);
 
         $this->assertEquals(Method::METHOD_PUT, $mapResult->getMethod()->getValue());
-        $this->assertEquals('queues/'.urlencode($virtualHost).'/'.urlencode($queueName), $mapResult->getUrl()->getValue());
+        $this->assertEquals('queues/'
+                                .urlencode($virtualHost).'/'
+                                .urlencode($queueName)
+                            , $mapResult->getUrl()->getValue()
+                            );
 
         $config = $mapResult->getConfig();
 

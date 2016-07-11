@@ -34,7 +34,9 @@ class JobPermissionCreateMapperTest extends TestCase
 
 
     public function testBasicConfig() {
-        $job = new JobPermissionCreate(new VirtualHost('/te!@#$%^&*()-=[]\'\;/.,mst/'), new User('te!@#$%^&*()-=[]\'\;/.,mst'));
+        $virtualHost = new VirtualHost('/te!@#$%^&*()-=[]\'\;/.,mst/');
+        $user = new User('te!@#$%^&*()-=[]\'\;/.,mst');
+        $job = new JobPermissionCreate($virtualHost, $user);
 
         $mapper = new JobPermissionCreateMapper($this->config);
         $mapResult = $mapper->map($job);
