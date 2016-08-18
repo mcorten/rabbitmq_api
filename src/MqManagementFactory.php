@@ -5,6 +5,8 @@ namespace mcorten87\rabbitmq_api;
 
 use mcorten87\rabbitmq_api\exceptions\NoMapperForJob;
 use mcorten87\rabbitmq_api\jobs\JobBase;
+use mcorten87\rabbitmq_api\jobs\JobExchangeList;
+use mcorten87\rabbitmq_api\jobs\JobExchangeVirtualHostList;
 use mcorten87\rabbitmq_api\jobs\JobPermissionCreate;
 use mcorten87\rabbitmq_api\jobs\JobPermissionDelete;
 use mcorten87\rabbitmq_api\jobs\JobPermissionList;
@@ -76,6 +78,9 @@ class MqManagementFactory
 
     const JOB_DELETEPERMISSIONRMAPPER = 'JobDeletePermissionMapper';
 
+
+    const JOB_LISTEXCHANGEMAPPER = 'JobListExchageMapper';
+    const JOB_LISTEXCHANGEVIRTUALHOSTMAPPER = 'JobListExchageVirtualHostMapper';
 
     /** @var MqManagementConfig */
     private $config;
@@ -182,6 +187,16 @@ class MqManagementFactory
 
         $this->container
             ->register(self::JOB_DELETEPERMISSIONRMAPPER, 'mcorten87\rabbitmq_api\mappers\JobPermissionDeleteMapper')
+            ->addArgument($this->config)
+        ;
+
+        $this->container
+            ->register(self::JOB_LISTEXCHANGEMAPPER, 'mcorten87\rabbitmq_api\mappers\JobExchangeListMapper')
+            ->addArgument($this->config)
+        ;
+
+        $this->container
+            ->register(self::JOB_LISTEXCHANGEVIRTUALHOSTMAPPER, 'mcorten87\rabbitmq_api\mappers\JobExchangeVirtualHostListMapper')
             ->addArgument($this->config)
         ;
     }
@@ -359,6 +374,22 @@ class MqManagementFactory
     }
 
     /**
+     * @return JobExchangeList
+     */
+    public function getJobListExchanges() : JobExchangeList {
+        $job = new JobExchangeList();
+        return $job;
+    }
+
+    /**
+     * @return JobExchangeList
+     */
+    public function getJobListExchangesVirtualHost(VirtualHost $virtualHost) : JobExchangeVirtualHostList {
+        $job = new JobExchangeVirtualHostList($virtualHost);
+        return $job;
+    }
+
+    /**
      * Gets a mapper for the job, if non found it throws an NoMapperForJob exception
      *
      * @param JobBase $job
@@ -402,6 +433,14 @@ class MqManagementFactory
                 return $this->container->get(self::JOB_CREATEPERMISSIONRMAPPER);
             case $job instanceof JobPermissionDelete:
                 return $this->container->get(self::JOB_DELETEPERMISSIONRMAPPER);
+
+
+            // exchange
+            case $job instanceof JobExchangeList:
+                return $this->container->get(self::JOB_LISTEXCHANGEMAPPER);
+            case $job instanceof JobExchangeVirtualHostList:
+                return $this->container->get(self::JOB_LISTEXCHANGEVIRTUALHOSTMAPPER);
+
 
             default:
                 throw new NoMapperForJob($job);
