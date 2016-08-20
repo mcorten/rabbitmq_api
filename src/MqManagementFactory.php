@@ -6,7 +6,9 @@ namespace mcorten87\rabbitmq_api;
 use mcorten87\rabbitmq_api\exceptions\NoMapperForJob;
 use mcorten87\rabbitmq_api\jobs\JobBase;
 use mcorten87\rabbitmq_api\jobs\JobExchangeCreate;
+use mcorten87\rabbitmq_api\jobs\JobExchangeDelete;
 use mcorten87\rabbitmq_api\jobs\JobExchangeList;
+use mcorten87\rabbitmq_api\jobs\JobExchangeNameList;
 use mcorten87\rabbitmq_api\jobs\JobExchangeVirtualHostList;
 use mcorten87\rabbitmq_api\jobs\JobPermissionCreate;
 use mcorten87\rabbitmq_api\jobs\JobPermissionDelete;
@@ -85,7 +87,11 @@ class MqManagementFactory
 
     const JOB_LISTEXCHANGEVIRTUALHOSTMAPPER = 'JobListExchageVirtualHostMapper';
 
+    const JOB_LISTEXCHANGENAMEMAPPER = 'JobListExchageNameMapper';
+
     const JOB_CREATEEXCHANGE = 'JobCreateExchangeMapper';
+
+    const JOB_DELETEEXCHANGE = 'JobDeleteExchangeMapper';
 
     /** @var MqManagementConfig */
     private $config;
@@ -206,7 +212,17 @@ class MqManagementFactory
         ;
 
         $this->container
+            ->register(self::JOB_LISTEXCHANGENAMEMAPPER, 'mcorten87\rabbitmq_api\mappers\JobExchangeNameListMapper')
+            ->addArgument($this->config)
+        ;
+
+        $this->container
             ->register(self::JOB_CREATEEXCHANGE, 'mcorten87\rabbitmq_api\mappers\JobExchangeCreateMapper')
+            ->addArgument($this->config)
+        ;
+
+        $this->container
+            ->register(self::JOB_DELETEEXCHANGE, 'mcorten87\rabbitmq_api\mappers\JobExchangeDeleteMapper')
             ->addArgument($this->config)
         ;
     }
@@ -400,10 +416,26 @@ class MqManagementFactory
     }
 
     /**
+     * @return JobExchangeNameList
+     */
+    public function getJobListExchangeName(VirtualHost $virtualHost, ExchangeName $name) : JobExchangeNameList {
+        $job = new JobExchangeNameList($virtualHost, $name);
+        return $job;
+    }
+
+    /**
      * @return JobExchangeCreate
      */
     public function getJobCreateExchange(VirtualHost $virtualHost, ExchangeName $name) : JobExchangeCreate {
         $job = new JobExchangeCreate($virtualHost, $name);
+        return $job;
+    }
+
+    /**
+     * @return JobExchangeDelete
+     */
+    public function getJobDeleteExchange(VirtualHost $virtualHost, ExchangeName $name) : JobExchangeDelete {
+        $job = new JobExchangeDelete($virtualHost, $name);
         return $job;
     }
 
@@ -458,8 +490,12 @@ class MqManagementFactory
                 return $this->container->get(self::JOB_LISTEXCHANGEMAPPER);
             case $job instanceof JobExchangeVirtualHostList:
                 return $this->container->get(self::JOB_LISTEXCHANGEVIRTUALHOSTMAPPER);
+            case $job instanceof JobExchangeNameList:
+                return $this->container->get(self::JOB_LISTEXCHANGENAMEMAPPER);
             case $job instanceof JobExchangeCreate:
                 return $this->container->get(self::JOB_CREATEEXCHANGE);
+            case $job instanceof JobExchangeDelete:
+                return $this->container->get(self::JOB_DELETEEXCHANGE);
 
 
             default:
