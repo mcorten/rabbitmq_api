@@ -3,8 +3,8 @@
 namespace mcorten87\rabbitmq_api\mappers;
 
 use mcorten87\rabbitmq_api\jobs\JobBase;
-use mcorten87\rabbitmq_api\jobs\JobExchangeNameList;
-use mcorten87\rabbitmq_api\jobs\JobExchangeVirtualHostList;
+use mcorten87\rabbitmq_api\jobs\JobExchangeList;
+use mcorten87\rabbitmq_api\jobs\JobExchangeListVirtualHost;
 use mcorten87\rabbitmq_api\jobs\JobUserList;
 use mcorten87\rabbitmq_api\objects\Method;
 use mcorten87\rabbitmq_api\objects\Url;
@@ -22,7 +22,7 @@ class JobExchangeDeleteMapper  extends BaseMapper
     }
 
     /**
-     * @param JobExchangeNameList $job
+     * @param JobExchangeList $job
      * @return Url
      */
     protected function mapUrl(JobBase $job) : Url {

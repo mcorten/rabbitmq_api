@@ -1,7 +1,7 @@
 <?php
 namespace mcorten87\rabbitmq_api\test\unit\jobs;
 
-use mcorten87\rabbitmq_api\jobs\JobPermissionUserList;
+use mcorten87\rabbitmq_api\jobs\JobPermissionListUser;
 use mcorten87\rabbitmq_api\objects\User;
 use PHPUnit\Framework\TestCase;
 
@@ -13,7 +13,7 @@ class JobPermissionUserListTest extends TestCase
     public function testDependencyInjection() {
         $user = new User('test');
 
-        $job = new JobPermissionUserList($user);
+        $job = new JobPermissionListUser($user);
 
         $this->assertEquals($user, $job->getUser());
     }

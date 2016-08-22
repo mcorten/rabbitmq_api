@@ -1,9 +1,9 @@
 <?php
 namespace mcorten87\rabbitmq_api\test\unit\jobs;
 
-use mcorten87\rabbitmq_api\jobs\JobPermissionList;
-use mcorten87\rabbitmq_api\jobs\JobPermissionUserList;
-use mcorten87\rabbitmq_api\jobs\JobPermissionVirtualHostList;
+use mcorten87\rabbitmq_api\jobs\JobPermissionListAll;
+use mcorten87\rabbitmq_api\jobs\JobPermissionListUser;
+use mcorten87\rabbitmq_api\jobs\JobPermissionListVirtualHost;
 use mcorten87\rabbitmq_api\mappers\JobPermissionListMapper;
 use mcorten87\rabbitmq_api\MqManagementConfig;
 use mcorten87\rabbitmq_api\objects\Method;
@@ -37,7 +37,7 @@ class JobPermissionListMapperTest extends TestCase
 
 
     public function testJobPermissionList() {
-        $job = new JobPermissionList();
+        $job = new JobPermissionListAll();
 
         $mapper = new JobPermissionListMapper($this->config);
         $mapResult = $mapper->map($job);
@@ -52,7 +52,7 @@ class JobPermissionListMapperTest extends TestCase
 
     public function testJobPermissionVirtualHostList() {
         $virtualHost = new VirtualHost('/te!@#$%^&*()-=[]\'\;/.,mst/');
-        $job = new JobPermissionVirtualHostList($virtualHost);
+        $job = new JobPermissionListVirtualHost($virtualHost);
 
         $mapper = new JobPermissionListMapper($this->config);
         $mapResult = $mapper->map($job);
@@ -67,7 +67,7 @@ class JobPermissionListMapperTest extends TestCase
 
     public function testJobPermissionUserList() {
         $user = new User('te!@#$%^&*()-=[]\'\;/.,mst');
-        $job = new JobPermissionUserList($user);
+        $job = new JobPermissionListUser($user);
 
         $mapper = new JobPermissionListMapper($this->config);
         $mapResult = $mapper->map($job);

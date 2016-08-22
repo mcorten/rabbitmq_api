@@ -7,18 +7,19 @@ use mcorten87\rabbitmq_api\exceptions\NoMapperForJob;
 use mcorten87\rabbitmq_api\jobs\JobBase;
 use mcorten87\rabbitmq_api\jobs\JobExchangeCreate;
 use mcorten87\rabbitmq_api\jobs\JobExchangeDelete;
+use mcorten87\rabbitmq_api\jobs\JobExchangeListAll;
 use mcorten87\rabbitmq_api\jobs\JobExchangeList;
-use mcorten87\rabbitmq_api\jobs\JobExchangeNameList;
-use mcorten87\rabbitmq_api\jobs\JobExchangeVirtualHostList;
+use mcorten87\rabbitmq_api\jobs\JobExchangeListVirtualHost;
 use mcorten87\rabbitmq_api\jobs\JobPermissionCreate;
 use mcorten87\rabbitmq_api\jobs\JobPermissionDelete;
-use mcorten87\rabbitmq_api\jobs\JobPermissionList;
-use mcorten87\rabbitmq_api\jobs\JobPermissionUserList;
-use mcorten87\rabbitmq_api\jobs\JobPermissionVirtualHostList;
+use mcorten87\rabbitmq_api\jobs\JobPermissionListAll;
+use mcorten87\rabbitmq_api\jobs\JobPermissionListUser;
+use mcorten87\rabbitmq_api\jobs\JobPermissionListVirtualHost;
 use mcorten87\rabbitmq_api\jobs\JobQueueCreate;
 use mcorten87\rabbitmq_api\jobs\JobQueueDelete;
 use mcorten87\rabbitmq_api\jobs\JobQueueList;
-use mcorten87\rabbitmq_api\jobs\JobQueuesList;
+use mcorten87\rabbitmq_api\jobs\JobQueueListAll;
+use mcorten87\rabbitmq_api\jobs\JobQueueListVirtualHost;
 use mcorten87\rabbitmq_api\jobs\JobUserCreate;
 use mcorten87\rabbitmq_api\jobs\JobUserDelete;
 use mcorten87\rabbitmq_api\jobs\JobUserList;
@@ -61,6 +62,7 @@ class MqManagementFactory
 
     const JOB_LISTQUEUES = 'JobListQueues';
     const JOB_LISTQUEUESMAPPER = 'JobListQueuesMapper';
+    const JOB_LISTQUEUEVIRTUALHOSTMAPPER = 'JobListQueuesVirtualHostMapper';
 
     const JOB_LISTQUEUE = 'JobListQueue';
     const JOB_LISTQUEUEMAPPER = 'JobListQueueMapper';
@@ -151,7 +153,12 @@ class MqManagementFactory
 
         // queues
         $this->container
-            ->register(self::JOB_LISTQUEUESMAPPER, 'mcorten87\rabbitmq_api\mappers\JobQueuesListMapper')
+            ->register(self::JOB_LISTQUEUESMAPPER, 'mcorten87\rabbitmq_api\mappers\JobQueueListAllMapper')
+            ->addArgument($this->config)
+        ;
+
+        $this->container
+            ->register(self::JOB_LISTQUEUEVIRTUALHOSTMAPPER, 'mcorten87\rabbitmq_api\mappers\JobQueueListVirtualHostMapper')
             ->addArgument($this->config)
         ;
 
@@ -207,12 +214,12 @@ class MqManagementFactory
         ;
 
         $this->container
-            ->register(self::JOB_LISTEXCHANGEVIRTUALHOSTMAPPER, 'mcorten87\rabbitmq_api\mappers\JobExchangeVirtualHostListMapper')
+            ->register(self::JOB_LISTEXCHANGEVIRTUALHOSTMAPPER, 'mcorten87\rabbitmq_api\mappers\JobExchangeListVirtualHostMapper')
             ->addArgument($this->config)
         ;
 
         $this->container
-            ->register(self::JOB_LISTEXCHANGENAMEMAPPER, 'mcorten87\rabbitmq_api\mappers\JobExchangeNameListMapper')
+            ->register(self::JOB_LISTEXCHANGENAMEMAPPER, 'mcorten87\rabbitmq_api\mappers\JobExchangeListNameMapper')
             ->addArgument($this->config)
         ;
 
@@ -242,7 +249,7 @@ class MqManagementFactory
      * @param VirtualHost $virtualHost
      * @return JobVirtualHostList
      */
-    public function getJobListVirtualHost(VirtualHost $virtualHost = null) : JobVirtualHostList {
+    public function getJobVirtualHostList(VirtualHost $virtualHost = null) : JobVirtualHostList {
         $job = new JobVirtualHostList();
         if ($virtualHost !== null) {
             $job->setVirtualHost($virtualHost);
@@ -254,7 +261,7 @@ class MqManagementFactory
      * @param VirtualHost $virtualHost
      * @return JobVirtualHostCreate
      */
-    public function getJobCreateVirtualHost(VirtualHost $virtualHost) : JobVirtualHostCreate {
+    public function getJobVirtualHostCreate(VirtualHost $virtualHost) : JobVirtualHostCreate {
         /** @var JobVirtualHostCreate $job */
         $job = new JobVirtualHostCreate($virtualHost);
         return $job;
@@ -264,7 +271,7 @@ class MqManagementFactory
      * @param VirtualHost $virtualHost
      * @return JobVirtualHostDelete
      */
-    public function getJobDeleteVirtualHost(VirtualHost $virtualHost) : JobVirtualHostDelete {
+    public function getJobVirtualHostDelete(VirtualHost $virtualHost) : JobVirtualHostDelete {
         /** @var JobVirtualHostDelete $job */
         $job = new JobVirtualHostDelete($virtualHost);
         return $job;
@@ -272,14 +279,21 @@ class MqManagementFactory
 
     /**
      * @param VirtualHost|null $virtualHost
-     * @return JobQueuesList
+     * @return JobQueueListAll
      */
-    public function getJobListQueues(VirtualHost $virtualHost = null) : JobQueuesList {
-        /** @var JobQueuesList $job */
-        $job = new JobQueuesList();
-        if ($virtualHost !== null) {
-            $job->setVirtualhost($virtualHost);
-        }
+    public function getJobQueuesList() : JobQueueListAll {
+        /** @var JobQueueListAll $job */
+        $job = new JobQueueListAll();
+        return $job;
+    }
+
+    /**
+     * @param VirtualHost|null $virtualHost
+     * @return JobQueueListAll
+     */
+    public function getJobQueueListVirtualHost(VirtualHost $virtualHost) : JobQueueListVirtualHost {
+        /** @var JobQueueListAll $job */
+        $job = new JobQueueListVirtualHost($virtualHost);
         return $job;
     }
 
@@ -288,7 +302,7 @@ class MqManagementFactory
      * @param QueueName $queueName
      * @return JobQueueList
      */
-    public function getJobListQueue(VirtualHost $virtualHost, QueueName $queueName) : JobQueueList {
+    public function getJobQueueList(VirtualHost $virtualHost, QueueName $queueName) : JobQueueList {
         $job = new JobQueueList($virtualHost, $queueName);
         return $job;
     }
@@ -298,7 +312,7 @@ class MqManagementFactory
      * @param QueueName $queueName
      * @return JobQueueCreate
      */
-    public function getJobCreateQueue(VirtualHost $virtualHost, QueueName $queueName) : JobQueueCreate {
+    public function getJobQueueCreate(VirtualHost $virtualHost, QueueName $queueName) : JobQueueCreate {
         $job = new JobQueueCreate($virtualHost, $queueName);
         return $job;
     }
@@ -308,7 +322,7 @@ class MqManagementFactory
      * @param QueueName $queueName
      * @return JobQueueDelete
      */
-    public function getJobDeleteQueue(VirtualHost $virtualHost, QueueName $queueName) : JobQueueDelete {
+    public function getJobQueueDelete(VirtualHost $virtualHost, QueueName $queueName) : JobQueueDelete {
         $job = new JobQueueDelete($virtualHost, $queueName);
         return $job;
     }
@@ -318,7 +332,7 @@ class MqManagementFactory
      * @param User|null $user
      * @return JobUserList
      */
-    public function getJobListUser(User $user = null) : JobUserList {
+    public function getJobUserList(User $user = null) : JobUserList {
         $job = new JobUserList();
         if ($user !== null) {
             $job->setUser($user);
@@ -333,7 +347,7 @@ class MqManagementFactory
      * @param PasswordHash|null $passwordHash
      * @return JobUserCreate
      */
-    public function getJobCreateUser(User $user, UserTag $userTag, Password $password = null, PasswordHash $passwordHash = null) : JobUserCreate {
+    public function getJobUserCreate(User $user, UserTag $userTag, Password $password = null, PasswordHash $passwordHash = null) : JobUserCreate {
         $job = new JobUserCreate($user, $userTag);
         if ($password !== null) {
             $job->setPassword($password);
@@ -348,34 +362,34 @@ class MqManagementFactory
      * @param User $user
      * @return JobUserDelete
      */
-    public function getJobDeleteUser(User $user) : JobUserDelete {
+    public function getJobUserDelete(User $user) : JobUserDelete {
         $job = new JobUserDelete($user);
         return $job;
     }
 
     /**
-     * @return JobPermissionList
+     * @return JobPermissionListAll
      */
-    public function getJobListPermission() : JobPermissionList {
-        $job = new JobPermissionList();
+    public function getJobPermissionList() : JobPermissionListAll {
+        $job = new JobPermissionListAll();
         return $job;
     }
 
     /**
      * @param VirtualHost $virtualHost
-     * @return JobPermissionVirtualHostList
+     * @return JobPermissionListVirtualHost
      */
-    public function getJobListVirtualHostPermission(VirtualHost $virtualHost) : JobPermissionVirtualHostList {
-        $job = new JobPermissionVirtualHostList($virtualHost);
+    public function getJobPermissionListVirtualHost(VirtualHost $virtualHost) : JobPermissionListVirtualHost {
+        $job = new JobPermissionListVirtualHost($virtualHost);
         return $job;
     }
 
     /**
      * @param User $user
-     * @return JobPermissionUserList
+     * @return JobPermissionListUser
      */
-    public function getJobListUserPermission(User $user) : JobPermissionUserList {
-        $job = new JobPermissionUserList($user);
+    public function getJobPermissionListUser(User $user) : JobPermissionListUser {
+        $job = new JobPermissionListUser($user);
         return $job;
     }
 
@@ -384,7 +398,7 @@ class MqManagementFactory
      * @param User $user
      * @return JobPermissionCreate
      */
-    public function getJobCreatePermission(VirtualHost $virtualHost, User $user) : JobPermissionCreate {
+    public function getJobPermissionCreate(VirtualHost $virtualHost, User $user) : JobPermissionCreate {
         $job = new JobPermissionCreate($virtualHost, $user);
         return $job;
     }
@@ -394,32 +408,32 @@ class MqManagementFactory
      * @param User $user
      * @return JobPermissionDelete
      */
-    public function getJobDeletePermission(VirtualHost $virtualHost, User $user) : JobPermissionDelete {
+    public function getJobPermissionDelete(VirtualHost $virtualHost, User $user) : JobPermissionDelete {
         $job = new JobPermissionDelete($virtualHost, $user);
         return $job;
     }
 
     /**
-     * @return JobExchangeList
+     * @return JobExchangeListAll
      */
-    public function getJobListExchanges() : JobExchangeList {
-        $job = new JobExchangeList();
+    public function getJobExchangeListAll() : JobExchangeListAll {
+        $job = new JobExchangeListAll();
         return $job;
     }
 
     /**
      * @return JobExchangeVirtualHostListList
      */
-    public function getJobListExchangesVirtualHost(VirtualHost $virtualHost) : JobExchangeVirtualHostList {
-        $job = new JobExchangeVirtualHostList($virtualHost);
+    public function getJobExchangesListVirtualHost(VirtualHost $virtualHost) : JobExchangeListVirtualHost {
+        $job = new JobExchangeListVirtualHost($virtualHost);
         return $job;
     }
 
     /**
-     * @return JobExchangeNameList
+     * @return JobExchangeList
      */
-    public function getJobListExchangeName(VirtualHost $virtualHost, ExchangeName $name) : JobExchangeNameList {
-        $job = new JobExchangeNameList($virtualHost, $name);
+    public function getJobExchangeList(VirtualHost $virtualHost, ExchangeName $name) : JobExchangeList {
+        $job = new JobExchangeList($virtualHost, $name);
         return $job;
     }
 
@@ -457,8 +471,10 @@ class MqManagementFactory
                 return $this->container->get(self::JOB_DELETEVHOSTSMAPPER);
 
             // queue
-            case $job instanceof JobQueuesList:
+            case $job instanceof JobQueueListAll:
                 return $this->container->get(self::JOB_LISTQUEUESMAPPER);
+            case $job instanceof JobQueueListVirtualHost:
+                return $this->container->get(self::JOB_LISTQUEUEVIRTUALHOSTMAPPER);
             case $job instanceof JobQueueList:
                 return $this->container->get(self::JOB_LISTQUEUEMAPPER);
             case $job instanceof JobQueueCreate:
@@ -475,9 +491,9 @@ class MqManagementFactory
                 return $this->container->get(self::JOB_DELETEUSERMAPPER);
 
             // permission
-            case $job instanceof JobPermissionList:
-            case $job instanceof JobPermissionVirtualHostList:
-            case $job instanceof JobPermissionUserList:
+            case $job instanceof JobPermissionListAll:
+            case $job instanceof JobPermissionListVirtualHost:
+            case $job instanceof JobPermissionListUser:
                 return $this->container->get(self::JOB_LISTPERMISSIONRMAPPER);
             case $job instanceof JobPermissionCreate:
                 return $this->container->get(self::JOB_CREATEPERMISSIONRMAPPER);
@@ -486,11 +502,11 @@ class MqManagementFactory
 
 
             // exchange
-            case $job instanceof JobExchangeList:
+            case $job instanceof JobExchangeListAll:
                 return $this->container->get(self::JOB_LISTEXCHANGEMAPPER);
-            case $job instanceof JobExchangeVirtualHostList:
+            case $job instanceof JobExchangeListVirtualHost:
                 return $this->container->get(self::JOB_LISTEXCHANGEVIRTUALHOSTMAPPER);
-            case $job instanceof JobExchangeNameList:
+            case $job instanceof JobExchangeList:
                 return $this->container->get(self::JOB_LISTEXCHANGENAMEMAPPER);
             case $job instanceof JobExchangeCreate:
                 return $this->container->get(self::JOB_CREATEEXCHANGE);

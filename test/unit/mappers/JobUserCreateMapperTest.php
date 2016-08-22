@@ -2,10 +2,10 @@
 namespace mcorten87\rabbitmq_api\test\unit\jobs;
 
 use mcorten87\rabbitmq_api\jobs\JobQueueDelete;
-use mcorten87\rabbitmq_api\jobs\JobQueuesList;
+use mcorten87\rabbitmq_api\jobs\JobQueueListAll;
 use mcorten87\rabbitmq_api\jobs\JobUserCreate;
 use mcorten87\rabbitmq_api\mappers\JobQueueDeleteMapper;
-use mcorten87\rabbitmq_api\mappers\JobQueuesListMapper;
+use mcorten87\rabbitmq_api\mappers\JobQueueListAllMapper;
 use mcorten87\rabbitmq_api\mappers\JobUserCreateMapper;
 use mcorten87\rabbitmq_api\MqManagementConfig;
 use mcorten87\rabbitmq_api\objects\Method;

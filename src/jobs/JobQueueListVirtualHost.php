@@ -11,7 +11,7 @@ namespace mcorten87\rabbitmq_api\jobs;
 
 use mcorten87\rabbitmq_api\objects\VirtualHost;
 
-class JobQueuesList extends JobBase
+class JobQueueListVirtualHost extends JobBase
 {
     private $virtualhost;
 
@@ -26,7 +26,7 @@ class JobQueuesList extends JobBase
     /**
      * @param VirtualHost $virtualhost
      */
-    public function setVirtualhost(VirtualHost $virtualhost)
+    public function __construct(VirtualHost $virtualhost)
     {
         $this->virtualhost = $virtualhost;
     }

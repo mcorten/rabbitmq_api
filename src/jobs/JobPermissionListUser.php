@@ -11,7 +11,7 @@ namespace mcorten87\rabbitmq_api\jobs;
 
 use mcorten87\rabbitmq_api\objects\User;
 
-class JobPermissionUserList extends JobBase
+class JobPermissionListUser extends JobBase
 {
 
     /**

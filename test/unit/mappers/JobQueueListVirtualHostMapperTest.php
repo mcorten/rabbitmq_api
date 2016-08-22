@@ -2,9 +2,11 @@
 namespace mcorten87\rabbitmq_api\test\unit\jobs;
 
 use mcorten87\rabbitmq_api\jobs\JobQueueDelete;
-use mcorten87\rabbitmq_api\jobs\JobQueuesList;
+use mcorten87\rabbitmq_api\jobs\JobQueueListAll;
+use mcorten87\rabbitmq_api\jobs\JobQueueListVirtualHost;
 use mcorten87\rabbitmq_api\mappers\JobQueueDeleteMapper;
-use mcorten87\rabbitmq_api\mappers\JobQueuesListMapper;
+use mcorten87\rabbitmq_api\mappers\JobQueueListAllMapper;
+use mcorten87\rabbitmq_api\mappers\JobQueueListVirtualHostMapper;
 use mcorten87\rabbitmq_api\MqManagementConfig;
 use mcorten87\rabbitmq_api\objects\Method;
 use mcorten87\rabbitmq_api\objects\Password;
@@ -14,7 +16,7 @@ use mcorten87\rabbitmq_api\objects\User;
 use mcorten87\rabbitmq_api\objects\VirtualHost;
 use PHPUnit\Framework\TestCase;
 
-class JobQueuesListMapperTest extends TestCase
+class JobQueueListVirtualHostMapperTest extends TestCase
 {
 
     /** @var  MqManagementConfig */
@@ -37,21 +39,10 @@ class JobQueuesListMapperTest extends TestCase
 
 
     public function testBasicJob() {
-        $job = new JobQueuesList();
-
-        $mapper = new JobQueuesListMapper($this->config);
-        $mapResult = $mapper->map($job);
-
-        $this->assertEquals(Method::METHOD_GET, $mapResult->getMethod()->getValue());
-        $this->assertEquals('queues', $mapResult->getUrl());
-    }
-
-    public function testWIthVirtualHost() {
         $virtualHost = new VirtualHost('/t@#$%^&*()-=[]\'\;/.,est/');
-        $job = new JobQueuesList();
-        $job->setVirtualhost($virtualHost);
+        $job = new JobQueueListVirtualHost($virtualHost);
 
-        $mapper = new JobQueuesListMapper($this->config);
+        $mapper = new JobQueueListVirtualHostMapper($this->config);
         $mapResult = $mapper->map($job);
 
         $this->assertEquals(Method::METHOD_GET, $mapResult->getMethod()->getValue());

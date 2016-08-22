@@ -3,13 +3,13 @@
 namespace mcorten87\rabbitmq_api\mappers;
 
 use mcorten87\rabbitmq_api\jobs\JobBase;
-use mcorten87\rabbitmq_api\jobs\JobExchangeVirtualHostList;
+use mcorten87\rabbitmq_api\jobs\JobExchangeListVirtualHost;
 use mcorten87\rabbitmq_api\jobs\JobUserList;
 use mcorten87\rabbitmq_api\objects\Method;
 use mcorten87\rabbitmq_api\objects\Url;
 use mcorten87\rabbitmq_api\services\MqManagementConfig;
 
-class JobExchangeVirtualHostListMapper  extends BaseMapper
+class JobExchangeListVirtualHostMapper  extends BaseMapper
 {
 
     /**
@@ -21,7 +21,7 @@ class JobExchangeVirtualHostListMapper  extends BaseMapper
     }
 
     /**
-     * @param JobExchangeVirtualHostList $job
+     * @param JobExchangeListVirtualHost $job
      * @return Url
      */
     protected function mapUrl(JobBase $job) : Url {

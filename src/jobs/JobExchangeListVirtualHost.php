@@ -1,19 +1,11 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Mathijs
- * Date: 27-4-2016
- * Time: 21:14
- */
 
 namespace mcorten87\rabbitmq_api\jobs;
 
-
 use mcorten87\rabbitmq_api\objects\VirtualHost;
 
-class JobPermissionVirtualHostList extends JobBase
+class JobExchangeListVirtualHost extends JobBase
 {
-
     /**
      * @var VirtualHost
      */
@@ -22,13 +14,14 @@ class JobPermissionVirtualHostList extends JobBase
     /**
      * @return VirtualHost
      */
-    public function getVirtualHost()
+    public function getVirtualHost(): VirtualHost
     {
         return $this->virtualHost;
     }
 
 
     /**
+     * JobExchangeVirtualHostList constructor.
      * @param VirtualHost $virtualHost
      */
     public function __construct(VirtualHost $virtualHost)

@@ -4,13 +4,13 @@ namespace mcorten87\rabbitmq_api\test\unit;
 
 use mcorten87\rabbitmq_api\jobs\JobPermissionCreate;
 use mcorten87\rabbitmq_api\jobs\JobPermissionDelete;
-use mcorten87\rabbitmq_api\jobs\JobPermissionList;
-use mcorten87\rabbitmq_api\jobs\JobPermissionUserList;
-use mcorten87\rabbitmq_api\jobs\JobPermissionVirtualHostList;
+use mcorten87\rabbitmq_api\jobs\JobPermissionListAll;
+use mcorten87\rabbitmq_api\jobs\JobPermissionListUser;
+use mcorten87\rabbitmq_api\jobs\JobPermissionListVirtualHost;
 use mcorten87\rabbitmq_api\jobs\JobQueueCreate;
 use mcorten87\rabbitmq_api\jobs\JobQueueDelete;
 use mcorten87\rabbitmq_api\jobs\JobQueueList;
-use mcorten87\rabbitmq_api\jobs\JobQueuesList;
+use mcorten87\rabbitmq_api\jobs\JobQueueListAll;
 use mcorten87\rabbitmq_api\jobs\JobUserCreate;
 use mcorten87\rabbitmq_api\jobs\JobUserDelete;
 use mcorten87\rabbitmq_api\jobs\JobUserList;
@@ -23,7 +23,7 @@ use mcorten87\rabbitmq_api\mappers\JobPermissionListMapper;
 use mcorten87\rabbitmq_api\mappers\JobQueueCreateMapper;
 use mcorten87\rabbitmq_api\mappers\JobQueueDeleteMapper;
 use mcorten87\rabbitmq_api\mappers\JobQueueListMapper;
-use mcorten87\rabbitmq_api\mappers\JobQueuesListMapper;
+use mcorten87\rabbitmq_api\mappers\JobQueueListAllMapper;
 use mcorten87\rabbitmq_api\mappers\JobUserCreateMapper;
 use mcorten87\rabbitmq_api\mappers\JobUserDeleteMapper;
 use mcorten87\rabbitmq_api\mappers\JobUserListMapper;
@@ -100,7 +100,7 @@ class MqManagementFactoryTest extends TestCase
 
         return [
             [new JobQueueList($virtualHost, $queueName), new JobQueueListMapper($this->config)],
-            [new JobQueuesList(), new JobQueuesListMapper($this->config)],
+            [new JobQueueListAll(), new JobQueueListAllMapper($this->config)],
             [new JobQueueCreate($virtualHost, $queueName), new JobQueueCreateMapper($this->config)],
             [new JobQueueDelete($virtualHost, $queueName), new JobQueueDeleteMapper($this->config)],
         ];
@@ -122,9 +122,9 @@ class MqManagementFactoryTest extends TestCase
         $user = new User('test');
 
         return [
-            [new JobPermissionList(), new JobPermissionListMapper($this->config)],
-            [new JobPermissionVirtualHostList($virtualHost), new JobPermissionListMapper($this->config)],
-            [new JobPermissionUserList($user), new JobPermissionListMapper($this->config)],
+            [new JobPermissionListAll(), new JobPermissionListMapper($this->config)],
+            [new JobPermissionListVirtualHost($virtualHost), new JobPermissionListMapper($this->config)],
+            [new JobPermissionListUser($user), new JobPermissionListMapper($this->config)],
             [new JobPermissionCreate($virtualHost, $user), new JobPermissionCreateMapper($this->config)],
             [new JobPermissionDelete($virtualHost, $user), new JobPermissionDeleteMapper($this->config)],
         ];

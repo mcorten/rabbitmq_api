@@ -9,6 +9,6 @@
 namespace mcorten87\rabbitmq_api\jobs;
 
 
-class JobPermissionList extends JobBase
+class JobPermissionListAll extends JobBase
 {
 }

@@ -4,9 +4,9 @@ namespace mcorten87\rabbitmq_api\mappers;
 
 
 use mcorten87\rabbitmq_api\jobs\JobBase;
-use mcorten87\rabbitmq_api\jobs\JobPermissionList;
-use mcorten87\rabbitmq_api\jobs\JobPermissionUserList;
-use mcorten87\rabbitmq_api\jobs\JobPermissionVirtualHostList;
+use mcorten87\rabbitmq_api\jobs\JobPermissionListAll;
+use mcorten87\rabbitmq_api\jobs\JobPermissionListUser;
+use mcorten87\rabbitmq_api\jobs\JobPermissionListVirtualHost;
 use mcorten87\rabbitmq_api\objects\Method;
 use mcorten87\rabbitmq_api\objects\Url;
 use mcorten87\rabbitmq_api\services\MqManagementConfig;
@@ -19,15 +19,15 @@ class JobPermissionListMapper extends BaseMapper
     }
 
     /**
-     * @param JobPermissionList|JobPermissionVirtualHostList $job
+     * @param JobPermissionListAll|JobPermissionListVirtualHost $job
      * @return Url
      */
     protected function mapUrl(JobBase $job) : Url {
-        if ($job instanceof JobPermissionList) {
+        if ($job instanceof JobPermissionListAll) {
             return $this->mapPermissionList();
-        } elseif ($job instanceof JobPermissionVirtualHostList) {
+        } elseif ($job instanceof JobPermissionListVirtualHost) {
             return $this->mapPermissionVirtualHostList($job);
-        } elseif ($job instanceof JobPermissionUserList) {
+        } elseif ($job instanceof JobPermissionListUser) {
             return $this->mapPermissionUserList($job);
         } else {
             throw new \RuntimeException('Invalid parameter type $job');
@@ -43,7 +43,7 @@ class JobPermissionListMapper extends BaseMapper
     }
 
     /**
-     * @param JobPermissionVirtualHostList $job
+     * @param JobPermissionListVirtualHost $job
      * @return Url
      */
     private function mapPermissionVirtualHostList(JobBase $job) : Url {
@@ -54,7 +54,7 @@ class JobPermissionListMapper extends BaseMapper
     }
 
     /**
-     * @param JobPermissionUserList $job
+     * @param JobPermissionListUser $job
      * @return Url
      */
     private function mapPermissionUserList(JobBase $job) : Url {
