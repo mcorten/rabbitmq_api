@@ -6,6 +6,7 @@ namespace mcorten87\rabbitmq_api;
 use GuzzleHttp\Client;
 use mcorten87\rabbitmq_api\exceptions\NoMapperForJob;
 use mcorten87\rabbitmq_api\jobs\JobBase;
+use mcorten87\rabbitmq_api\jobs\JobBindingCreateToQueue;
 use mcorten87\rabbitmq_api\jobs\JobExchangeCreate;
 use mcorten87\rabbitmq_api\jobs\JobExchangeDelete;
 use mcorten87\rabbitmq_api\jobs\JobExchangeList;
@@ -29,6 +30,7 @@ use mcorten87\rabbitmq_api\jobs\JobVirtualHostDelete;
 use mcorten87\rabbitmq_api\jobs\JobVirtualHostList;
 use mcorten87\rabbitmq_api\jobs\JobVirtualHostsList;
 use mcorten87\rabbitmq_api\mappers\BaseMapper;
+use mcorten87\rabbitmq_api\mappers\JobBindingCreateToQueueMapper;
 use mcorten87\rabbitmq_api\mappers\JobExchangeCreateMapper;
 use mcorten87\rabbitmq_api\mappers\JobExchangeDeleteMapper;
 use mcorten87\rabbitmq_api\mappers\JobExchangeListMapper;
@@ -214,6 +216,11 @@ class MqManagementFactory
             ->register(JobExchangeDeleteMapper::class, JobExchangeDeleteMapper::class)
             ->addArgument($this->config)
         ;
+
+        $this->container
+            ->register(JobBindingCreateToQueueMapper::class, JobBindingCreateToQueueMapper::class)
+            ->addArgument($this->config)
+        ;
     }
 
     /**
@@ -222,7 +229,7 @@ class MqManagementFactory
      */
     public function getJobResult($response) : JobResult {
         /** @var JobResult */
-        $result = $this->container->get(self::JOB_RESULT);
+        $result = $this->container->get(JobResult::class);
         $result->setResponse($response);
         return $result;
     }
@@ -457,6 +464,6 @@ class MqManagementFactory
      * @return JobService
      */
     public function getJobService() : JobService {
-        return $this->container->get(self::SERVICE_JOB);
+        return $this->container->get(JobService::class);
     }
 }

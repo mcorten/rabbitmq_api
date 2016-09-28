@@ -2,12 +2,14 @@
 
 namespace mcorten87\rabbitmq_api\jobs;
 
+use mcorten87\rabbitmq_api\objects\DestinationType;
 use mcorten87\rabbitmq_api\objects\Exchange;
 use mcorten87\rabbitmq_api\objects\ExchangeName;
 use mcorten87\rabbitmq_api\objects\QueueName;
+use mcorten87\rabbitmq_api\objects\RoutingKey;
 use mcorten87\rabbitmq_api\objects\VirtualHost;
 
-class JobBindingCreate extends JobBase
+class JobBindingCreateToQueue extends JobBase
 {
     /**
      * @var VirtualHost
@@ -26,10 +28,22 @@ class JobBindingCreate extends JobBase
     private $exchangeName;
 
     /**
-     * @var string
+     * @var DestinationType
      */
-    private $bindingName;
+    private $destinationType;
 
+    /**
+     * @var RoutingKey
+     */
+    private $routingKey;
+
+    /**
+     * @param RoutingKey $routingKey
+     */
+    public function setRoutingKey(RoutingKey $routingKey)
+    {
+        $this->routingKey = $routingKey;
+    }
 
     /** @return VirtualHost */
     public function getVirtualHost() : VirtualHost
@@ -56,9 +70,17 @@ class JobBindingCreate extends JobBase
     /**
      * @return string
      */
-    public function getBindingName(): string
+    public function getDestinationType(): string
     {
-        return $this->bindingName;
+        return $this->destinationType;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRoutingKey()
+    {
+        return $this->routingKey;
     }
 
     /**
@@ -66,11 +88,13 @@ class JobBindingCreate extends JobBase
      * @param VirtualHost $virtualHost
      * @param ExchangeName $exchangeName
      */
-    public function __construct(VirtualHost $virtualHost, QueueName $queueName, ExchangeName $exchangeName, string $bindingName)
+    public function __construct(VirtualHost $virtualHost, QueueName $queueName, ExchangeName $exchangeName)
     {
         $this->virtualHost = $virtualHost;
         $this->queueName = $queueName;
         $this->exchangeName = $exchangeName;
-        $this->bindingName = $bindingName;
+
+        $this->destinationType = new DestinationType(DestinationType::EXCHANGE);
+        $this->routingKey = new RoutingKey('');
     }
 }
