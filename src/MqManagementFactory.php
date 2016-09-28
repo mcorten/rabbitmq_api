@@ -260,7 +260,6 @@ class MqManagementFactory
     }
 
     /**
-     * @param VirtualHost|null $virtualHost
      * @return JobQueueListAll
      */
     public function getJobQueuesList() : JobQueueListAll {
