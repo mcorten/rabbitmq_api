@@ -443,7 +443,7 @@ class MqManagementFactory
      */
     public function getJobMapper(JobBase $job) : BaseMapper {
         $class = get_class($job);
-        $class = str_replace('\\jobs\\','\\mappers\\', $class);
+        $class = str_replace('\\jobs\\', '\\mappers\\', $class);
         $class .= 'Mapper';
 
         try {
