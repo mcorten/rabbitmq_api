@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/mcorten/rabbitmq_api.svg?branch=master)](https://travis-ci.org/mcorten/rabbitmq_api)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/mcorten87/rabbitmq_api/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/mcorten87/rabbitmq_api/?branch=master)
-[![Code Coverage](https://scrutinizer-ci.com/g/mcorten87/rabbitmq_api/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/mcorten87/rabbitmq_api/?branch=master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/mcorten/rabbitmq_api/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/mcorten/rabbitmq_api/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/mcorten/rabbitmq_api/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/mcorten/rabbitmq_api/?branch=master)
 
 # rabbitmq_api
 Managing rabbitmq from your PHP code
