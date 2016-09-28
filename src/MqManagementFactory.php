@@ -3,12 +3,13 @@
 namespace mcorten87\rabbitmq_api;
 
 
+use GuzzleHttp\Client;
 use mcorten87\rabbitmq_api\exceptions\NoMapperForJob;
 use mcorten87\rabbitmq_api\jobs\JobBase;
 use mcorten87\rabbitmq_api\jobs\JobExchangeCreate;
 use mcorten87\rabbitmq_api\jobs\JobExchangeDelete;
-use mcorten87\rabbitmq_api\jobs\JobExchangeListAll;
 use mcorten87\rabbitmq_api\jobs\JobExchangeList;
+use mcorten87\rabbitmq_api\jobs\JobExchangeListAll;
 use mcorten87\rabbitmq_api\jobs\JobExchangeListVirtualHost;
 use mcorten87\rabbitmq_api\jobs\JobPermissionCreate;
 use mcorten87\rabbitmq_api\jobs\JobPermissionDelete;
@@ -28,6 +29,28 @@ use mcorten87\rabbitmq_api\jobs\JobVirtualHostDelete;
 use mcorten87\rabbitmq_api\jobs\JobVirtualHostList;
 use mcorten87\rabbitmq_api\jobs\JobVirtualHostsList;
 use mcorten87\rabbitmq_api\mappers\BaseMapper;
+use mcorten87\rabbitmq_api\mappers\JobExchangeCreateMapper;
+use mcorten87\rabbitmq_api\mappers\JobExchangeDeleteMapper;
+use mcorten87\rabbitmq_api\mappers\JobExchangeListMapper;
+use mcorten87\rabbitmq_api\mappers\JobExchangeListNameMapper;
+use mcorten87\rabbitmq_api\mappers\JobExchangeListVirtualHostMapper;
+use mcorten87\rabbitmq_api\mappers\JobPermissionCreateMapper;
+use mcorten87\rabbitmq_api\mappers\JobPermissionDeleteMapper;
+use mcorten87\rabbitmq_api\mappers\JobPermissionListAllMapper;
+use mcorten87\rabbitmq_api\mappers\JobPermissionListMapper;
+use mcorten87\rabbitmq_api\mappers\JobPermissionListUserMapper;
+use mcorten87\rabbitmq_api\mappers\JobPermissionListVirtualHostMapper;
+use mcorten87\rabbitmq_api\mappers\JobQueueCreateMapper;
+use mcorten87\rabbitmq_api\mappers\JobQueueDeleteMapper;
+use mcorten87\rabbitmq_api\mappers\JobQueueListAllMapper;
+use mcorten87\rabbitmq_api\mappers\JobQueueListMapper;
+use mcorten87\rabbitmq_api\mappers\JobQueueListVirtualHostMapper;
+use mcorten87\rabbitmq_api\mappers\JobUserCreateMapper;
+use mcorten87\rabbitmq_api\mappers\JobUserDeleteMapper;
+use mcorten87\rabbitmq_api\mappers\JobUserListMapper;
+use mcorten87\rabbitmq_api\mappers\JobVirtualHostCreateMapper;
+use mcorten87\rabbitmq_api\mappers\JobVirtualHostDeleteMapper;
+use mcorten87\rabbitmq_api\mappers\JobVirtualHostListMapper;
 use mcorten87\rabbitmq_api\objects\ExchangeName;
 use mcorten87\rabbitmq_api\objects\JobResult;
 use mcorten87\rabbitmq_api\objects\Password;
@@ -39,61 +62,10 @@ use mcorten87\rabbitmq_api\objects\VirtualHost;
 use mcorten87\rabbitmq_api\services\JobService;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 
 class MqManagementFactory
 {
-    const HTTPCLIENT = 'HttpClient';
-
-    const SERVICE_JOB = 'JobService';
-
-    const JOB_RESULT = 'JobResult';
-
-    const JOB_CREATEVHOST = 'JobCreateVhost';
-    const JOB_CREATEVHOSTMAPPER = 'JobCreateVhostMapper';
-
-    const JOB_LISTVHOSTS = 'JobListVhosts';
-    const JOB_LISTVHOSTSMAPPER = 'JobListVhostsMapper';
-
-    const JOB_LISTVHOST = 'JobListVhost';
-    const JOB_LISTVHOSTMAPPER = 'JobListVhostMapper';
-
-    const JOB_DELETEVHOSTS = 'JobDeleteVhosts';
-    const JOB_DELETEVHOSTSMAPPER = 'JobDeleteVhostsMapper';
-
-    const JOB_LISTQUEUES = 'JobListQueues';
-    const JOB_LISTQUEUESMAPPER = 'JobListQueuesMapper';
-    const JOB_LISTQUEUEVIRTUALHOSTMAPPER = 'JobListQueuesVirtualHostMapper';
-
-    const JOB_LISTQUEUE = 'JobListQueue';
-    const JOB_LISTQUEUEMAPPER = 'JobListQueueMapper';
-
-    const JOB_CREATEQUEUE = 'JobCreateQueue';
-    const JOB_CREATEQUEUEMAPPER = 'JobCreateQueueMapper';
-
-    const JOB_DELETEQUEUEMAPPER = 'JobDeleteQueueMapper';
-
-    const JOB_LISTUSERMAPPER = 'JobListUserMapper';
-
-    const JOB_CREATEUSERMAPPER = 'JobCreateUserMapper';
-
-    const JOB_DELETEUSERMAPPER = 'JobDeleteUserMapper';
-
-    const JOB_LISTPERMISSIONRMAPPER = 'JobListPermissionMapper';
-
-    const JOB_CREATEPERMISSIONRMAPPER = 'JobCreatePermissionMapper';
-
-    const JOB_DELETEPERMISSIONRMAPPER = 'JobDeletePermissionMapper';
-
-
-    const JOB_LISTEXCHANGEMAPPER = 'JobListExchageMapper';
-
-    const JOB_LISTEXCHANGEVIRTUALHOSTMAPPER = 'JobListExchageVirtualHostMapper';
-
-    const JOB_LISTEXCHANGENAMEMAPPER = 'JobListExchageNameMapper';
-
-    const JOB_CREATEEXCHANGE = 'JobCreateExchangeMapper';
-
-    const JOB_DELETEEXCHANGE = 'JobDeleteExchangeMapper';
 
     /** @var MqManagementConfig */
     private $config;
@@ -120,11 +92,11 @@ class MqManagementFactory
     public function register(MqManagementConfig $config) {
         $this->config = $config;
 
-        $this->container->register(self::HTTPCLIENT, 'GuzzleHttp\Client');
+        $this->container->register(Client::class, Client::class);
 
-        $this->container->register(self::SERVICE_JOB, 'mcorten87\rabbitmq_api\services\JobService')
+        $this->container->register(JobService::class, JobService::class)
             ->addArgument($this)
-            ->addArgument($this->container->get(self::HTTPCLIENT))
+//            ->addArgument($this->container->get(Client::class))
         ;
 
         $this->registerJobs();
@@ -134,102 +106,112 @@ class MqManagementFactory
         // results
         $definition = new Definition('mcorten87\rabbitmq_api\objects\JobResult');
         $definition->setShared(false);
-        $this->container->setDefinition(self::JOB_RESULT, $definition);
+        $this->container->setDefinition(JobResult::class, $definition);
 
         // virtual hosts
-        $this->container->register(self::JOB_LISTVHOSTMAPPER, 'mcorten87\rabbitmq_api\mappers\JobVirtualHostListMapper')
+        $this->container->register(JobVirtualHostListMapper::class, JobVirtualHostListMapper::class)
             ->addArgument($this->config)
         ;
 
         $this->container
-            ->register(self::JOB_CREATEVHOSTMAPPER, 'mcorten87\rabbitmq_api\mappers\JobVirtualHostCreateMapper')
+            ->register(JobVirtualHostCreateMapper::class, JobVirtualHostCreateMapper::class)
             ->addArgument($this->config)
         ;
 
         $this->container
-            ->register(self::JOB_DELETEVHOSTSMAPPER, 'mcorten87\rabbitmq_api\mappers\JobVirtualHostDeleteMapper')
+            ->register(JobVirtualHostDeleteMapper::class, JobVirtualHostDeleteMapper::class)
             ->addArgument($this->config)
         ;
 
         // queues
         $this->container
-            ->register(self::JOB_LISTQUEUESMAPPER, 'mcorten87\rabbitmq_api\mappers\JobQueueListAllMapper')
+            ->register(JobQueueListAllMapper::class, JobQueueListAllMapper::class)
             ->addArgument($this->config)
         ;
 
         $this->container
-            ->register(self::JOB_LISTQUEUEVIRTUALHOSTMAPPER, 'mcorten87\rabbitmq_api\mappers\JobQueueListVirtualHostMapper')
+            ->register(JobQueueListVirtualHostMapper::class, JobQueueListVirtualHostMapper::class)
             ->addArgument($this->config)
         ;
 
         $this->container
-            ->register(self::JOB_LISTQUEUEMAPPER, 'mcorten87\rabbitmq_api\mappers\JobQueueListMapper')
+            ->register(JobQueueListMapper::class, JobQueueListMapper::class)
             ->addArgument($this->config)
         ;
 
         $this->container
-            ->register(self::JOB_CREATEQUEUEMAPPER, 'mcorten87\rabbitmq_api\mappers\JobQueueCreateMapper')
+            ->register(JobQueueCreateMapper::class, JobQueueCreateMapper::class)
             ->addArgument($this->config)
         ;
 
         $this->container
-            ->register(self::JOB_DELETEQUEUEMAPPER, 'mcorten87\rabbitmq_api\mappers\JobQueueDeleteMapper')
+            ->register(JobQueueDeleteMapper::class, JobQueueDeleteMapper::class)
             ->addArgument($this->config)
         ;
 
         // users
         $this->container
-            ->register(self::JOB_LISTUSERMAPPER, 'mcorten87\rabbitmq_api\mappers\JobUserListMapper')
+            ->register(JobUserListMapper::class, JobUserListMapper::class)
             ->addArgument($this->config)
         ;
 
         $this->container
-            ->register(self::JOB_CREATEUSERMAPPER, 'mcorten87\rabbitmq_api\mappers\JobUserCreateMapper')
+            ->register(JobUserCreateMapper::class, JobUserCreateMapper::class)
             ->addArgument($this->config)
         ;
 
         $this->container
-            ->register(self::JOB_DELETEUSERMAPPER, 'mcorten87\rabbitmq_api\mappers\JobUserDeleteMapper')
+            ->register(JobUserDeleteMapper::class, JobUserDeleteMapper::class)
             ->addArgument($this->config)
         ;
 
         $this->container
-            ->register(self::JOB_LISTPERMISSIONRMAPPER, 'mcorten87\rabbitmq_api\mappers\JobPermissionListMapper')
+            ->register(JobPermissionListAllMapper::class, JobPermissionListAllMapper::class)
             ->addArgument($this->config)
         ;
 
         $this->container
-            ->register(self::JOB_CREATEPERMISSIONRMAPPER, 'mcorten87\rabbitmq_api\mappers\JobPermissionCreateMapper')
+            ->register(JobPermissionListUserMapper::class, JobPermissionListUserMapper::class)
             ->addArgument($this->config)
         ;
 
         $this->container
-            ->register(self::JOB_DELETEPERMISSIONRMAPPER, 'mcorten87\rabbitmq_api\mappers\JobPermissionDeleteMapper')
+            ->register(JobPermissionListVirtualHostMapper::class, JobPermissionListVirtualHostMapper::class)
             ->addArgument($this->config)
         ;
 
         $this->container
-            ->register(self::JOB_LISTEXCHANGEMAPPER, 'mcorten87\rabbitmq_api\mappers\JobExchangeListMapper')
+            ->register(JobPermissionCreateMapper::class, JobPermissionCreateMapper::class)
             ->addArgument($this->config)
         ;
 
         $this->container
-            ->register(self::JOB_LISTEXCHANGEVIRTUALHOSTMAPPER, 'mcorten87\rabbitmq_api\mappers\JobExchangeListVirtualHostMapper')
+            ->register(JobPermissionDeleteMapper::class, JobPermissionDeleteMapper::class)
             ->addArgument($this->config)
         ;
 
         $this->container
-            ->register(self::JOB_LISTEXCHANGENAMEMAPPER, 'mcorten87\rabbitmq_api\mappers\JobExchangeListNameMapper')
+            ->register(JobExchangeListMapper::class, JobExchangeListMapper::class)
             ->addArgument($this->config)
         ;
 
         $this->container
-            ->register(self::JOB_CREATEEXCHANGE, 'mcorten87\rabbitmq_api\mappers\JobExchangeCreateMapper')
+            ->register(JobExchangeListVirtualHostMapper::class, JobExchangeListVirtualHostMapper::class)
             ->addArgument($this->config)
         ;
 
         $this->container
-            ->register(self::JOB_DELETEEXCHANGE, 'mcorten87\rabbitmq_api\mappers\JobExchangeDeleteMapper')
+            ->register(JobExchangeListNameMapper::class, JobExchangeListNameMapper::class)
+            ->addArgument($this->config)
+        ;
+
+        $this->container
+            ->register(JobExchangeCreateMapper::class, JobExchangeCreateMapper::class)
+            ->addArgument($this->config)
+        ;
+
+        $this->container
+            ->register(JobExchangeDeleteMapper::class, JobExchangeDeleteMapper::class)
             ->addArgument($this->config)
         ;
     }
@@ -461,61 +443,14 @@ class MqManagementFactory
      * @throws NoMapperForJob
      */
     public function getJobMapper(JobBase $job) : BaseMapper {
-        switch ($job) {
-            // virtual host
-            case $job instanceof JobVirtualHostList:
-                return $this->container->get(self::JOB_LISTVHOSTMAPPER);
-            case $job instanceof JobVirtualHostCreate:
-                return $this->container->get(self::JOB_CREATEVHOSTMAPPER);
-            case $job instanceof JobVirtualHostDelete:
-                return $this->container->get(self::JOB_DELETEVHOSTSMAPPER);
+        $class = get_class($job);
+        $class = str_replace('\\jobs\\','\\mappers\\', $class);
+        $class .= 'Mapper';
 
-            // queue
-            case $job instanceof JobQueueListAll:
-                return $this->container->get(self::JOB_LISTQUEUESMAPPER);
-            case $job instanceof JobQueueListVirtualHost:
-                return $this->container->get(self::JOB_LISTQUEUEVIRTUALHOSTMAPPER);
-            case $job instanceof JobQueueList:
-                return $this->container->get(self::JOB_LISTQUEUEMAPPER);
-            case $job instanceof JobQueueCreate:
-                return $this->container->get(self::JOB_CREATEQUEUEMAPPER);
-            case $job instanceof JobQueueDelete:
-                return $this->container->get(self::JOB_DELETEQUEUEMAPPER);
-
-            // user
-            case $job instanceof JobUserList:
-                return $this->container->get(self::JOB_LISTUSERMAPPER);
-            case $job instanceof JobUserCreate:
-                return $this->container->get(self::JOB_CREATEUSERMAPPER);
-            case $job instanceof JobUserDelete:
-                return $this->container->get(self::JOB_DELETEUSERMAPPER);
-
-            // permission
-            case $job instanceof JobPermissionListAll:
-            case $job instanceof JobPermissionListVirtualHost:
-            case $job instanceof JobPermissionListUser:
-                return $this->container->get(self::JOB_LISTPERMISSIONRMAPPER);
-            case $job instanceof JobPermissionCreate:
-                return $this->container->get(self::JOB_CREATEPERMISSIONRMAPPER);
-            case $job instanceof JobPermissionDelete:
-                return $this->container->get(self::JOB_DELETEPERMISSIONRMAPPER);
-
-
-            // exchange
-            case $job instanceof JobExchangeListAll:
-                return $this->container->get(self::JOB_LISTEXCHANGEMAPPER);
-            case $job instanceof JobExchangeListVirtualHost:
-                return $this->container->get(self::JOB_LISTEXCHANGEVIRTUALHOSTMAPPER);
-            case $job instanceof JobExchangeList:
-                return $this->container->get(self::JOB_LISTEXCHANGENAMEMAPPER);
-            case $job instanceof JobExchangeCreate:
-                return $this->container->get(self::JOB_CREATEEXCHANGE);
-            case $job instanceof JobExchangeDelete:
-                return $this->container->get(self::JOB_DELETEEXCHANGE);
-
-
-            default:
-                throw new NoMapperForJob($job);
+        try {
+            return $this->container->get($class);
+        } catch (ServiceNotFoundException $e) {
+            throw new NoMapperForJob($job);
         }
     }
 

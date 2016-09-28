@@ -4,7 +4,10 @@ namespace mcorten87\rabbitmq_api\test\unit\jobs;
 use mcorten87\rabbitmq_api\jobs\JobPermissionListAll;
 use mcorten87\rabbitmq_api\jobs\JobPermissionListUser;
 use mcorten87\rabbitmq_api\jobs\JobPermissionListVirtualHost;
+use mcorten87\rabbitmq_api\mappers\JobPermissionListAllMapper;
 use mcorten87\rabbitmq_api\mappers\JobPermissionListMapper;
+use mcorten87\rabbitmq_api\mappers\JobPermissionListUserMapper;
+use mcorten87\rabbitmq_api\mappers\JobPermissionListVirtualHostMapper;
 use mcorten87\rabbitmq_api\MqManagementConfig;
 use mcorten87\rabbitmq_api\objects\Method;
 use mcorten87\rabbitmq_api\objects\Password;
@@ -39,7 +42,7 @@ class JobPermissionListMapperTest extends TestCase
     public function testJobPermissionList() {
         $job = new JobPermissionListAll();
 
-        $mapper = new JobPermissionListMapper($this->config);
+        $mapper = new JobPermissionListAllMapper($this->config);
         $mapResult = $mapper->map($job);
 
         $this->assertEquals(Method::METHOD_GET, $mapResult->getMethod()->getValue());
@@ -50,35 +53,6 @@ class JobPermissionListMapperTest extends TestCase
         $this->assertEquals('application/json', $config['headers']['content-type']);
     }
 
-    public function testJobPermissionVirtualHostList() {
-        $virtualHost = new VirtualHost('/te!@#$%^&*()-=[]\'\;/.,mst/');
-        $job = new JobPermissionListVirtualHost($virtualHost);
-
-        $mapper = new JobPermissionListMapper($this->config);
-        $mapResult = $mapper->map($job);
-
-        $this->assertEquals(Method::METHOD_GET, $mapResult->getMethod()->getValue());
-        $this->assertEquals('vhosts/'.urlencode($virtualHost).'/permissions', $mapResult->getUrl()->getValue());
-
-        $config = $mapResult->getConfig();
-
-        $this->assertEquals('application/json', $config['headers']['content-type']);
-    }
-
-    public function testJobPermissionUserList() {
-        $user = new User('te!@#$%^&*()-=[]\'\;/.,mst');
-        $job = new JobPermissionListUser($user);
-
-        $mapper = new JobPermissionListMapper($this->config);
-        $mapResult = $mapper->map($job);
-
-        $this->assertEquals(Method::METHOD_GET, $mapResult->getMethod()->getValue());
-        $this->assertEquals('users/'.urlencode($user).'/permissions', $mapResult->getUrl()->getValue());
-
-        $config = $mapResult->getConfig();
-
-        $this->assertEquals('application/json', $config['headers']['content-type']);
-    }
 
     /**
      * @expectedException \RuntimeException
@@ -86,7 +60,7 @@ class JobPermissionListMapperTest extends TestCase
     public function testInvalidJob() {
         $job = new JobDoesNotExist();
 
-        $mapper = new JobPermissionListMapper($this->config);
+        $mapper = new JobPermissionListAllMapper($this->config);
         $mapper->map($job);
     }
 }

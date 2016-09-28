@@ -19,7 +19,10 @@ use mcorten87\rabbitmq_api\jobs\JobVirtualHostDelete;
 use mcorten87\rabbitmq_api\jobs\JobVirtualHostList;
 use mcorten87\rabbitmq_api\mappers\JobPermissionCreateMapper;
 use mcorten87\rabbitmq_api\mappers\JobPermissionDeleteMapper;
+use mcorten87\rabbitmq_api\mappers\JobPermissionListAllMapper;
 use mcorten87\rabbitmq_api\mappers\JobPermissionListMapper;
+use mcorten87\rabbitmq_api\mappers\JobPermissionListUserMapper;
+use mcorten87\rabbitmq_api\mappers\JobPermissionListVirtualHostMapper;
 use mcorten87\rabbitmq_api\mappers\JobQueueCreateMapper;
 use mcorten87\rabbitmq_api\mappers\JobQueueDeleteMapper;
 use mcorten87\rabbitmq_api\mappers\JobQueueListMapper;
@@ -122,9 +125,9 @@ class MqManagementFactoryTest extends TestCase
         $user = new User('test');
 
         return [
-            [new JobPermissionListAll(), new JobPermissionListMapper($this->config)],
-            [new JobPermissionListVirtualHost($virtualHost), new JobPermissionListMapper($this->config)],
-            [new JobPermissionListUser($user), new JobPermissionListMapper($this->config)],
+            [new JobPermissionListAll(), new JobPermissionListAllMapper($this->config)],
+            [new JobPermissionListVirtualHost($virtualHost), new JobPermissionListVirtualHostMapper($this->config)],
+            [new JobPermissionListUser($user), new JobPermissionListUserMapper($this->config)],
             [new JobPermissionCreate($virtualHost, $user), new JobPermissionCreateMapper($this->config)],
             [new JobPermissionDelete($virtualHost, $user), new JobPermissionDeleteMapper($this->config)],
         ];
