@@ -3,9 +3,7 @@
 namespace mcorten87\rabbitmq_api\jobs;
 
 use mcorten87\rabbitmq_api\objects\Exchange;
-use mcorten87\rabbitmq_api\objects\ExchangeArgument;
 use mcorten87\rabbitmq_api\objects\ExchangeName;
-use mcorten87\rabbitmq_api\objects\QueueArgument;
 use mcorten87\rabbitmq_api\objects\QueueName;
 use mcorten87\rabbitmq_api\objects\VirtualHost;
 

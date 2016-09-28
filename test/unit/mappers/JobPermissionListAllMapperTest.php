@@ -2,18 +2,13 @@
 namespace mcorten87\rabbitmq_api\test\unit\jobs;
 
 use mcorten87\rabbitmq_api\jobs\JobPermissionListAll;
-use mcorten87\rabbitmq_api\jobs\JobPermissionListUser;
-use mcorten87\rabbitmq_api\jobs\JobPermissionListVirtualHost;
 use mcorten87\rabbitmq_api\mappers\JobPermissionListAllMapper;
 use mcorten87\rabbitmq_api\mappers\JobPermissionListMapper;
-use mcorten87\rabbitmq_api\mappers\JobPermissionListUserMapper;
-use mcorten87\rabbitmq_api\mappers\JobPermissionListVirtualHostMapper;
 use mcorten87\rabbitmq_api\MqManagementConfig;
 use mcorten87\rabbitmq_api\objects\Method;
 use mcorten87\rabbitmq_api\objects\Password;
 use mcorten87\rabbitmq_api\objects\Url;
 use mcorten87\rabbitmq_api\objects\User;
-use mcorten87\rabbitmq_api\objects\VirtualHost;
 use mcorten87\rabbitmq_api\test\unit\jobs\mocks\JobDoesNotExist;
 use PHPUnit\Framework\TestCase;
 

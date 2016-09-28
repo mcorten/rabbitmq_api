@@ -1,12 +1,8 @@
 <?php
 namespace mcorten87\rabbitmq_api\test\unit\jobs;
 
-use mcorten87\rabbitmq_api\jobs\JobQueueDelete;
 use mcorten87\rabbitmq_api\jobs\JobQueueList;
-use mcorten87\rabbitmq_api\jobs\JobQueueListAll;
-use mcorten87\rabbitmq_api\mappers\JobQueueDeleteMapper;
 use mcorten87\rabbitmq_api\mappers\JobQueueListMapper;
-use mcorten87\rabbitmq_api\mappers\JobQueueListAllMapper;
 use mcorten87\rabbitmq_api\MqManagementConfig;
 use mcorten87\rabbitmq_api\objects\Method;
 use mcorten87\rabbitmq_api\objects\Password;
