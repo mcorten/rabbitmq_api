@@ -96,7 +96,7 @@ class MqManagementFactory
 
         $this->container->register(JobService::class, JobService::class)
             ->addArgument($this)
-//            ->addArgument($this->container->get(Client::class))
+            ->addArgument($this->container->get(Client::class))
         ;
 
         $this->registerJobs();
