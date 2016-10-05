@@ -40,6 +40,7 @@ class JobService
                 $mapResult->getConfig()
             );
         } catch (ClientException $e) {
+
             $data = json_decode($e->getResponse()->getBody());
 
             // find out what kind of error happend and give some extra help
@@ -51,9 +52,11 @@ class JobService
             } else {
                 throw $e;
             }
-
         }
-        $jobResult = $this->factory->getJobResult($res);
+
+        /** @var JobResult $jobResult */
+        $jobResult = $this->factory->get(JobResult::class);
+        $jobResult->setResponse($res);
         return $jobResult;
     }
 }
