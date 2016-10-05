@@ -4,12 +4,12 @@ namespace mcorten87\rabbitmq_api\mappers;
 
 
 use mcorten87\rabbitmq_api\jobs\JobBase;
-use mcorten87\rabbitmq_api\jobs\JobBindingCreateToExchange;
+use mcorten87\rabbitmq_api\jobs\JobBindingToExchangeCreate;
 use mcorten87\rabbitmq_api\objects\Method;
 use mcorten87\rabbitmq_api\objects\Url;
 use mcorten87\rabbitmq_api\services\MqManagementConfig;
 
-class JobBindingCreateToQueueMapper extends BaseMapper
+class JobBindingToQueueCreateMapper extends BaseMapper
 {
     protected function mapMethod(JobBase $job) : Method
     {
@@ -17,7 +17,7 @@ class JobBindingCreateToQueueMapper extends BaseMapper
     }
 
     /**
-     * @param JobBindingCreateToExchange $job
+     * @param JobBindingToExchangeCreate $job
      * @return Url
      */
     protected function mapUrl(JobBase $job) : Url
@@ -32,7 +32,7 @@ class JobBindingCreateToQueueMapper extends BaseMapper
     }
 
     /**
-     * @param JobBindingCreateToExchange $job
+     * @param JobBindingToExchangeCreate $job
      * @return array
      */
     protected function mapConfig(JobBase $job) : array {

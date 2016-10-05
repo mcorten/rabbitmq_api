@@ -8,8 +8,9 @@ use mcorten87\rabbitmq_api\exceptions\NoMapperForJob;
 use mcorten87\rabbitmq_api\jobs\JobBase;
 use mcorten87\rabbitmq_api\jobs\JobVirtualHostsList;
 use mcorten87\rabbitmq_api\mappers\BaseMapper;
-use mcorten87\rabbitmq_api\mappers\JobBindingCreateToExchangeMapper;
-use mcorten87\rabbitmq_api\mappers\JobBindingCreateToQueueMapper;
+use mcorten87\rabbitmq_api\mappers\JobBindingToExchangeCreateMapper;
+use mcorten87\rabbitmq_api\mappers\JobBindingToExchangeDeleteMapper;
+use mcorten87\rabbitmq_api\mappers\JobBindingToQueueCreateMapper;
 use mcorten87\rabbitmq_api\mappers\JobExchangeCreateMapper;
 use mcorten87\rabbitmq_api\mappers\JobExchangeDeleteMapper;
 use mcorten87\rabbitmq_api\mappers\JobExchangeListMapper;
@@ -190,12 +191,17 @@ class MqManagementFactory
         ;
 
         $this->container
-            ->register(JobBindingCreateToQueueMapper::class, JobBindingCreateToQueueMapper::class)
+            ->register(JobBindingToQueueCreateMapper::class, JobBindingToQueueCreateMapper::class)
             ->addArgument($this->config)
         ;
 
         $this->container
-            ->register(JobBindingCreateToExchangeMapper::class, JobBindingCreateToExchangeMapper::class)
+            ->register(JobBindingToExchangeCreateMapper::class, JobBindingToExchangeCreateMapper::class)
+            ->addArgument($this->config)
+        ;
+
+        $this->container
+            ->register(JobBindingToExchangeDeleteMapper::class, JobBindingToExchangeDeleteMapper::class)
             ->addArgument($this->config)
         ;
     }

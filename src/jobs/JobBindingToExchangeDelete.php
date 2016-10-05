@@ -8,7 +8,7 @@ use mcorten87\rabbitmq_api\objects\ExchangeName;
 use mcorten87\rabbitmq_api\objects\RoutingKey;
 use mcorten87\rabbitmq_api\objects\VirtualHost;
 
-class JobBindingCreateToExchange extends JobBase
+class JobBindingToExchangeDelete extends JobBase
 {
     /**
      * @var VirtualHost
@@ -36,13 +36,6 @@ class JobBindingCreateToExchange extends JobBase
      */
     private $routingKey;
 
-    /**
-     * @param RoutingKey $routingKey
-     */
-    public function setRoutingKey(RoutingKey $routingKey)
-    {
-        $this->routingKey = $routingKey;
-    }
 
     /** @return VirtualHost */
     public function getVirtualHost() : VirtualHost
@@ -87,13 +80,13 @@ class JobBindingCreateToExchange extends JobBase
      * @param VirtualHost $virtualHost
      * @param ExchangeName $exchange
      */
-    public function __construct(VirtualHost $virtualHost, ExchangeName $exchange, ExchangeName $to)
+    public function __construct(VirtualHost $virtualHost, ExchangeName $exchange, ExchangeName $to, RoutingKey $routingKey = null)
     {
         $this->virtualHost = $virtualHost;
         $this->exchange = $exchange;
         $this->toExchange = $to;
 
         $this->destinationType = new DestinationType(DestinationType::EXCHANGE);
-        $this->routingKey = new RoutingKey('');
+        $this->routingKey = $routingKey !== null ? $routingKey : new RoutingKey('');
     }
 }
