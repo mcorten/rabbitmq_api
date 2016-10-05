@@ -5,11 +5,10 @@ namespace mcorten87\rabbitmq_api\jobs;
 use mcorten87\rabbitmq_api\objects\DestinationType;
 use mcorten87\rabbitmq_api\objects\Exchange;
 use mcorten87\rabbitmq_api\objects\ExchangeName;
-use mcorten87\rabbitmq_api\objects\QueueName;
 use mcorten87\rabbitmq_api\objects\RoutingKey;
 use mcorten87\rabbitmq_api\objects\VirtualHost;
 
-class JobBindingCreateToQueue extends JobBase
+class JobBindingCreateToExchange extends JobBase
 {
     /**
      * @var VirtualHost
@@ -18,14 +17,14 @@ class JobBindingCreateToQueue extends JobBase
 
 
     /**
-     * @var QueueName
+     * @var ExchangeName
      */
-    private $queueName;
+    private $exchange;
 
     /**
      * @var ExchangeName
      */
-    private $exchangeName;
+    private $toExchange;
 
     /**
      * @var DestinationType
@@ -52,19 +51,19 @@ class JobBindingCreateToQueue extends JobBase
     }
 
     /**
-     * @return QueueName
-     */
-    public function getQueueName(): QueueName
-    {
-        return $this->queueName;
-    }
-
-    /**
      * @return ExchangeName
      */
     public function getExchangeName()
     {
         return $this->exchangeName;
+    }
+
+    /**
+     * @return ExchangeName
+     */
+    public function getToExchange(): ExchangeName
+    {
+        return $this->toExchange;
     }
 
     /**
@@ -88,13 +87,13 @@ class JobBindingCreateToQueue extends JobBase
      * @param VirtualHost $virtualHost
      * @param ExchangeName $exchangeName
      */
-    public function __construct(VirtualHost $virtualHost, QueueName $queueName, ExchangeName $exchangeName)
+    public function __construct(VirtualHost $virtualHost, ExchangeName $exchangeName, ExchangeName $to)
     {
         $this->virtualHost = $virtualHost;
-        $this->queueName = $queueName;
         $this->exchangeName = $exchangeName;
+        $this->toExchange = $to;
 
-        $this->destinationType = new DestinationType(DestinationType::QUEUE);
+        $this->destinationType = new DestinationType(DestinationType::EXCHANGE);
         $this->routingKey = new RoutingKey('');
     }
 }

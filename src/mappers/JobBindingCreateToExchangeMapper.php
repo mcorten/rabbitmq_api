@@ -9,7 +9,7 @@ use mcorten87\rabbitmq_api\objects\Method;
 use mcorten87\rabbitmq_api\objects\Url;
 use mcorten87\rabbitmq_api\services\MqManagementConfig;
 
-class JobBindingCreateToQueueMapper extends BaseMapper
+class JobBindingCreateToExchangeMapper extends BaseMapper
 {
     protected function mapMethod(JobBase $job) : Method
     {
@@ -27,7 +27,7 @@ class JobBindingCreateToQueueMapper extends BaseMapper
             .'e/'
             .urlencode($job->getExchangeName()).'/'
             .$job->getDestinationType().'/'
-            .urlencode($job->getQueueName())
+            .urlencode($job->getToExchange())
         );
     }
 
@@ -38,7 +38,7 @@ class JobBindingCreateToQueueMapper extends BaseMapper
     protected function mapConfig(JobBase $job) : array {
         $body = [
             'arguments'         => [],
-            'destination'       => (string)$job->getQueueName(),
+            'destination'       => (string)$job->getToExchange(),
             'destination_type'  => $job->getDestinationType(),
             'routing_key'       => (string)$job->getRoutingKey(),
             'source'            => (string)$job->getExchangeName(),

@@ -6,30 +6,9 @@ namespace mcorten87\rabbitmq_api;
 use GuzzleHttp\Client;
 use mcorten87\rabbitmq_api\exceptions\NoMapperForJob;
 use mcorten87\rabbitmq_api\jobs\JobBase;
-use mcorten87\rabbitmq_api\jobs\JobBindingCreateToQueue;
-use mcorten87\rabbitmq_api\jobs\JobExchangeCreate;
-use mcorten87\rabbitmq_api\jobs\JobExchangeDelete;
-use mcorten87\rabbitmq_api\jobs\JobExchangeList;
-use mcorten87\rabbitmq_api\jobs\JobExchangeListAll;
-use mcorten87\rabbitmq_api\jobs\JobExchangeListVirtualHost;
-use mcorten87\rabbitmq_api\jobs\JobPermissionCreate;
-use mcorten87\rabbitmq_api\jobs\JobPermissionDelete;
-use mcorten87\rabbitmq_api\jobs\JobPermissionListAll;
-use mcorten87\rabbitmq_api\jobs\JobPermissionListUser;
-use mcorten87\rabbitmq_api\jobs\JobPermissionListVirtualHost;
-use mcorten87\rabbitmq_api\jobs\JobQueueCreate;
-use mcorten87\rabbitmq_api\jobs\JobQueueDelete;
-use mcorten87\rabbitmq_api\jobs\JobQueueList;
-use mcorten87\rabbitmq_api\jobs\JobQueueListAll;
-use mcorten87\rabbitmq_api\jobs\JobQueueListVirtualHost;
-use mcorten87\rabbitmq_api\jobs\JobUserCreate;
-use mcorten87\rabbitmq_api\jobs\JobUserDelete;
-use mcorten87\rabbitmq_api\jobs\JobUserList;
-use mcorten87\rabbitmq_api\jobs\JobVirtualHostCreate;
-use mcorten87\rabbitmq_api\jobs\JobVirtualHostDelete;
-use mcorten87\rabbitmq_api\jobs\JobVirtualHostList;
 use mcorten87\rabbitmq_api\jobs\JobVirtualHostsList;
 use mcorten87\rabbitmq_api\mappers\BaseMapper;
+use mcorten87\rabbitmq_api\mappers\JobBindingCreateToExchangeMapper;
 use mcorten87\rabbitmq_api\mappers\JobBindingCreateToQueueMapper;
 use mcorten87\rabbitmq_api\mappers\JobExchangeCreateMapper;
 use mcorten87\rabbitmq_api\mappers\JobExchangeDeleteMapper;
@@ -53,14 +32,7 @@ use mcorten87\rabbitmq_api\mappers\JobUserListMapper;
 use mcorten87\rabbitmq_api\mappers\JobVirtualHostCreateMapper;
 use mcorten87\rabbitmq_api\mappers\JobVirtualHostDeleteMapper;
 use mcorten87\rabbitmq_api\mappers\JobVirtualHostListMapper;
-use mcorten87\rabbitmq_api\objects\ExchangeName;
 use mcorten87\rabbitmq_api\objects\JobResult;
-use mcorten87\rabbitmq_api\objects\Password;
-use mcorten87\rabbitmq_api\objects\PasswordHash;
-use mcorten87\rabbitmq_api\objects\QueueName;
-use mcorten87\rabbitmq_api\objects\User;
-use mcorten87\rabbitmq_api\objects\UserTag;
-use mcorten87\rabbitmq_api\objects\VirtualHost;
 use mcorten87\rabbitmq_api\services\JobService;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -219,6 +191,11 @@ class MqManagementFactory
 
         $this->container
             ->register(JobBindingCreateToQueueMapper::class, JobBindingCreateToQueueMapper::class)
+            ->addArgument($this->config)
+        ;
+
+        $this->container
+            ->register(JobBindingCreateToExchangeMapper::class, JobBindingCreateToExchangeMapper::class)
             ->addArgument($this->config)
         ;
     }
