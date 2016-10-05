@@ -85,7 +85,7 @@ class JobBindingCreateToExchange extends JobBase
     /**
      * JobExchangeCreate constructor.
      * @param VirtualHost $virtualHost
-     * @param ExchangeName $exchangeName
+     * @param ExchangeName $exchange
      */
     public function __construct(VirtualHost $virtualHost, ExchangeName $exchange, ExchangeName $to)
     {
