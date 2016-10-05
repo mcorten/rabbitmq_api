@@ -55,7 +55,7 @@ class JobBindingCreateToExchange extends JobBase
      */
     public function getExchangeName()
     {
-        return $this->exchangeName;
+        return $this->exchange;
     }
 
     /**
@@ -87,10 +87,10 @@ class JobBindingCreateToExchange extends JobBase
      * @param VirtualHost $virtualHost
      * @param ExchangeName $exchangeName
      */
-    public function __construct(VirtualHost $virtualHost, ExchangeName $exchangeName, ExchangeName $to)
+    public function __construct(VirtualHost $virtualHost, ExchangeName $exchange, ExchangeName $to)
     {
         $this->virtualHost = $virtualHost;
-        $this->exchangeName = $exchangeName;
+        $this->exchange = $exchange;
         $this->toExchange = $to;
 
         $this->destinationType = new DestinationType(DestinationType::EXCHANGE);
