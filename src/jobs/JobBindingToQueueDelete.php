@@ -9,13 +9,12 @@ use mcorten87\rabbitmq_api\objects\QueueName;
 use mcorten87\rabbitmq_api\objects\RoutingKey;
 use mcorten87\rabbitmq_api\objects\VirtualHost;
 
-class JobBindingToQueueCreate extends JobBase
+class JobBindingToQueueDelete extends JobBase
 {
     /**
      * @var VirtualHost
      */
     private $virtualHost;
-
 
     /**
      * @var QueueName
