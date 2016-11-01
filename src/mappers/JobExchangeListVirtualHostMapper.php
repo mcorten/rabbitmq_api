@@ -12,11 +12,7 @@ use mcorten87\rabbitmq_api\services\MqManagementConfig;
 class JobExchangeListVirtualHostMapper  extends BaseMapper
 {
 
-    /**
-     * @param JobUserList $job
-     * @return Method
-     */
-    protected function mapMethod(JobBase $job) : Method {
+    protected function mapMethod() : Method {
         return new Method(Method::METHOD_GET);
     }
 

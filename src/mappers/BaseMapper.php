@@ -24,7 +24,7 @@ abstract class BaseMapper
      */
     public function map(JobBase $job) : MapResult {
         return new MapResult(
-            $this->mapMethod($job),
+            $this->mapMethod(),
             $this->mapUrl($job),
             $this->mapConfig($job)
         );
@@ -33,11 +33,9 @@ abstract class BaseMapper
     /**
      * Created a HTTP method
      *
-     * @param JobBase $job
      * @return Method
-     * @throws
      */
-    abstract protected function mapMethod(JobBase $job) : Method;
+    abstract protected function mapMethod() : Method;
 
     /**
      * Determens which url to call

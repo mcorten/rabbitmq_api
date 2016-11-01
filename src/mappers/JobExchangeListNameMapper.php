@@ -11,12 +11,7 @@ use mcorten87\rabbitmq_api\services\MqManagementConfig;
 
 class JobExchangeListNameMapper  extends BaseMapper
 {
-
-    /**
-     * @param JobUserList $job
-     * @return Method
-     */
-    protected function mapMethod(JobBase $job) : Method {
+    function mapMethod() : Method {
         return new Method(Method::METHOD_GET);
     }
 

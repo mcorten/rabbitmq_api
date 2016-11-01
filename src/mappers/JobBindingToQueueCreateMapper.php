@@ -11,7 +11,7 @@ use mcorten87\rabbitmq_api\services\MqManagementConfig;
 
 class JobBindingToQueueCreateMapper extends BaseMapper
 {
-    protected function mapMethod(JobBase $job) : Method
+    protected function mapMethod() : Method
     {
         return new Method(Method::METHOD_POST);
     }

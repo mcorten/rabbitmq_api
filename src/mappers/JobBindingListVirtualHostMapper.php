@@ -12,10 +12,9 @@ class JobBindingListVirtualHostMapper  extends BaseMapper
 {
 
     /**
-     * @param JobBindingListVirtualHost $job
      * @return Method
      */
-    protected function mapMethod(JobBase $job) : Method {
+    protected function mapMethod() : Method {
         return new Method(Method::METHOD_GET);
     }
 

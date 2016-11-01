@@ -9,7 +9,7 @@ use mcorten87\rabbitmq_api\objects\Url;
 
 class Mapper extends BaseMapper
 {
-    protected function mapMethod(JobBase $job) : Method
+    protected function mapMethod() : Method
     {
         return new Method(Method::METHOD_PUT);
     }

@@ -12,7 +12,7 @@ use mcorten87\rabbitmq_api\services\MqManagementConfig;
 class JobPermissionCreateMapper extends BaseMapper
 {
 
-    protected function mapMethod(JobBase $job) : Method {
+    protected function mapMethod() : Method {
         return new Method(Method::METHOD_PUT);
     }
 
