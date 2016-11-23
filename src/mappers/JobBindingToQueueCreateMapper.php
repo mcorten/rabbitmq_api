@@ -17,12 +17,12 @@ class JobBindingToQueueCreateMapper extends BaseMapper
     }
 
     /**
-     * @param JobBindingToExchangeCreate $job
+     * @param JobBindingToQueueCreate $job
      * @return Url
      */
     protected function mapUrl(JobBase $job) : Url
     {
-        if (!$job instanceof JobBindingToExchangeCreate) {
+        if (!$job instanceof JobBindingToQueueCreate) {
             throw new \RuntimeException('Wrong argument');
         }
 
@@ -40,7 +40,7 @@ class JobBindingToQueueCreateMapper extends BaseMapper
      * @return array
      */
     protected function mapConfig(JobBase $job) : array {
-        if (!$job instanceof JobBindingToExchangeCreate) {
+        if (!$job instanceof JobBindingToQueueCreate) {
             throw new \RuntimeException('Wrong argument');
         }
 
