@@ -15,8 +15,16 @@ class JobExchangeCreateMapper extends BaseMapper
         return new Method(Method::METHOD_PUT);
     }
 
+    /**
+     * @param JobExchangeCreate $job
+     * @return Url
+     */
     protected function mapUrl(JobBase $job) : Url
     {
+        if (!$job instanceof JobBindingToQueueCreate) {
+            throw new WrongArgumentException($job, JobBindingToExchangeDelete::class);
+        }
+
         return new Url('exchanges/'.urlencode($job->getVirtualHost()).'/'.urlencode($job->getExchangeName()));
     }
 
@@ -25,6 +33,10 @@ class JobExchangeCreateMapper extends BaseMapper
      * @return array
      */
     protected function mapConfig(JobBase $job) : array {
+        if (!$job instanceof JobExchangeCreate) {
+            throw new WrongArgumentException($job, JobExchangeCreate::class);
+        }
+
         $body = [
             'auto_delete'   => $job->isAutoDelete(),
             'durable'       => $job->isDurable(),

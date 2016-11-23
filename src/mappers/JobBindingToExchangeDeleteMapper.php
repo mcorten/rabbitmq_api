@@ -24,7 +24,7 @@ class JobBindingToExchangeDeleteMapper extends BaseMapper
     protected function mapUrl(JobBase $job) : Url
     {
         if (!$job instanceof JobBindingToExchangeDelete) {
-            throw new \RuntimeException('Wrong argument');
+            throw new WrongArgumentException($job, JobBindingToExchangeDelete::class);
         }
 
         return new Url('bindings/'
@@ -43,7 +43,7 @@ class JobBindingToExchangeDeleteMapper extends BaseMapper
      */
     protected function mapConfig(JobBase $job) : array {
         if (!$job instanceof JobBindingToExchangeDelete) {
-            throw new \RuntimeException('Wrong argument');
+            throw new WrongArgumentException($job, JobBindingToExchangeDelete::class);
         }
 
         $body = [

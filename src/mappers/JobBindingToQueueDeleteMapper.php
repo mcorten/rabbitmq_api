@@ -24,8 +24,9 @@ class JobBindingToQueueDeleteMapper extends BaseMapper
     protected function mapUrl(JobBase $job) : Url
     {
         if (!$job instanceof JobBindingToQueueDelete) {
-            throw new \RuntimeException('Wrong argument');
+            throw new WrongArgumentException($job, JobBindingToQueueDelete::class);
         }
+
 
         return new Url('bindings/'
             .urlencode($job->getVirtualHost()).'/'
@@ -43,8 +44,9 @@ class JobBindingToQueueDeleteMapper extends BaseMapper
      */
     protected function mapConfig(JobBase $job) : array {
         if (!$job instanceof JobBindingToQueueDelete) {
-            throw new \RuntimeException('Wrong argument');
+            throw new WrongArgumentException($job, JobBindingToQueueDelete::class);
         }
+
 
         $body = [
             'arguments'         => [],
