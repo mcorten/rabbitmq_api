@@ -23,6 +23,10 @@ class JobBindingListVirtualHostMapper  extends BaseMapper
      * @return Url
      */
     protected function mapUrl(JobBase $job) : Url {
+        if (!$job instanceof JobBindingListVirtualHost) {
+            throw new WrongArgumentException($job, JobBindingListVirtualHost::class);
+        }
+
         $url = 'bindings';
         $url .= sprintf('/%1$s', urlencode($job->getVirtualHost()));
         return new Url($url);

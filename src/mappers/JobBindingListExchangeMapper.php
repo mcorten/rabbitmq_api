@@ -23,6 +23,10 @@ class JobBindingListExchangeMapper  extends BaseMapper
      * @return Url
      */
     protected function mapUrl(JobBase $job) : Url {
+        if (!$job instanceof JobBindingListExchange) {
+            throw new WrongArgumentException($job, JobBindingListExchange::class);
+        }
+
         $url = 'exchanges';
         $url .= sprintf('/%1$s', urlencode($job->getVirtualHost()));
         $url .= sprintf('/%1$s', urlencode($job->getExchangeName()));

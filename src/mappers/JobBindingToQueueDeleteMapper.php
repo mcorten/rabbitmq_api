@@ -5,6 +5,7 @@ namespace mcorten87\rabbitmq_api\mappers;
 
 use mcorten87\rabbitmq_api\jobs\JobBase;
 use mcorten87\rabbitmq_api\jobs\JobBindingToExchangeCreate;
+use mcorten87\rabbitmq_api\jobs\JobBindingToQueueDelete;
 use mcorten87\rabbitmq_api\objects\Method;
 use mcorten87\rabbitmq_api\objects\Url;
 use mcorten87\rabbitmq_api\services\MqManagementConfig;
@@ -17,11 +18,15 @@ class JobBindingToQueueDeleteMapper extends BaseMapper
     }
 
     /**
-     * @param JobBindingToExchangeCreate $job
+     * @param JobBindingToQueueDelete $job
      * @return Url
      */
     protected function mapUrl(JobBase $job) : Url
     {
+        if (!$job instanceof JobBindingToQueueDelete) {
+            throw new \RuntimeException('Wrong argument');
+        }
+
         return new Url('bindings/'
             .urlencode($job->getVirtualHost()).'/'
             .'e/'
@@ -33,10 +38,14 @@ class JobBindingToQueueDeleteMapper extends BaseMapper
     }
 
     /**
-     * @param JobBindingToExchangeCreate $job
+     * @param JobBindingToQueueDelete $job
      * @return array
      */
     protected function mapConfig(JobBase $job) : array {
+        if (!$job instanceof JobBindingToQueueDelete) {
+            throw new \RuntimeException('Wrong argument');
+        }
+
         $body = [
             'arguments'         => [],
             'destination'       => (string)$job->getQueueName(),

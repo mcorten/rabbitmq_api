@@ -23,6 +23,10 @@ class JobBindingListQueueMapper  extends BaseMapper
      * @return Url
      */
     protected function mapUrl(JobBase $job) : Url {
+        if (!$job instanceof JobBindingListQueue) {
+            throw new WrongArgumentException($job, JobBindingListQueue::class);
+        }
+
         $url = 'queues';
         $url .= sprintf('/%1$s', urlencode($job->getVirtualHost()));
         $url .= sprintf('/%1$s', urlencode($job->getQueueName()));

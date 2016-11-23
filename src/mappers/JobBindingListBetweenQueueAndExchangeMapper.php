@@ -2,6 +2,7 @@
 
 namespace mcorten87\rabbitmq_api\mappers;
 
+use mcorten87\rabbitmq_api\exceptions\WrongArgumentException;
 use mcorten87\rabbitmq_api\jobs\JobBase;
 use mcorten87\rabbitmq_api\jobs\JobBindingListBetweenQueueAndExchange;
 use mcorten87\rabbitmq_api\jobs\JobBindingListExchange;
@@ -24,6 +25,10 @@ class JobBindingListBetweenQueueAndExchangeMapper  extends BaseMapper
      * @return Url
      */
     protected function mapUrl(JobBase $job) : Url {
+        if (!$job instanceof JobBindingListBetweenQueueAndExchange) {
+            throw new WrongArgumentException($job, JobBindingListBetweenQueueAndExchange::class);
+        }
+
         $url = 'bindings';
         $url .= sprintf('/%1$s', urlencode($job->getVirtualHost()));
         $url .= sprintf('/%1$s', urlencode($job->getQueueName()));

@@ -22,6 +22,10 @@ class JobBindingToQueueCreateMapper extends BaseMapper
      */
     protected function mapUrl(JobBase $job) : Url
     {
+        if (!$job instanceof JobBindingToExchangeCreate) {
+            throw new \RuntimeException('Wrong argument');
+        }
+
         return new Url('bindings/'
             .urlencode($job->getVirtualHost()).'/'
             .'e/'
@@ -36,6 +40,10 @@ class JobBindingToQueueCreateMapper extends BaseMapper
      * @return array
      */
     protected function mapConfig(JobBase $job) : array {
+        if (!$job instanceof JobBindingToExchangeCreate) {
+            throw new \RuntimeException('Wrong argument');
+        }
+
         $body = [
             'arguments'         => [],
             'destination'       => (string)$job->getQueueName(),

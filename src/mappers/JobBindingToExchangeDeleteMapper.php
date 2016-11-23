@@ -5,6 +5,7 @@ namespace mcorten87\rabbitmq_api\mappers;
 
 use mcorten87\rabbitmq_api\jobs\JobBase;
 use mcorten87\rabbitmq_api\jobs\JobBindingToExchangeCreate;
+use mcorten87\rabbitmq_api\jobs\JobBindingToExchangeDelete;
 use mcorten87\rabbitmq_api\objects\Method;
 use mcorten87\rabbitmq_api\objects\Url;
 use mcorten87\rabbitmq_api\services\MqManagementConfig;
@@ -17,12 +18,12 @@ class JobBindingToExchangeDeleteMapper extends BaseMapper
     }
 
     /**
-     * @param JobBindingToExchangeCreate $job
+     * @param JobBindingToExchangeDelete $job
      * @return Url
      */
     protected function mapUrl(JobBase $job) : Url
     {
-        if (!$job instanceof JobBindingToExchangeCreate) {
+        if (!$job instanceof JobBindingToExchangeDelete) {
             throw new \RuntimeException('Wrong argument');
         }
 
@@ -37,11 +38,11 @@ class JobBindingToExchangeDeleteMapper extends BaseMapper
     }
 
     /**
-     * @param JobBindingToExchangeCreate $job
+     * @param JobBindingToExchangeDelete $job
      * @return array
      */
     protected function mapConfig(JobBase $job) : array {
-        if (!$job instanceof JobBindingToExchangeCreate) {
+        if (!$job instanceof JobBindingToExchangeDelete) {
             throw new \RuntimeException('Wrong argument');
         }
 
