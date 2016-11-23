@@ -11,7 +11,7 @@ use mcorten87\rabbitmq_api\services\MqManagementConfig;
 
 class JobExchangeListNameMapper  extends BaseMapper
 {
-    function mapMethod() : Method {
+    protected function mapMethod() : Method {
         return new Method(Method::METHOD_GET);
     }
 
