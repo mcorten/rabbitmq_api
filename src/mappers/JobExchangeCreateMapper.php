@@ -4,6 +4,7 @@ namespace mcorten87\rabbitmq_api\mappers;
 
 
 use mcorten87\rabbitmq_api\jobs\JobBase;
+use mcorten87\rabbitmq_api\jobs\JobExchangeCreate;
 use mcorten87\rabbitmq_api\objects\Method;
 use mcorten87\rabbitmq_api\objects\Url;
 use mcorten87\rabbitmq_api\services\MqManagementConfig;
@@ -21,8 +22,8 @@ class JobExchangeCreateMapper extends BaseMapper
      */
     protected function mapUrl(JobBase $job) : Url
     {
-        if (!$job instanceof JobBindingToQueueCreate) {
-            throw new WrongArgumentException($job, JobBindingToExchangeDelete::class);
+        if (!$job instanceof JobExchangeCreate) {
+            throw new WrongArgumentException($job, JobExchangeCreate::class);
         }
 
         return new Url('exchanges/'.urlencode($job->getVirtualHost()).'/'.urlencode($job->getExchangeName()));
