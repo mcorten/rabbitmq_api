@@ -21,7 +21,6 @@ use mcorten87\rabbitmq_api\mappers\JobBindingToQueueDeleteMapper;
 use mcorten87\rabbitmq_api\mappers\JobExchangeCreateMapper;
 use mcorten87\rabbitmq_api\mappers\JobExchangeDeleteMapper;
 use mcorten87\rabbitmq_api\mappers\JobExchangeListMapper;
-use mcorten87\rabbitmq_api\mappers\JobExchangeListMapper;
 use mcorten87\rabbitmq_api\mappers\JobExchangeListVirtualHostMapper;
 use mcorten87\rabbitmq_api\mappers\JobPermissionCreateMapper;
 use mcorten87\rabbitmq_api\mappers\JobPermissionDeleteMapper;
@@ -179,11 +178,6 @@ class MqManagementFactory
 
         $this->container
             ->register(JobExchangeListVirtualHostMapper::class, JobExchangeListVirtualHostMapper::class)
-            ->addArgument($this->config)
-        ;
-
-        $this->container
-            ->register(JobExchangeListMapper::class, JobExchangeListMapper::class)
             ->addArgument($this->config)
         ;
 
