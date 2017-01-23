@@ -6,7 +6,6 @@ namespace mcorten87\rabbitmq_api;
 use GuzzleHttp\Client;
 use mcorten87\rabbitmq_api\exceptions\NoMapperForJob;
 use mcorten87\rabbitmq_api\jobs\JobBase;
-use mcorten87\rabbitmq_api\jobs\JobBindingListBetweenQueueAndExchange;
 use mcorten87\rabbitmq_api\jobs\JobVirtualHostsList;
 use mcorten87\rabbitmq_api\mappers\BaseMapper;
 use mcorten87\rabbitmq_api\mappers\JobBindingListAllMapper;
@@ -22,6 +21,7 @@ use mcorten87\rabbitmq_api\mappers\JobExchangeCreateMapper;
 use mcorten87\rabbitmq_api\mappers\JobExchangeDeleteMapper;
 use mcorten87\rabbitmq_api\mappers\JobExchangeListMapper;
 use mcorten87\rabbitmq_api\mappers\JobExchangeListVirtualHostMapper;
+use mcorten87\rabbitmq_api\mappers\JobExchangePublishMapper;
 use mcorten87\rabbitmq_api\mappers\JobPermissionCreateMapper;
 use mcorten87\rabbitmq_api\mappers\JobPermissionDeleteMapper;
 use mcorten87\rabbitmq_api\mappers\JobPermissionListAllMapper;
@@ -178,6 +178,11 @@ class MqManagementFactory
 
         $this->container
             ->register(JobExchangeListVirtualHostMapper::class, JobExchangeListVirtualHostMapper::class)
+            ->addArgument($this->config)
+        ;
+
+        $this->container
+            ->register(JobExchangePublishMapper::class, JobExchangePublishMapper::class)
             ->addArgument($this->config)
         ;
 
