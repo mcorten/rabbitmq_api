@@ -3,7 +3,6 @@
   "description": "Manage rabbitmq from your PHP application",
   "minimum-stability": "stable",
   "license": "WTFPL",
-  "version": "0.0.20",
   "authors": [
     {
       "name": "Mathijs Corten",
