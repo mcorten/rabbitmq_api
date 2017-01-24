@@ -2,8 +2,8 @@
   "name": "mcorten/rabbitmq_api",
   "description": "Manage rabbitmq from your PHP application",
   "minimum-stability": "stable",
-  "license": "proprietary",
-  "version": "0.0.13",
+  "license": "WTFPL",
+  "version": "0.0.20",
   "authors": [
     {
       "name": "Mathijs Corten",
