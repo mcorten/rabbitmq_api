@@ -34,4 +34,9 @@ class BaseObject
     {
         return $this->value;
     }
+
+    public function __toInt() : int
+    {
+        return (int)$this->value;
+    }
 }

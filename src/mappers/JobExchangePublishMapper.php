@@ -44,7 +44,7 @@ class JobExchangePublishMapper  extends BaseMapper
             'payload_encoding' => 'string', // TODO
             'routing_key' => (string)$job->getRoutingKey(),
             'properties' => [
-                'delivery_mode' =>  (int)$job->getDeliveryMode(),
+                'delivery_mode' =>  $job->getDeliveryMode()->__toInt(),
                 'headers' => []         // TODO
             ]
         ];
