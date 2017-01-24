@@ -1,7 +1,6 @@
 {
   "name": "mcorten/rabbitmq_api",
   "description": "Manage rabbitmq from your PHP application",
-  "minimum-stability": "stable",
   "license": "WTFPL",
   "authors": [
     {
