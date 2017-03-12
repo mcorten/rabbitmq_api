@@ -15,6 +15,7 @@
     <logging>
         <log type="coverage-html" target="test/report/html/" charset="UTF-8" />
         <log type="coverage-xml" target="test/report/xml/" charset="UTF-8" />
+        <log type="testdox-text" target="test/report/testdox/testdox.txt" charset="UTF-8" />
     </logging>
 
     <php>
