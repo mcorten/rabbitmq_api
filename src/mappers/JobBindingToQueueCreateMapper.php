@@ -3,8 +3,8 @@
 namespace mcorten87\rabbitmq_api\mappers;
 
 
+use mcorten87\rabbitmq_api\exceptions\WrongArgumentException;
 use mcorten87\rabbitmq_api\jobs\JobBase;
-use mcorten87\rabbitmq_api\jobs\JobBindingToExchangeCreate;
 use mcorten87\rabbitmq_api\jobs\JobBindingToQueueCreate;
 use mcorten87\rabbitmq_api\objects\Method;
 use mcorten87\rabbitmq_api\objects\Url;
@@ -24,7 +24,7 @@ class JobBindingToQueueCreateMapper extends BaseMapper
     protected function mapUrl(JobBase $job) : Url
     {
         if (!$job instanceof JobBindingToQueueCreate) {
-            throw new WrongArgumentException($job, JobBindingToExchangeDelete::class);
+            throw new WrongArgumentException($job, self::class);
         }
 
         return new Url('bindings/'

@@ -2,27 +2,27 @@
 
 namespace mcorten87\rabbitmq_api\mappers;
 
+use mcorten87\rabbitmq_api\exceptions\WrongArgumentException;
 use mcorten87\rabbitmq_api\jobs\JobBase;
-use mcorten87\rabbitmq_api\jobs\JobExchangeDelete;
-use mcorten87\rabbitmq_api\jobs\JobExchangeList;
 use mcorten87\rabbitmq_api\jobs\JobExchangePublish;
-use mcorten87\rabbitmq_api\jobs\JobUserList;
 use mcorten87\rabbitmq_api\objects\Method;
 use mcorten87\rabbitmq_api\objects\Url;
 use mcorten87\rabbitmq_api\services\MqManagementConfig;
 
-class JobExchangePublishMapper  extends BaseMapper
+class JobExchangePublishMapper extends BaseMapper
 {
 
-    protected function mapMethod() : Method {
+    protected function mapMethod() : Method
+    {
         return new Method(Method::METHOD_POST);
     }
 
     /**
-     * @param JobExchangeDelete $job
+     * @param JobBase $job
      * @return Url
      */
-    protected function mapUrl(JobBase $job) : Url {
+    protected function mapUrl(JobBase $job) : Url
+    {
         if (!$job instanceof JobExchangePublish) {
             throw new WrongArgumentException($job, JobExchangePublish::class);
         }
@@ -35,10 +35,15 @@ class JobExchangePublishMapper  extends BaseMapper
     }
 
     /**
-     * @param JobExchangePublish $job
+     * @param JobBase $job
      * @return array
      */
-    protected function mapConfig(JobBase $job) : array {
+    protected function mapConfig(JobBase $job) : array
+    {
+        if (!$job instanceof JobExchangePublish) {
+            throw new WrongArgumentException($job, JobExchangePublish::class);
+        }
+
         $body = [
             'payload' => (string)$job->getMessage(),
             'payload_encoding' => 'string', // TODO

@@ -8,14 +8,15 @@
         </blacklist>
     </filter>
 
-    <testsuite name="mq_management">
+    <testsuite name="unit">
         <directory>./test/unit/</directory>
+        <directory>./test/integration/</directory>
     </testsuite>
 
     <logging>
-        <log type="coverage-html" target="test/report/html/" charset="UTF-8" />
-        <log type="coverage-xml" target="test/report/xml/" charset="UTF-8" />
-        <log type="testdox-text" target="test/report/testdox/testdox.txt" charset="UTF-8" />
+        <log type="coverage-html" target="documentation/test/html/" charset="UTF-8" />
+        <log type="coverage-xml" target="documentation/test/xml/" charset="UTF-8" />
+        <log type="testdox-text" target="documentation/test/testdox/testdox.txt" charset="UTF-8" />
     </logging>
 
     <php>

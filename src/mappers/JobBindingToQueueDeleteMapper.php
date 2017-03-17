@@ -3,8 +3,8 @@
 namespace mcorten87\rabbitmq_api\mappers;
 
 
+use mcorten87\rabbitmq_api\exceptions\WrongArgumentException;
 use mcorten87\rabbitmq_api\jobs\JobBase;
-use mcorten87\rabbitmq_api\jobs\JobBindingToExchangeCreate;
 use mcorten87\rabbitmq_api\jobs\JobBindingToQueueDelete;
 use mcorten87\rabbitmq_api\objects\Method;
 use mcorten87\rabbitmq_api\objects\Url;

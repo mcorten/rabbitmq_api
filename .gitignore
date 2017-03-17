@@ -4,6 +4,6 @@
 composer.phar
 vendor/*
 example/*
-test/report/*
+documentation/*
 
 test_manual.php
