@@ -61,7 +61,7 @@ class JobExchangeCreate extends JobBase
     }
 
     /**
-     * @param ExchangeArgument $newArgument
+     * @param ExchangeArgument $argument
      */
     public function addArgument(ExchangeArgument $argument)
     {

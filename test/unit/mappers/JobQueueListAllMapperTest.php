@@ -38,7 +38,7 @@ class JobQueueListAllMapperTest extends TestCase
         $mapper = new JobQueueListAllMapper($this->config);
         $mapResult = $mapper->map($job);
 
-        $this->assertEquals(Method::METHOD_GET, $mapResult->getMethod()->getValue());
+        $this->assertEquals(Method::GET, $mapResult->getMethod()->getValue());
         $this->assertEquals('queues', $mapResult->getUrl());
     }
 }

@@ -30,7 +30,7 @@ class ExchangeArgument extends BaseObject
 
     public function validate($value) : bool
     {
-        if (empty($this->getArgumentName())) {
+        if (empty($this->getArgumentName()) || empty($value)) {
             return false;
         }
 
@@ -39,8 +39,8 @@ class ExchangeArgument extends BaseObject
             case self::ALTERNATE_EXCHAGE:
                 return true;
 
-            default :
-                throw new \RuntimeException('Argument not supported');
+            default:
+                return false;
         }
     }
 }

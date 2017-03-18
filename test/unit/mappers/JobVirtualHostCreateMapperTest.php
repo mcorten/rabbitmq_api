@@ -40,7 +40,7 @@ class JobVirtualHostCreateMapperTest extends TestCase
         $mapper = new JobVirtualHostCreateMapper($this->config);
         $mapResult = $mapper->map($job);
 
-        $this->assertEquals(Method::METHOD_PUT, $mapResult->getMethod()->getValue());
+        $this->assertEquals(Method::PUT, $mapResult->getMethod()->getValue());
         $this->assertEquals('vhosts/'.urlencode($virtualHost), $mapResult->getUrl());
     }
 }

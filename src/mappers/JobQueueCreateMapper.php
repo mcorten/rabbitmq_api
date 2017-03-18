@@ -13,7 +13,7 @@ class JobQueueCreateMapper extends BaseMapper
 {
     protected function mapMethod() : Method
     {
-        return new Method(Method::METHOD_PUT);
+        return new Method(Method::PUT);
     }
 
     protected function mapUrl(JobBase $job) : Url

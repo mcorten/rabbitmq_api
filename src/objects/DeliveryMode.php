@@ -19,7 +19,7 @@ class DeliveryMode extends BaseObject
             case self::PERSISTENT:
                 return true;
             default:
-                return parent::validate($value);
+                return false;
         }
     }
 }

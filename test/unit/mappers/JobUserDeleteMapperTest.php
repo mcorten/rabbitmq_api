@@ -39,7 +39,7 @@ class JobUserDeleteMapperTest extends TestCase
         $mapper = new JobUserDeleteMapper($this->config);
         $mapResult = $mapper->map($job);
 
-        $this->assertEquals(Method::METHOD_DELETE, $mapResult->getMethod()->getValue());
+        $this->assertEquals(Method::DELETE, $mapResult->getMethod()->getValue());
         $this->assertEquals('users/'.urlencode($user), $mapResult->getUrl());
     }
 

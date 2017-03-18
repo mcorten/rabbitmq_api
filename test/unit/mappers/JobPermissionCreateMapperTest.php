@@ -45,7 +45,7 @@ class JobPermissionCreateMapperTest extends TestCase
             .urlencode($job->getVirtualHost())
             .'/'.urlencode($job->getUser());
 
-        $this->assertEquals(Method::METHOD_PUT, $mapResult->getMethod()->getValue());
+        $this->assertEquals(Method::PUT, $mapResult->getMethod()->getValue());
         $this->assertEquals($url, $mapResult->getUrl()->getValue());
 
         $config = $mapResult->getConfig();

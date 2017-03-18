@@ -11,9 +11,10 @@ class ExchangeName extends BaseObject
 
     public function validate($value) : bool
     {
-        if (empty($value)) {
-            return false;
+        if (!empty($value)) {
+            return true;
         }
-        return parent::validate($value);
+        
+        return false;
     }
 }

@@ -43,7 +43,7 @@ class JobPermissionListVirtualHostMapperTest extends TestCase
         $mapper = new JobPermissionListVirtualHostMapper($this->config);
         $mapResult = $mapper->map($job);
 
-        $this->assertEquals(Method::METHOD_GET, $mapResult->getMethod()->getValue());
+        $this->assertEquals(Method::GET, $mapResult->getMethod()->getValue());
         $this->assertEquals('vhosts/'.urlencode($virtualHost).'/permissions', $mapResult->getUrl()->getValue());
 
         $config = $mapResult->getConfig();

@@ -40,7 +40,7 @@ class JobVirtualHostDeleteMapperTest extends TestCase
         $mapper = new JobVirtualHostDeleteMapper($this->config);
         $mapResult = $mapper->map($job);
 
-        $this->assertEquals(Method::METHOD_DELETE, $mapResult->getMethod()->getValue());
+        $this->assertEquals(Method::DELETE, $mapResult->getMethod()->getValue());
         $this->assertEquals('vhosts/'.urlencode($virtualHost), $mapResult->getUrl());
     }
 }

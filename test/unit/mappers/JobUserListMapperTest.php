@@ -38,7 +38,7 @@ class JobUserListMapperTest extends TestCase
         $mapper = new JobUserListMapper($this->config);
         $mapResult = $mapper->map($job);
 
-        $this->assertEquals(Method::METHOD_GET, $mapResult->getMethod()->getValue());
+        $this->assertEquals(Method::GET, $mapResult->getMethod()->getValue());
         $this->assertEquals('users', $mapResult->getUrl());
 
         $user = new User('t@#$%^&*()-=[]\'\;/.,est');

@@ -46,7 +46,7 @@ class JobBindingListALlMapperTest extends TestCase
 
         $url = 'bindings';
 
-        $this->assertEquals(Method::METHOD_GET, $mapResult->getMethod()->getValue());
+        $this->assertEquals(Method::GET, $mapResult->getMethod()->getValue());
         $this->assertEquals($url, $mapResult->getUrl()->getValue());
     }
 }

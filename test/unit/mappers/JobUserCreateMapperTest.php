@@ -47,7 +47,7 @@ class JobUserCreateMapperTest extends TestCase
         $mapResult = $mapper->map($job);
         $config = $mapResult->getConfig();
 
-        $this->assertEquals(Method::METHOD_PUT, $mapResult->getMethod()->getValue());
+        $this->assertEquals(Method::PUT, $mapResult->getMethod()->getValue());
         $this->assertEquals('users/'.urlencode($user), $mapResult->getUrl());
         $this->assertEquals($passwordHash->getValue(), $config['json']['password_hash']);
 

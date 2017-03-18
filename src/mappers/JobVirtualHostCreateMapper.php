@@ -17,7 +17,7 @@ class JobVirtualHostCreateMapper extends BaseMapper
      * @return Method
      */
     protected function mapMethod() : Method {
-        return new Method(Method::METHOD_PUT);
+        return new Method(Method::PUT);
     }
 
     /**

@@ -14,7 +14,7 @@ class JobBindingToQueueCreateMapper extends BaseMapper
 {
     protected function mapMethod() : Method
     {
-        return new Method(Method::METHOD_POST);
+        return new Method(Method::POST);
     }
 
     /**

@@ -4,10 +4,10 @@ namespace mcorten87\rabbitmq_api\objects;
 
 class Method extends BaseObject
 {
-    const METHOD_GET = 'GET';
-    const METHOD_POST = 'POST';
-    const METHOD_PUT = 'PUT';
-    const METHOD_DELETE = 'DELETE';
+    const GET = 'GET';
+    const POST = 'POST';
+    const PUT = 'PUT';
+    const DELETE = 'DELETE';
 
     public function __construct(string $value)
     {
@@ -17,10 +17,10 @@ class Method extends BaseObject
     protected function validate($value) : bool
     {
         switch ($value) {
-            case self::METHOD_GET:
-            case self::METHOD_POST:
-            case self::METHOD_PUT:
-            case self::METHOD_DELETE:
+            case self::GET:
+            case self::POST:
+            case self::PUT:
+            case self::DELETE:
                 return true;
             default:
                 return false;

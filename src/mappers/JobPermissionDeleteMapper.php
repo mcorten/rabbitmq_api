@@ -13,7 +13,7 @@ class JobPermissionDeleteMapper extends BaseMapper
 {
 
     protected function mapMethod() : Method {
-        return new Method(Method::METHOD_DELETE);
+        return new Method(Method::DELETE);
     }
 
     /**

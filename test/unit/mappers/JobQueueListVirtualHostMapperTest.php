@@ -40,7 +40,7 @@ class JobQueueListVirtualHostMapperTest extends TestCase
         $mapper = new JobQueueListVirtualHostMapper($this->config);
         $mapResult = $mapper->map($job);
 
-        $this->assertEquals(Method::METHOD_GET, $mapResult->getMethod()->getValue());
+        $this->assertEquals(Method::GET, $mapResult->getMethod()->getValue());
         $this->assertEquals('queues/'.urlencode($virtualHost), $mapResult->getUrl());
     }
 }

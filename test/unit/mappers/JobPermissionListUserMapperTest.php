@@ -42,7 +42,7 @@ class JobPermissionListUserMapperTest extends TestCase
         $mapper = new JobPermissionListUserMapper($this->config);
         $mapResult = $mapper->map($job);
 
-        $this->assertEquals(Method::METHOD_GET, $mapResult->getMethod()->getValue());
+        $this->assertEquals(Method::GET, $mapResult->getMethod()->getValue());
         $this->assertEquals('users/'.urlencode($user).'/permissions', $mapResult->getUrl()->getValue());
 
         $config = $mapResult->getConfig();

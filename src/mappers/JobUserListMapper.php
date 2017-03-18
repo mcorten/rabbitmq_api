@@ -17,7 +17,7 @@ class JobUserListMapper  extends BaseMapper
      * @return Method
      */
     protected function mapMethod() : Method {
-        return new Method(Method::METHOD_GET);
+        return new Method(Method::GET);
     }
 
     /**

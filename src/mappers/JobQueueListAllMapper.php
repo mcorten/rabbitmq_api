@@ -13,7 +13,7 @@ class JobQueueListAllMapper  extends BaseMapper
 {
     protected function mapMethod() : Method
     {
-        return new Method(Method::METHOD_GET);
+        return new Method(Method::GET);
     }
 
     /**
