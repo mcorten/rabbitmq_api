@@ -16,7 +16,7 @@ class Mapper extends BaseMapper
 
     protected function mapUrl(JobBase $job) : Url
     {
-        return new Url("");
+        return new Url("http://www.test.nl");
     }
 
 }

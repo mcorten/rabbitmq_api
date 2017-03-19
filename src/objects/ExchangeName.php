@@ -11,10 +11,6 @@ class ExchangeName extends BaseObject
 
     public function validate($value) : bool
     {
-        if (!empty($value)) {
-            return true;
-        }
-        
-        return false;
+        return !empty($value) || is_numeric($value);
     }
 }

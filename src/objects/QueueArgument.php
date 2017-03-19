@@ -70,21 +70,20 @@ class QueueArgument extends BaseObject
             return false;
         }
 
-
         switch ($this->argumentName) {
             case self::MESSAGE_TTL:
             case self::EXPIRES:
             case self::MAX_LENGTH:
             case self::MAX_BYTES:
             case self::MAX_PRIORITY:
-                return is_numeric($this->getValue());
+                return is_numeric($this->getValue()) && $this->getValue() >= 0;
 
             case self::MAX_DEAD_LETTER_EXCHAGE:
             case self::MAX_DEAD_LETTER_ROUTING_KEY:
-                return true;
+                return !empty($value);
 
-            default :
-                throw new \RuntimeException('Argument not supported');
+            default:
+                return false;
         }
     }
 }

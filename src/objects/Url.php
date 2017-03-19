@@ -8,4 +8,10 @@ class Url extends BaseObject
     {
         parent::__construct($value);
     }
+
+    protected function validate($value): bool
+    {
+        return !empty($value);
+    }
+
 }

@@ -24,6 +24,8 @@ class DeliveryModeTest extends TestCase
     {
         $deliveryMode = new DeliveryMode($value);
         $this->assertEquals($value, $deliveryMode->getValue());
+        $this->assertEquals((string)$value, (string)$deliveryMode);
+        $this->assertEquals($value, $deliveryMode->__toInt());
     }
 
     /**
