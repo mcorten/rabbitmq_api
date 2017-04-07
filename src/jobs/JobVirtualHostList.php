@@ -13,6 +13,7 @@ use mcorten87\rabbitmq_api\objects\VirtualHost;
 
 class JobVirtualHostList extends JobBase
 {
+    // TODO this should be in its own class
     /**
      * @var VirtualHost
      */
