@@ -1,4 +1,4 @@
-<phpunit colors="true" bootstrap="vendor/autoload.php" stopOnError="true" stopOnFailure="true" stopOnSkipped="true" strict="true">
+<phpunit colors="true" bootstrap="test/integration/Bootstrap.php" stopOnError="true" stopOnFailure="true" stopOnSkipped="true" strict="true">
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">./src/</directory>
@@ -10,6 +10,8 @@
 
     <testsuite name="unit">
         <directory>./test/unit/</directory>
+    </testsuite>
+    <testsuite name="integration">
         <directory>./test/integration/</directory>
     </testsuite>
 

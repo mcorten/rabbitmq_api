@@ -10,7 +10,10 @@ class MapResult
     private $method;
 
     /** @return Method */
-    public function getMethod() { return $this->method; }
+    public function getMethod()
+    {
+        return $this->method;
+    }
 
     /**
      * @var Url
@@ -18,7 +21,10 @@ class MapResult
     private $url;
 
     /** @return Url */
-    public function getUrl() { return $this->url; }
+    public function getUrl()
+    {
+        return $this->url;
+    }
 
     /**
      * @var array
@@ -26,7 +32,10 @@ class MapResult
     private $config;
 
     /** @return array */
-    public function getConfig() { return $this->config; }
+    public function getConfig()
+    {
+        return $this->config;
+    }
 
     public function __construct(Method $method, Url $url, array $config)
     {

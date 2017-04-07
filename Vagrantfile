@@ -6,7 +6,7 @@
 # backwards compatibility). Please don't change it unless you know what
 # you're doing.
 Vagrant.configure(2) do |config|
-	config.vm.box = "ubuntu/trusty64"
+	config.vm.box = "ubuntu/zesty64"
 
 	config.vm.define "web" do |web|
 		web.vm.network "private_network", ip: "192.168.33.10"
@@ -14,7 +14,7 @@ Vagrant.configure(2) do |config|
 		web.vm.provision :shell, path: "setup/bootstrap_webserver.sh"
 
 		web.vm.provider "virtualbox" do |vbox|
-			vbox.memory = 1024
+			vbox.memory = 2048
 			vbox.cpus = 2
 		end
 	end

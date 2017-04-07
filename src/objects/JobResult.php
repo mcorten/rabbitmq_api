@@ -8,6 +8,9 @@
 
 namespace mcorten87\rabbitmq_api\objects;
 
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Psr7\Response;
+
 /**
  * A wrapper for \GuzzleHttp\Psr7\Response
  *
@@ -18,23 +21,39 @@ class JobResult
 {
     private $response;
 
-    /**
-     * @param mixed $response
-     */
-    public function setResponse($response)
+    public static function populateFromClientException(ClientException $e)
+    {
+        $data = json_decode($e->getResponse()->getBody());
+
+        // find out what kind of error happend and give some extra help
+        if (strpos($data->reason, 'inequivalent arg \'durable\'') !== false) {
+            $data->cause = 'Queue already exists with different durable stat, delete the queue first';
+        }
+
+        $res = new Response($e->getCode(), $e->getResponse()->getHeaders(), json_encode($data));
+        return new JobResult($res);
+    }
+
+    public function __construct($response)
     {
         $this->response = $response;
     }
 
-    public function getBody() {
-        return $this->response->getBody()->getContents();
+    public function getBody()
+    {
+        $bodyContent = $this->response->getBody()->getContents();
+        if (!empty($bodyContent)) {
+            return json_decode($bodyContent);
+        }
+
+        return [];
     }
 
     /**
      * @return mixed
      */
-    public function getSuccess()
+    public function isSuccess()
     {
-        return $this->response->getStatusCode() === 200;
+        return $this->response->getStatusCode() === 200 || $this->response->getStatusCode() === 204;
     }
 }

@@ -2,7 +2,6 @@
 
 namespace mcorten87\rabbitmq_api;
 
-
 use GuzzleHttp\Client;
 use mcorten87\rabbitmq_api\exceptions\NoMapperForJob;
 use mcorten87\rabbitmq_api\jobs\JobBase;
@@ -42,7 +41,6 @@ use mcorten87\rabbitmq_api\mappers\JobVirtualHostListMapper;
 use mcorten87\rabbitmq_api\objects\JobResult;
 use mcorten87\rabbitmq_api\services\JobService;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 
 class MqManagementFactory
@@ -51,7 +49,8 @@ class MqManagementFactory
     /** @var MqManagementConfig */
     private $config;
 
-    public function getConfig() : MqManagementConfig {
+    public function getConfig() : MqManagementConfig
+    {
         return $this->config;
     }
 
@@ -70,7 +69,8 @@ class MqManagementFactory
     /**
      * @param MqManagementConfig $config
      */
-    public function register(MqManagementConfig $config) {
+    public function register(MqManagementConfig $config)
+    {
         $this->config = $config;
 
         $this->container->register(Client::class, Client::class);
@@ -83,12 +83,8 @@ class MqManagementFactory
         $this->registerJobs();
     }
 
-    protected function registerJobs() {
-        // results
-        $definition = new Definition('mcorten87\rabbitmq_api\objects\JobResult');
-        $definition->setShared(false);
-        $this->container->setDefinition(JobResult::class, $definition);
-
+    protected function registerJobs()
+    {
         // virtual hosts
         $this->container->register(JobVirtualHostListMapper::class, JobVirtualHostListMapper::class)
             ->addArgument($this->config)
@@ -237,8 +233,10 @@ class MqManagementFactory
         ;
 
         $this->container
-            ->register(JobBindingListBetweenQueueAndExchangeMapper::class, JobBindingListBetweenQueueAndExchangeMapper::class)
-            ->addArgument($this->config)
+            ->register(
+                JobBindingListBetweenQueueAndExchangeMapper::class,
+                JobBindingListBetweenQueueAndExchangeMapper::class
+            )->addArgument($this->config)
         ;
     }
 
@@ -246,9 +244,27 @@ class MqManagementFactory
      * @param  String $class
      * @return JobBase
      */
-    public function get(String $class) {
+    private function get(String $class)
+    {
         $result = $this->container->get($class);
         return $result;
+    }
+
+    /**
+     * @return JobService
+     */
+    public function getJobService()
+    {
+        return $this->get(JobService::class);
+    }
+
+    /**
+     * @param $result
+     * @return JobResult
+     */
+    public function getJobResult($result)
+    {
+        return new JobResult($result);
     }
 
     /**
@@ -258,7 +274,8 @@ class MqManagementFactory
      * @return BaseMapper
      * @throws NoMapperForJob
      */
-    public function getJobMapper(JobBase $job) : BaseMapper {
+    public function getJobMapper(JobBase $job) : BaseMapper
+    {
         $class = get_class($job);
         $class = str_replace('\\jobs\\', '\\mappers\\', $class);
         $class .= 'Mapper';

@@ -1,6 +1,11 @@
 language: php
 php:
   - 7.0
+services:
+  - rabbitmq
+install:
+    - sudo rabbitmq-plugins enable rabbitmq_management
+    - sudo service rabbitmq-server restart
 before_script:
   - "mkdir -p ~/.composer"
   - composer self-update

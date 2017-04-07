@@ -11,3 +11,7 @@ for now the stability level is alpha which means:
 - no automated testing available so who knows what supprising bugs may appear ^^ (keeping things interesting)
 
 so only use this is you want to contribute
+
+
+
+phpcs src/ -p --report=full --report-file=documentation/phpcs.txt

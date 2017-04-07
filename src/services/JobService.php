@@ -4,7 +4,6 @@ namespace mcorten87\rabbitmq_api\services;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Psr7\Response;
 use mcorten87\rabbitmq_api\jobs\JobBase;
 use mcorten87\rabbitmq_api\MqManagementFactory;
 use mcorten87\rabbitmq_api\objects\JobResult;
@@ -28,7 +27,8 @@ class JobService
      * @return JobResult
      * @throws \mcorten87\rabbitmq_api\exceptions\NoMapperForJob
      */
-    public function execute(JobBase $job) : JobResult {
+    public function execute(JobBase $job) : JobResult
+    {
         $mapper = $this->factory->getJobMapper($job);
 
         $mapResult = $mapper->map($job);
@@ -39,24 +39,10 @@ class JobService
                 $this->factory->getConfig()->getUrl().$mapResult->getUrl(),
                 $mapResult->getConfig()
             );
+
+            return new JobResult($res);
         } catch (ClientException $e) {
-
-            $data = json_decode($e->getResponse()->getBody());
-
-            // find out what kind of error happend and give some extra help
-            if (strpos($data->reason, 'inequivalent arg \'durable\'') !== false) {
-                $data->cause = 'Queue already exists with different durable stat, delete the queue first';
-                $res = new Response($e->getCode(), $e->getResponse()->getHeaders(), json_encode($data));
-            } elseif ($data->error === 'Object Not Found') {
-                $res = new Response($e->getCode(), $e->getResponse()->getHeaders(), json_encode($data));
-            } else {
-                throw $e;
-            }
+            return JobResult::populateFromClientException($e);
         }
-
-        /** @var JobResult $jobResult */
-        $jobResult = $this->factory->get(JobResult::class);
-        $jobResult->setResponse($res);
-        return $jobResult;
     }
 }
