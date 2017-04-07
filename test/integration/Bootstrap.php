@@ -58,7 +58,7 @@ class Bootstrap
 
     private static function setupTravis()
     {
-        $url = new Url('http://127.0.0.1/api/');
+        $url = new Url('http://127.0.0.1:15672/api/');
         $user = new User('guest');
         $password = new Password('guest');
 
