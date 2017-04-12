@@ -25,9 +25,8 @@ class JobResult
     {
         $body = $e->getResponse()->getBody();
         $data = json_decode($body);
-        if ($data === false) {  // debug for scrutenizer failing
-            echo 'Failed to convert json: '.$body;
-        }
+
+        echo 'Populating from body: '.$body;
 
         // find out what kind of error happend and give some extra help
         if (strpos($data->reason, 'inequivalent arg \'durable\'') !== false) {
