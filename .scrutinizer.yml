@@ -4,9 +4,14 @@ checks:
     php:
         code_rating: true
         duplication: true
-tools:
-    external_code_coverage: true
 build:
+    tests:
+        override:
+            -
+                command: 'vendor/bin/phpunit --coverage-clover=coverage.clover'
+                coverage:
+                    file: 'coverage.clover'
+                format: 'clover'
     dependencies:
         after:
             - 'wget --progress=bar:force http://www.rabbitmq.com/releases/rabbitmq-server/v3.5.7/rabbitmq-server_3.5.7-1_all.deb'
@@ -20,3 +25,4 @@ build:
             version: 7.0.8
 
 
+build:
