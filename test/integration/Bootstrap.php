@@ -40,6 +40,10 @@ class Bootstrap
             $config = self::setupTravis();
         }
 
+        if (getenv('SCRUTINIZER') !== false) {
+            $config = self::setupScrutenizer();
+        }
+
         $factory = new MqManagementFactory();
         $mqManagement = new MqManagermentService($factory, $config);
 
@@ -57,6 +61,15 @@ class Bootstrap
     }
 
     private static function setupTravis()
+    {
+        $url = new Url('http://127.0.0.1:15672/api/');
+        $user = new User('guest');
+        $password = new Password('guest');
+
+        return new MqManagementConfig($user, $password, $url);
+    }
+
+    private static function setupScrutenizer()
     {
         $url = new Url('http://127.0.0.1:15672/api/');
         $user = new User('guest');

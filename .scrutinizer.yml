@@ -7,6 +7,13 @@ checks:
 tools:
     external_code_coverage: true
 build:
+    dependencies:
+        after:
+            - 'rabbitmq-plugins enable rabbitmq_management'
+            - 'service rabbitmq-server restart'
     environment:
+        rabbitmq: true
         php:
             version: 7.0.8
+
+
