@@ -23,7 +23,11 @@ class JobResult
 
     public static function populateFromClientException(ClientException $e)
     {
-        $data = json_decode($e->getResponse()->getBody());
+        $body = $e->getResponse()->getBody();
+        $data = json_decode($body);
+        if ($data === false) {  // debug for scrutenizer failing
+            echo 'Failed to convert json: '.$body;
+        }
 
         // find out what kind of error happend and give some extra help
         if (strpos($data->reason, 'inequivalent arg \'durable\'') !== false) {
