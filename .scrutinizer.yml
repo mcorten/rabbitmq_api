@@ -11,7 +11,7 @@ build:
                 command: 'vendor/bin/phpunit --coverage-clover=coverage.clover'
                 coverage:
                     file: 'coverage.clover'
-                format: 'clover'
+                    format: 'clover'
     dependencies:
         after:
             - 'wget --progress=bar:force http://www.rabbitmq.com/releases/rabbitmq-server/v3.5.7/rabbitmq-server_3.5.7-1_all.deb'
