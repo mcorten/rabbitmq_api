@@ -9,8 +9,8 @@ tools:
 build:
     dependencies:
         after:
-            - 'rabbitmq-plugins enable rabbitmq_management'
-            - 'service rabbitmq-server restart'
+            - 'sudo rabbitmq-plugins enable rabbitmq_management'
+            - 'sudo service rabbitmq-server restart'
     environment:
         rabbitmq: true
         php:
