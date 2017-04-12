@@ -26,8 +26,6 @@ class JobResult
         $body = $e->getResponse()->getBody();
         $data = json_decode($body);
 
-        echo 'Populating from body: '.$body;
-
         // find out what kind of error happend and give some extra help
         if (strpos($data->reason, 'inequivalent arg \'durable\'') !== false) {
             $data->cause = 'Queue already exists with different durable stat, delete the queue first';
