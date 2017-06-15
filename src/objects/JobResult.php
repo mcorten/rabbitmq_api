@@ -55,6 +55,8 @@ class JobResult
      */
     public function isSuccess()
     {
-        return $this->response->getStatusCode() === 200 || $this->response->getStatusCode() === 204;
+        return $this->response->getStatusCode() === 200
+            || $this->response->getStatusCode() === 201
+            || $this->response->getStatusCode() === 204;
     }
 }
