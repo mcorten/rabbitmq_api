@@ -43,7 +43,7 @@ class JobUserCreate extends JobBase
     /**
      * @param PasswordHash $passwordHash
      */
-    public function setPasswordHash($passwordHash)
+    public function setPasswordHash(PasswordHash $passwordHash)
     {
         $this->passwordHash = $passwordHash;
     }
