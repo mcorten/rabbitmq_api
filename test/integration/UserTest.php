@@ -1,29 +1,11 @@
 <?php
-use mcorten87\rabbitmq_api\jobs\JobBindingToQueueCreate;
-use mcorten87\rabbitmq_api\jobs\JobExchangeCreate;
-use mcorten87\rabbitmq_api\jobs\JobExchangeDelete;
-use mcorten87\rabbitmq_api\jobs\JobExchangeList;
-use mcorten87\rabbitmq_api\jobs\JobExchangeListAll;
-use mcorten87\rabbitmq_api\jobs\JobExchangeListVirtualHost;
-use mcorten87\rabbitmq_api\jobs\JobExchangePublish;
-use mcorten87\rabbitmq_api\jobs\JobPermissionCreate;
-use mcorten87\rabbitmq_api\jobs\JobQueueCreate;
-use mcorten87\rabbitmq_api\jobs\JobQueueList;
 use mcorten87\rabbitmq_api\jobs\JobUserCreate;
 use mcorten87\rabbitmq_api\jobs\JobUserDelete;
 use mcorten87\rabbitmq_api\jobs\JobUserList;
-use mcorten87\rabbitmq_api\jobs\JobVirtualHostCreate;
-use mcorten87\rabbitmq_api\jobs\JobVirtualHostDelete;
-use mcorten87\rabbitmq_api\objects\DeliveryMode;
-use mcorten87\rabbitmq_api\objects\ExchangeArgument;
-use mcorten87\rabbitmq_api\objects\ExchangeName;
-use mcorten87\rabbitmq_api\objects\Message;
 use mcorten87\rabbitmq_api\objects\Password;
 use mcorten87\rabbitmq_api\objects\PasswordHash;
-use mcorten87\rabbitmq_api\objects\QueueName;
 use mcorten87\rabbitmq_api\objects\User;
 use mcorten87\rabbitmq_api\objects\UserTag;
-use mcorten87\rabbitmq_api\objects\VirtualHost;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -42,7 +24,7 @@ class UserTest extends TestCase
     {
         self::$user = new User(sprintf('integration-test-%1$s-%2$s', __CLASS__, time()));
         self::$userTag = new UserTag(UserTag::MONITORING);
-        self::$password = new Password(time().rand(1,1000));
+        self::$password = new Password(time().rand(1, 1000));
     }
 
     public static function tearDownAfterClass()
@@ -103,8 +85,6 @@ class UserTest extends TestCase
         $this->assertEquals((string)self::$user, $newUserListBody->name);
         $this->assertEquals((string)self::$userTag, $newUserListBody->tags);
         $this->assertEquals($userListBody->password_hash, $newUserListBody->password_hash);
-
-
     }
 
     public function testListAllUsers()
