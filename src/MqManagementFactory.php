@@ -74,7 +74,7 @@ class MqManagementFactory
      */
     public function getJobService()
     {
-        return $this->get(JobService::class);
+        return $this->container->get(JobService::class);
     }
 
     /**

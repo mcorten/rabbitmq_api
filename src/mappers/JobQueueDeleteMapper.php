@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 namespace mcorten87\rabbitmq_api\mappers;
 
 
@@ -21,6 +21,8 @@ class JobQueueDeleteMapper extends BaseMapper
      * @return Url
      */
     protected function mapUrl(JobBase $job) : Url {
-        return new Url('queues/'.urlencode($job->getVirtualhost()).'/'.urlencode($job->getQueueName()));
+        return new Url('queues/'
+            .urlencode((string)$job->getVirtualhost())
+            .'/'.urlencode((string)$job->getQueueName()));
     }
 }

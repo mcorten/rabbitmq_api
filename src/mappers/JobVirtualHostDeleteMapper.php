@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 namespace mcorten87\rabbitmq_api\mappers;
 
 
@@ -25,6 +25,8 @@ class JobVirtualHostDeleteMapper extends BaseMapper
      * @return Url
      */
     protected function mapUrl(JobBase $job) : Url {
-        return new Url('vhosts/'.urlencode($job->getVirtualHost()));
+        return new Url('vhosts/'
+            .urlencode((string)$job->getVirtualHost())
+        );
     }
 }

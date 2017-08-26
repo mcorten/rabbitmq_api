@@ -18,10 +18,15 @@ class JobUserList extends JobBase
      */
     private $user;
 
+    public function hasUser() : bool
+    {
+        return $this->user instanceof User;
+    }
+
     /**
      * @return User
      */
-    public function getUser()
+    public function getUser(): User
     {
         return $this->user;
     }

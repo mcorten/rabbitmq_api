@@ -62,13 +62,13 @@ class JobExchangeCreate extends JobBase
     /**
      * @param ExchangeArgument $argument
      */
-    public function addArgument(ExchangeArgument $argument)
+    public function addArgument(ExchangeArgument $argument): void
     {
         $this->arguments[] = $argument;
     }
 
     /** @return VirtualHost */
-    public function getVirtualHost() : VirtualHost
+    public function getVirtualHost(): VirtualHost
     {
         return $this->virtualHost;
     }
@@ -76,7 +76,7 @@ class JobExchangeCreate extends JobBase
     /**
      * @return ExchangeName
      */
-    public function getExchangeName()
+    public function getExchangeName(): ExchangeName
     {
         return $this->exchangeName;
     }
@@ -84,7 +84,7 @@ class JobExchangeCreate extends JobBase
     /**
      * @return boolean
      */
-    public function isAutoDelete()
+    public function isAutoDelete(): bool
     {
         return $this->autoDelete;
     }
@@ -92,7 +92,7 @@ class JobExchangeCreate extends JobBase
     /**
      * @return boolean
      */
-    public function isDurable()
+    public function isDurable(): bool
     {
         return $this->durable;
     }

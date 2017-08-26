@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 namespace mcorten87\rabbitmq_api\mappers;
 
 
@@ -27,7 +27,7 @@ class JobPermissionListVirtualHostMapper extends BaseMapper
         }
 
         $url = 'vhosts';
-        $url .= '/'.urlencode($job->getVirtualHost());
+        $url .= '/'.urlencode((string)$job->getVirtualHost());
         $url .= '/permissions';
         return new Url($url);
     }

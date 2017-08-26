@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 namespace mcorten87\rabbitmq_api\mappers;
 
 
@@ -29,11 +29,11 @@ class JobBindingToQueueDeleteMapper extends BaseMapper
 
 
         return new Url('bindings/'
-            .urlencode($job->getVirtualHost()).'/'
+            .urlencode((string)$job->getVirtualHost()).'/'
             .'e/'
-            .urlencode($job->getExchangeName()).'/'
+            .urlencode((string)$job->getExchangeName()).'/'
             .$job->getDestinationType().'/'
-            .urlencode($job->getQueueName())
+            .urlencode((string)$job->getQueueName())
             .'/'.(!empty((string) $job->getRoutingKey()) ? (string) $job->getRoutingKey() : '~')
         );
     }

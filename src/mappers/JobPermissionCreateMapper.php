@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 namespace mcorten87\rabbitmq_api\mappers;
 
 
@@ -21,7 +21,10 @@ class JobPermissionCreateMapper extends BaseMapper
      * @return Url
      */
     protected function mapUrl(JobBase $job) : Url {
-        return new Url('permissions/'.urlencode($job->getVirtualHost()).'/'.urlencode($job->getUser()));
+        return new Url('permissions/'
+            .urlencode((string)$job->getVirtualHost())
+            .'/'.urlencode((string)$job->getUser())
+        );
     }
 
     /**

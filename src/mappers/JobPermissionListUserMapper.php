@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 namespace mcorten87\rabbitmq_api\mappers;
 
 
@@ -28,7 +28,7 @@ class JobPermissionListUserMapper extends BaseMapper
         }
 
         $url = 'users';
-        $url .= '/'.urlencode($job->getUser());
+        $url .= '/'.urlencode((string)$job->getUser());
         $url .= '/permissions';
         return new Url($url);
     }

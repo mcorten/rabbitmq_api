@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 namespace mcorten87\rabbitmq_api\mappers;
 
 use mcorten87\rabbitmq_api\exceptions\WrongArgumentException;
@@ -28,8 +28,8 @@ class JobExchangePublishMapper extends BaseMapper
         }
 
         $url = 'exchanges';
-        $url .= '/'.urlencode($job->getVirtualHost());
-        $url .= '/'.urlencode($job->getExchangeName());
+        $url .= '/'.urlencode((string)$job->getVirtualHost());
+        $url .= '/'.urlencode((string)$job->getExchangeName());
         $url .= '/publish';
         return new Url($url);
     }

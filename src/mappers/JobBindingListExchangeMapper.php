@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 namespace mcorten87\rabbitmq_api\mappers;
 
 use mcorten87\rabbitmq_api\exceptions\WrongArgumentException;
@@ -29,8 +29,8 @@ class JobBindingListExchangeMapper  extends BaseMapper
         }
 
         $url = 'exchanges';
-        $url .= sprintf('/%1$s', urlencode($job->getVirtualHost()));
-        $url .= sprintf('/%1$s', urlencode($job->getExchangeName()));
+        $url .= sprintf('/%1$s', urlencode((string)$job->getVirtualHost()));
+        $url .= sprintf('/%1$s', urlencode((string)$job->getExchangeName()));
         $url .= '/bindings/source';
         return new Url($url);
     }

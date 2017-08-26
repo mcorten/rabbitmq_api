@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 namespace mcorten87\rabbitmq_api\mappers;
 
 
@@ -27,8 +27,8 @@ class JobUserListMapper  extends BaseMapper
     protected function mapUrl(JobBase $job) : Url {
 
         $url = 'users';
-        if ($job->getUser() !== null) {
-            $url .= '/'.urlencode($job->getUser());
+        if ($job->hasUser()) {
+            $url .= '/'.urlencode((string)$job->getUser());
         }
 
         return new Url($url);

@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 namespace mcorten87\rabbitmq_api\mappers;
 
 
@@ -23,7 +23,7 @@ class JobUserDeleteMapper extends BaseMapper
      */
     protected function mapUrl(JobBase $job) : Url {
         $url = 'users';
-        $url .= '/'.urlencode($job->getUser());
+        $url .= '/'.urlencode((string)$job->getUser());
 
         return new Url($url);
     }

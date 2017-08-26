@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 namespace mcorten87\rabbitmq_api\mappers;
 
 
@@ -22,7 +22,7 @@ class JobUserCreateMapper extends BaseMapper
      */
     protected function mapUrl(JobBase $job) : Url {
         $url = 'users';
-        $url .= '/'.urlencode($job->getUser());
+        $url .= '/'.urlencode((string)$job->getUser());
 
         return new Url($url);
     }
@@ -33,7 +33,7 @@ class JobUserCreateMapper extends BaseMapper
      */
     protected function mapConfig(JobBase $job) : array {
         $body = [
-            'tags'       => implode($job->getUserTags(), ','),
+            'tags' => implode($job->getUserTags(), ','),
         ];
 
         if ($job->hasPassword()) {

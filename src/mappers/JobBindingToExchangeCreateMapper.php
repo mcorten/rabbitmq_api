@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 namespace mcorten87\rabbitmq_api\mappers;
 
 
@@ -28,11 +28,11 @@ class JobBindingToExchangeCreateMapper extends BaseMapper
         }
 
         return new Url('bindings/'
-            .urlencode($job->getVirtualHost()).'/'
+            .urlencode((string)$job->getVirtualHost()).'/'
             .'e/'
-            .urlencode($job->getExchangeName()).'/'
+            .urlencode((string)$job->getExchangeName()).'/'
             .$job->getDestinationType().'/'
-            .urlencode($job->getToExchange())
+            .urlencode((string)$job->getToExchange())
         );
     }
 

@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 namespace mcorten87\rabbitmq_api\mappers;
 
 
@@ -22,7 +22,10 @@ class JobQueueCreateMapper extends BaseMapper
      */
     protected function mapUrl(JobBase $job) : Url
     {
-        return new Url('queues/'.urlencode($job->getVirtualHost()).'/'.urlencode($job->getQueueName()));
+        return new Url('queues/'
+            .urlencode((string)$job->getVirtualHost())
+            .'/'.urlencode((string)$job->getQueueName())
+        );
     }
 
     /**

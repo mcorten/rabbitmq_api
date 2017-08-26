@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 namespace mcorten87\rabbitmq_api\mappers;
 
 
@@ -33,7 +33,7 @@ class JobVirtualHostListMapper extends BaseMapper
     protected function mapUrl(JobBase $job) : Url {
         $url = 'vhosts';
         if (!empty($job->hasVirtualHost())) {
-            $url .= '/'.urlencode($job->getVirtualHost());
+            $url .= '/'.urlencode((string)$job->getVirtualHost());
         }
         return new Url($url);
     }
