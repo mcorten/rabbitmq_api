@@ -62,7 +62,7 @@ class JobExchangeCreate extends JobBase
     /**
      * @param ExchangeArgument $argument
      */
-    public function addArgument(ExchangeArgument $argument): void
+    public function addArgument(ExchangeArgument $argument)
     {
         $this->arguments[] = $argument;
     }
