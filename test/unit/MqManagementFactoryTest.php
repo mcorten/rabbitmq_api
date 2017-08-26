@@ -43,6 +43,7 @@ use mcorten87\rabbitmq_api\objects\UserTag;
 use mcorten87\rabbitmq_api\objects\VirtualHost;
 use mcorten87\rabbitmq_api\test\unit\jobs\mocks\JobDoesNotExist;
 use PHPUnit\Framework\TestCase;
+use ReflectionClass;
 
 /**
  * Created by PhpStorm.
@@ -152,5 +153,24 @@ class MqManagementFactoryTest extends TestCase
     public function testNonExistingJob() {
         $job = new JobDoesNotExist();
         $this->factory->getJobMapper($job);
+    }
+
+
+    public function testNonExistingJobNowExistsByUsingTheOverride() {
+        $class = new ReflectionClass(MqManagementFactory::class);
+        $method = $class->getMethod('registerMapper');
+        $method->setAccessible(true);
+
+        $job = new JobDoesNotExist();
+
+        $method->invokeArgs($this->factory, [
+            new JobQueueListMapper($this->config),
+            $job,
+        ]);
+
+        $job = new JobDoesNotExist();
+        $mapper = $this->factory->getJobMapper($job);
+
+        $this->assertInstanceOf(JobQueueListMapper::class, $mapper);
     }
 }

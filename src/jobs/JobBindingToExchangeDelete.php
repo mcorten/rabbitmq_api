@@ -64,7 +64,7 @@ class JobBindingToExchangeDelete extends JobBase
      */
     public function getDestinationType(): string
     {
-        return $this->destinationType;
+        return (string)$this->destinationType;
     }
 
     /**

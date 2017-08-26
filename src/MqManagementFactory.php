@@ -81,182 +81,20 @@ class MqManagementFactory
             ->addArgument($this)
             ->addArgument($this->container->get(Client::class))
         ;
-
-        $this->registerJobs();
     }
 
-    protected function registerJobs()
-    {
-        // virtual hosts
-        $this->container->register(JobVirtualHostListMapper::class, JobVirtualHostListMapper::class)
+    protected function registerMapper(BaseMapper $mapper, JobBase $job) {
+        $this->container->register(
+                get_class($job),
+                get_class($mapper))
             ->addArgument($this->config)
-        ;
-
-        $this->container
-            ->register(JobVirtualHostCreateMapper::class, JobVirtualHostCreateMapper::class)
-            ->addArgument($this->config)
-        ;
-
-        $this->container
-            ->register(JobVirtualHostDeleteMapper::class, JobVirtualHostDeleteMapper::class)
-            ->addArgument($this->config)
-        ;
-
-        // queues
-        $this->container
-            ->register(JobQueueListAllMapper::class, JobQueueListAllMapper::class)
-            ->addArgument($this->config)
-        ;
-
-        $this->container
-            ->register(JobQueueListVirtualHostMapper::class, JobQueueListVirtualHostMapper::class)
-            ->addArgument($this->config)
-        ;
-
-        $this->container
-            ->register(JobQueueListMapper::class, JobQueueListMapper::class)
-            ->addArgument($this->config)
-        ;
-
-        $this->container
-            ->register(JobQueueCreateMapper::class, JobQueueCreateMapper::class)
-            ->addArgument($this->config)
-        ;
-
-        $this->container
-            ->register(JobQueueDeleteMapper::class, JobQueueDeleteMapper::class)
-            ->addArgument($this->config)
-        ;
-
-        // users
-        $this->container
-            ->register(JobUserListMapper::class, JobUserListMapper::class)
-            ->addArgument($this->config)
-        ;
-
-        $this->container
-            ->register(JobUserCreateMapper::class, JobUserCreateMapper::class)
-            ->addArgument($this->config)
-        ;
-
-        $this->container
-            ->register(JobUserDeleteMapper::class, JobUserDeleteMapper::class)
-            ->addArgument($this->config)
-        ;
-
-        $this->container
-            ->register(JobPermissionListAllMapper::class, JobPermissionListAllMapper::class)
-            ->addArgument($this->config)
-        ;
-
-        $this->container
-            ->register(JobPermissionListUserMapper::class, JobPermissionListUserMapper::class)
-            ->addArgument($this->config)
-        ;
-
-        $this->container
-            ->register(JobPermissionListVirtualHostMapper::class, JobPermissionListVirtualHostMapper::class)
-            ->addArgument($this->config)
-        ;
-
-        $this->container
-            ->register(JobPermissionCreateMapper::class, JobPermissionCreateMapper::class)
-            ->addArgument($this->config)
-        ;
-
-        $this->container
-            ->register(JobPermissionDeleteMapper::class, JobPermissionDeleteMapper::class)
-            ->addArgument($this->config)
-        ;
-
-        $this->container
-            ->register(JobExchangeListMapper::class, JobExchangeListMapper::class)
-            ->addArgument($this->config)
-        ;
-
-        $this->container
-            ->register(JobExchangeListAllMapper::class, JobExchangeListAllMapper::class)
-            ->addArgument($this->config)
-        ;
-
-        $this->container
-            ->register(JobExchangeListVirtualHostMapper::class, JobExchangeListVirtualHostMapper::class)
-            ->addArgument($this->config)
-        ;
-
-        $this->container
-            ->register(JobExchangePublishMapper::class, JobExchangePublishMapper::class)
-            ->addArgument($this->config)
-        ;
-
-        $this->container
-            ->register(JobExchangeCreateMapper::class, JobExchangeCreateMapper::class)
-            ->addArgument($this->config)
-        ;
-
-        $this->container
-            ->register(JobExchangeDeleteMapper::class, JobExchangeDeleteMapper::class)
-            ->addArgument($this->config)
-        ;
-
-        $this->container
-            ->register(JobBindingToQueueCreateMapper::class, JobBindingToQueueCreateMapper::class)
-            ->addArgument($this->config)
-        ;
-
-        $this->container
-            ->register(JobBindingToExchangeCreateMapper::class, JobBindingToExchangeCreateMapper::class)
-            ->addArgument($this->config)
-        ;
-
-        $this->container
-            ->register(JobBindingToExchangeDeleteMapper::class, JobBindingToExchangeDeleteMapper::class)
-            ->addArgument($this->config)
-        ;
-
-        $this->container
-            ->register(JobBindingToQueueDeleteMapper::class, JobBindingToQueueDeleteMapper::class)
-            ->addArgument($this->config)
-        ;
-
-        $this->container
-            ->register(JobBindingListAllMapper::class, JobBindingListAllMapper::class)
-            ->addArgument($this->config)
-        ;
-
-        $this->container
-            ->register(JobBindingListVirtualHostMapper::class, JobBindingListVirtualHostMapper::class)
-            ->addArgument($this->config)
-        ;
-
-        $this->container
-            ->register(JobBindingListQueueMapper::class, JobBindingListQueueMapper::class)
-            ->addArgument($this->config)
-        ;
-
-        $this->container
-            ->register(JobBindingListExchangeMapper::class, JobBindingListExchangeMapper::class)
-            ->addArgument($this->config)
-        ;
-
-        $this->container
-            ->register(
-                JobBindingListBetweenQueueAndExchangeMapper::class,
-                JobBindingListBetweenQueueAndExchangeMapper::class
-            )->addArgument($this->config)
-        ;
-
-        $this->container
-            ->register(
-                JobOverviewListMapper::class,
-                JobOverviewListMapper::class
-            )->addArgument($this->config)
         ;
     }
+
 
     /**
      * @param  String $class
-     * @return JobBase
+     * @return JobService|JobBase
      */
     private function get(String $class)
     {
@@ -290,14 +128,38 @@ class MqManagementFactory
      */
     public function getJobMapper(JobBase $job) : BaseMapper
     {
+        $mapper = $this->getJobMapperFromContainer($job);
+        if ($mapper instanceof BaseMapper) {
+            return $mapper;
+        }
+
+        $mapper = $this->getJobMapperFromAutoload($job);
+        if ($mapper instanceof BaseMapper) {
+            return $mapper;
+        }
+
+        throw new NoMapperForJob($job);
+    }
+
+    private function getJobMapperFromContainer(JobBase $job) {
+        $class = get_class($job);
+
+        if (!$this->container->has($class)) {
+            return null;
+        }
+
+        return $this->container->get($class);
+    }
+
+    private function getJobMapperFromAutoload(JobBase $job) {
         $class = get_class($job);
         $class = str_replace('\\jobs\\', '\\mappers\\', $class);
         $class .= 'Mapper';
 
         try {
-            return $this->container->get($class);
-        } catch (ServiceNotFoundException $e) {
-            throw new NoMapperForJob($job);
+            return new $class($this->config);
+        } catch (\Throwable  $e) {
+            return null;
         }
     }
 }

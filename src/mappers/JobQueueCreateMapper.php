@@ -16,6 +16,10 @@ class JobQueueCreateMapper extends BaseMapper
         return new Method(Method::PUT);
     }
 
+    /**
+     * @param JobQueueCreate $job
+     * @return Url
+     */
     protected function mapUrl(JobBase $job) : Url
     {
         return new Url('queues/'.urlencode($job->getVirtualHost()).'/'.urlencode($job->getQueueName()));

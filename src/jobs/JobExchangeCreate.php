@@ -31,7 +31,7 @@ class JobExchangeCreate extends JobBase
     private $durable = true;
 
     /**
-     * @var QueueArgument[]
+     * @var ExchangeArgument[]
      */
     private $arguments = [];
 
