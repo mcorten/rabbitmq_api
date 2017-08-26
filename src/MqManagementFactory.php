@@ -22,6 +22,7 @@ use mcorten87\rabbitmq_api\mappers\JobExchangeListAllMapper;
 use mcorten87\rabbitmq_api\mappers\JobExchangeListMapper;
 use mcorten87\rabbitmq_api\mappers\JobExchangeListVirtualHostMapper;
 use mcorten87\rabbitmq_api\mappers\JobExchangePublishMapper;
+use mcorten87\rabbitmq_api\mappers\JobOverviewListMapper;
 use mcorten87\rabbitmq_api\mappers\JobPermissionCreateMapper;
 use mcorten87\rabbitmq_api\mappers\JobPermissionDeleteMapper;
 use mcorten87\rabbitmq_api\mappers\JobPermissionListAllMapper;
@@ -242,6 +243,13 @@ class MqManagementFactory
             ->register(
                 JobBindingListBetweenQueueAndExchangeMapper::class,
                 JobBindingListBetweenQueueAndExchangeMapper::class
+            )->addArgument($this->config)
+        ;
+
+        $this->container
+            ->register(
+                JobOverviewListMapper::class,
+                JobOverviewListMapper::class
             )->addArgument($this->config)
         ;
     }
