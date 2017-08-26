@@ -2,7 +2,6 @@
 
 namespace mcorten87\rabbitmq_api\test\unit\objects;
 
-use mcorten87\rabbitmq_api\objects\Method;
 use mcorten87\rabbitmq_api\objects\QueueArgument;
 use PHPUnit\Framework\TestCase;
 

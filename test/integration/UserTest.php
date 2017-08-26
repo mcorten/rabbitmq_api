@@ -1,4 +1,5 @@
 <?php
+
 use mcorten87\rabbitmq_api\jobs\JobUserCreate;
 use mcorten87\rabbitmq_api\jobs\JobUserDelete;
 use mcorten87\rabbitmq_api\jobs\JobUserList;

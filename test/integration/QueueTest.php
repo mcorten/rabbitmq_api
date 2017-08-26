@@ -1,4 +1,5 @@
 <?php
+
 use mcorten87\rabbitmq_api\jobs\JobPermissionCreate;
 use mcorten87\rabbitmq_api\jobs\JobQueueCreate;
 use mcorten87\rabbitmq_api\jobs\JobQueueDelete;

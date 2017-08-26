@@ -1,4 +1,5 @@
 <?php
+
 use mcorten87\rabbitmq_api\jobs\JobBindingToQueueCreate;
 use mcorten87\rabbitmq_api\jobs\JobExchangeCreate;
 use mcorten87\rabbitmq_api\jobs\JobExchangeDelete;

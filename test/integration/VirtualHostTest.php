@@ -1,9 +1,8 @@
 <?php
+
 use mcorten87\rabbitmq_api\jobs\JobVirtualHostCreate;
 use mcorten87\rabbitmq_api\jobs\JobVirtualHostDelete;
 use mcorten87\rabbitmq_api\jobs\JobVirtualHostList;
-use mcorten87\rabbitmq_api\MqManagementFactory;
-use mcorten87\rabbitmq_api\objects\QueueName;
 use mcorten87\rabbitmq_api\objects\VirtualHost;
 use PHPUnit\Framework\TestCase;
 

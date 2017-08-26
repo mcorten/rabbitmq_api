@@ -1,4 +1,5 @@
 <?php
+
 use mcorten87\rabbitmq_api\MqManagementConfig;
 use mcorten87\rabbitmq_api\MqManagementFactory;
 use mcorten87\rabbitmq_api\objects\Password;

@@ -1,11 +1,7 @@
 <?php
 namespace mcorten87\rabbitmq_api\test\unit\jobs;
 
-use mcorten87\rabbitmq_api\jobs\JobExchangeList;
-use mcorten87\rabbitmq_api\jobs\JobExchangeListVirtualHost;
 use mcorten87\rabbitmq_api\jobs\JobExchangePublish;
-use mcorten87\rabbitmq_api\mappers\JobExchangeListMapper;
-use mcorten87\rabbitmq_api\mappers\JobExchangeListVirtualHostMapper;
 use mcorten87\rabbitmq_api\mappers\JobExchangePublishMapper;
 use mcorten87\rabbitmq_api\MqManagementConfig;
 use mcorten87\rabbitmq_api\objects\DeliveryMode;

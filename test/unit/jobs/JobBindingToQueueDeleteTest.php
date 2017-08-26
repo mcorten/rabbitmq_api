@@ -8,7 +8,6 @@
 
 namespace mcorten87\rabbitmq_api\test\unit\jobs;
 
-use mcorten87\rabbitmq_api\jobs\JobBindingToQueueCreate;
 use mcorten87\rabbitmq_api\jobs\JobBindingToQueueDelete;
 use mcorten87\rabbitmq_api\objects\DestinationType;
 use mcorten87\rabbitmq_api\objects\ExchangeName;
