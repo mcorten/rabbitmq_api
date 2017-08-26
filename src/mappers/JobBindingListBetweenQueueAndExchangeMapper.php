@@ -30,8 +30,8 @@ class JobBindingListBetweenQueueAndExchangeMapper  extends BaseMapper
 
         $url = 'bindings';
         $url .= sprintf('/%1$s', urlencode((string)$job->getVirtualHost()));
-        $url .= sprintf('/%1$s', urlencode((string)$job->getQueueName()));
-        $url .= sprintf('/%1$s', urlencode((string)$job->getExchangeName()));
+        $url .= sprintf('/e/%1$s', urlencode((string)$job->getExchangeName()));
+        $url .= sprintf('/q/%1$s', urlencode((string)$job->getQueueName()));
         return new Url($url);
     }
 }

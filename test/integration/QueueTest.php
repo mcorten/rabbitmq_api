@@ -8,7 +8,6 @@ use mcorten87\rabbitmq_api\jobs\JobQueueListAll;
 use mcorten87\rabbitmq_api\jobs\JobQueueListVirtualHost;
 use mcorten87\rabbitmq_api\jobs\JobVirtualHostCreate;
 use mcorten87\rabbitmq_api\jobs\JobVirtualHostDelete;
-use mcorten87\rabbitmq_api\MqManagementFactory;
 use mcorten87\rabbitmq_api\objects\QueueName;
 use mcorten87\rabbitmq_api\objects\VirtualHost;
 use PHPUnit\Framework\TestCase;
@@ -23,9 +22,6 @@ class QueueTest extends TestCase
 {
     private static $virtualHost;
     private static $queueName;
-
-    /** @var  MqManagementFactory $factory */
-    private $factory;
 
     public static function setUpBeforeClass()
     {
