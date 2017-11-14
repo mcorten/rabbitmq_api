@@ -30,6 +30,9 @@ class UserTest extends TestCase
 
     public static function tearDownAfterClass()
     {
+        // clean up the test user that was created
+        $job = new JobUserDelete(new User((string)self::$user . '-'));
+        Bootstrap::getFactory()->getJobService()->execute($job);
     }
 
     public function listUser()

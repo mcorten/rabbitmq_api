@@ -18,7 +18,7 @@ so only use this is you want to contribute
 | GET | PUT |  DELETE | POST| PATH |
 | ------ | ------ | ------ | ------ | ------ |
 | X |  |  |  | /api/overview |
-|  |  |  |  | /api/cluster-name |
+| X | X |  |  | /api/cluster-name |
 |  |  |  |  | /api/nodes |
 |  |  |  |  | /api/extensions |
 |  |  |  |  | /api/definitions |
