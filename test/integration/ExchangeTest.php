@@ -118,16 +118,15 @@ class ExchangeTest extends TestCase
         $response = Bootstrap::getFactory()->getJobService()->execute($job);
         $this->assertTrue($response->isSuccess());
 
+        sleep(3); // HACK, we have to wait till the publish is done... and this takes 3 seconds for some reason
+
         foreach ($queues as $queue) {
             $job = new JobQueueList(self::$virtualHost, $queue);
             $response = Bootstrap::getFactory()->getJobService()->execute($job);
             $this->assertTrue($response->isSuccess());
             $this->assertEquals(1, (int)$response->getBody()->message_stats->publish);
         }
-
     }
-
-
 
     public function testLisExchangeOnVirtualHost()
     {
