@@ -12,6 +12,12 @@ use PHPUnit\Framework\TestCase;
  */
 class ClusterNameTest extends TestCase
 {
+    public static function tearDownAfterClass()
+    {
+        $job = new JobClusterNameUpdate('rabbit@ubuntu-zesty');
+        Bootstrap::getFactory()->getJobService()->execute($job);
+    }
+
     public function testListClusterName()
     {
         $job = new JobClusterNameList();

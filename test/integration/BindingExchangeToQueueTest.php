@@ -32,9 +32,6 @@ class BindingExchangeToQueueTest extends TestCase
     private static $exchangeName;
     private static $routingKey;
 
-    /** @var  MqManagementFactory $factory */
-    private $factory;
-
     public static function setUpBeforeClass()
     {
         $jobService = Bootstrap::getFactory()->getJobService();
