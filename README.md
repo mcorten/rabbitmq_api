@@ -20,7 +20,7 @@ so only use this is you want to contribute
 | ------ | ------ | ------ | ------ | ------ |
 | X |  |  |  | /api/overview |
 | X | X |  |  | /api/cluster-name |
-|  |  |  |  | /api/nodes |
+| X |  |  |  | /api/nodes |
 |  |  |  |  | /api/extensions |
 |  |  |  |  | /api/definitions |
 |  |  |  |  | /api/definitions/vhost |
