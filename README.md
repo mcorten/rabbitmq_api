@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/mcorten/rabbitmq_api.svg?branch=master)](https://travis-ci.org/mcorten/rabbitmq_api)
+[![Build Status](https://scrutinizer-ci.com/g/mcorten/rabbitmq_api/badges/build.png?b=master)](https://scrutinizer-ci.com/g/mcorten/rabbitmq_api/build-status/master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/mcorten/rabbitmq_api/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/mcorten/rabbitmq_api/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/mcorten/rabbitmq_api/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/mcorten/rabbitmq_api/?branch=master)
 
