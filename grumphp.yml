@@ -1,0 +1,44 @@
+parameters:
+    git_dir: .
+    bin_dir: vendor/bin
+    tasks:
+        composer:
+            file: ./composer.json
+            no_check_all: false
+            no_check_lock: false
+            no_check_publish: false
+            no_local_repository: false
+            with_dependencies: false
+            strict: false
+        git_blacklist:
+            keywords:
+                - "die("
+                - "var_dump("
+            triggered_by: ['php']
+            regexp_type: G
+        phplint:
+            exclude: []
+            jobs: ~
+            triggered_by: ['php', 'phtml', 'php3', 'php4', 'php5']
+        phpstan:
+            autoload_file: ~
+            configuration: ~
+            level: 5
+            force_patterns: []
+            ignore_patterns: []
+            triggered_by: ['php']
+        phpcs:
+            standard: PSR2
+            tab_width: ~
+            whitelist_patterns:
+                - /^src\/(.*)/
+                - /^test\/(.*)/
+            encoding: ~
+            ignore_patterns: []
+            sniffs: []
+            triggered_by: [php]
+        phpunit:
+            config_file: ~
+            testsuite: "unit"
+            group: []
+            always_execute: false
