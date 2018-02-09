@@ -7,23 +7,25 @@ use mcorten87\rabbitmq_api\jobs\JobBase;
 use mcorten87\rabbitmq_api\jobs\JobBindingListBetweenQueueAndExchange;
 use mcorten87\rabbitmq_api\objects\Method;
 use mcorten87\rabbitmq_api\objects\Url;
-use mcorten87\rabbitmq_api\services\MqManagementConfig;
 
-class JobBindingListBetweenQueueAndExchangeMapper  extends BaseMapper
+class JobBindingListBetweenQueueAndExchangeMapper extends BaseMapper
 {
 
     /**
      * @return Method
      */
-    protected function mapMethod() : Method {
+    protected function mapMethod() : Method
+    {
         return new Method(Method::GET);
     }
 
     /**
-     * @param JobBindingListBetweenQueueAndExchange $job
+     * @param JobBase $job
      * @return Url
+     * @throws WrongArgumentException
      */
-    protected function mapUrl(JobBase $job) : Url {
+    protected function mapUrl(JobBase $job) : Url
+    {
         if (!$job instanceof JobBindingListBetweenQueueAndExchange) {
             throw new WrongArgumentException($job, JobBindingListBetweenQueueAndExchange::class);
         }

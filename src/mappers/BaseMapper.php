@@ -23,7 +23,8 @@ abstract class BaseMapper
      * @param JobBase $job
      * @return MapResult
      */
-    public function map(JobBase $job) : MapResult {
+    public function map(JobBase $job) : MapResult
+    {
         return new MapResult(
             $this->mapMethod(),
             $this->mapUrl($job),
@@ -53,11 +54,11 @@ abstract class BaseMapper
      * @param JobBase $job
      * @return array
      */
-    protected function mapConfig(JobBase $job) : array {
+    protected function mapConfig(JobBase $job) : array
+    {
         return [
             'auth'      =>  array($this->config->getUser(), $this->config->getPassword()),
-            'headers'   =>  ['content-type' => 'application/json'],
-            //'debug'     =>  true,
+            'headers'   =>  ['content-type' => 'application/json']
         ];
     }
 }

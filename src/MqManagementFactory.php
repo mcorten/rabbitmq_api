@@ -4,10 +4,9 @@ namespace mcorten87\rabbitmq_api;
 
 use GuzzleHttp\Client;
 use mcorten87\rabbitmq_api\exceptions\NoMapperForJob;
+use mcorten87\rabbitmq_api\exceptions\WrongServiceContainerMappingException;
 use mcorten87\rabbitmq_api\jobs\JobBase;
-use mcorten87\rabbitmq_api\jobs\JobVirtualHostsList;
 use mcorten87\rabbitmq_api\mappers\BaseMapper;
-use mcorten87\rabbitmq_api\mappers\JobPermissionListMapper;
 use mcorten87\rabbitmq_api\objects\JobResult;
 use mcorten87\rabbitmq_api\services\JobService;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -37,6 +36,7 @@ class MqManagementFactory
 
     /**
      * @param MqManagementConfig $config
+     * @throws \Exception
      */
     public function register(MqManagementConfig $config)
     {
@@ -50,31 +50,30 @@ class MqManagementFactory
         ;
     }
 
-    protected function registerMapper(BaseMapper $mapper, JobBase $job) {
-        $this->container->register(
-                get_class($job),
-                get_class($mapper))
-            ->addArgument($this->config)
-        ;
-    }
-
-
-    /**
-     * @param  String $class
-     * @return JobService|JobBase
-     */
-    private function get(String $class)
+    protected function registerMapper(BaseMapper $mapper, JobBase $job)
     {
-        $result = $this->container->get($class);
-        return $result;
+        $this->container->register(
+            get_class($job),
+            get_class($mapper)
+        )
+        ->addArgument($this->config);
     }
 
     /**
      * @return JobService
+     * @throws \Exception
      */
-    public function getJobService()
+    public function getJobService() : JobService
     {
-        return $this->container->get(JobService::class);
+        $jobService = $this->container->get(JobService::class);
+        if (!$jobService instanceof JobService) {
+            throw WrongServiceContainerMappingException::expectedOtherMapping(
+                $jobService,
+                JobService::class
+            );
+        }
+
+        return $jobService;
     }
 
     /**
@@ -92,33 +91,48 @@ class MqManagementFactory
      * @param JobBase $job
      * @return BaseMapper
      * @throws NoMapperForJob
+     * @throws WrongServiceContainerMappingException
+     * @throws \Exception
      */
     public function getJobMapper(JobBase $job) : BaseMapper
     {
-        $mapper = $this->getJobMapperFromContainer($job);
-        if ($mapper instanceof BaseMapper) {
-            return $mapper;
+        try {
+            return $this->getJobMapperFromContainer($job);
+        } catch (NoMapperForJob $e) {
+            return $this->getJobMapperFromAutoload($job);
         }
-
-        $mapper = $this->getJobMapperFromAutoload($job);
-        if ($mapper instanceof BaseMapper) {
-            return $mapper;
-        }
-
-        throw new NoMapperForJob($job);
     }
 
-    private function getJobMapperFromContainer(JobBase $job) {
+    /**
+     * @param JobBase $job
+     * @return BaseMapper
+     * @throws NoMapperForJob
+     * @throws WrongServiceContainerMappingException
+     * @throws \Exception
+     */
+    private function getJobMapperFromContainer(JobBase $job)
+    {
         $class = get_class($job);
 
-        if (!$this->container->has($class)) {
-            return null;
+        if (false === $this->container->has($class)) {
+            throw new NoMapperForJob($job);
         }
 
-        return $this->container->get($class);
+        $mapper = $this->container->get($class);
+        if (!$mapper instanceof BaseMapper) {
+            throw WrongServiceContainerMappingException::expectedOtherMapping($job, BaseMapper::class);
+        }
+
+        return $mapper;
     }
 
-    private function getJobMapperFromAutoload(JobBase $job) {
+    /**
+     * @param JobBase $job
+     * @return mixed
+     * @throws NoMapperForJob
+     */
+    private function getJobMapperFromAutoload(JobBase $job)
+    {
         $class = get_class($job);
         $class = str_replace('\\jobs\\', '\\mappers\\', $class);
         $class .= 'Mapper';
@@ -126,7 +140,7 @@ class MqManagementFactory
         try {
             return new $class($this->config);
         } catch (\Throwable  $e) {
-            return null;
+            throw new NoMapperForJob($job);
         }
     }
 }

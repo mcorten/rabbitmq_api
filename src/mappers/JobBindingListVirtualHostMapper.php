@@ -7,23 +7,25 @@ use mcorten87\rabbitmq_api\jobs\JobBase;
 use mcorten87\rabbitmq_api\jobs\JobBindingListVirtualHost;
 use mcorten87\rabbitmq_api\objects\Method;
 use mcorten87\rabbitmq_api\objects\Url;
-use mcorten87\rabbitmq_api\services\MqManagementConfig;
 
-class JobBindingListVirtualHostMapper  extends BaseMapper
+class JobBindingListVirtualHostMapper extends BaseMapper
 {
 
     /**
      * @return Method
      */
-    protected function mapMethod() : Method {
+    protected function mapMethod() : Method
+    {
         return new Method(Method::GET);
     }
 
     /**
-     * @param JobBindingListVirtualHost $job
+     * @param JobBase $job
      * @return Url
+     * @throws WrongArgumentException
      */
-    protected function mapUrl(JobBase $job) : Url {
+    protected function mapUrl(JobBase $job) : Url
+    {
         if (!$job instanceof JobBindingListVirtualHost) {
             throw new WrongArgumentException($job, JobBindingListVirtualHost::class);
         }

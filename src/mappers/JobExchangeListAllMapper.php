@@ -7,20 +7,22 @@ use mcorten87\rabbitmq_api\jobs\JobBase;
 use mcorten87\rabbitmq_api\jobs\JobExchangeListAll;
 use mcorten87\rabbitmq_api\objects\Method;
 use mcorten87\rabbitmq_api\objects\Url;
-use mcorten87\rabbitmq_api\services\MqManagementConfig;
 
-class JobExchangeListAllMapper  extends BaseMapper
+class JobExchangeListAllMapper extends BaseMapper
 {
 
-    protected function mapMethod() : Method {
+    protected function mapMethod() : Method
+    {
         return new Method(Method::GET);
     }
 
     /**
-     * @param JobExchangeListAll $job
+     * @param JobBase $job
      * @return Url
+     * @throws WrongArgumentException
      */
-    protected function mapUrl(JobBase $job) : Url {
+    protected function mapUrl(JobBase $job) : Url
+    {
         if (!$job instanceof JobExchangeListAll) {
             throw new WrongArgumentException($job, JobExchangeListAll::class);
         }

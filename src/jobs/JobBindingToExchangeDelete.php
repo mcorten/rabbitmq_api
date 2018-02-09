@@ -3,7 +3,6 @@
 namespace mcorten87\rabbitmq_api\jobs;
 
 use mcorten87\rabbitmq_api\objects\DestinationType;
-use mcorten87\rabbitmq_api\objects\Exchange;
 use mcorten87\rabbitmq_api\objects\ExchangeName;
 use mcorten87\rabbitmq_api\objects\RoutingKey;
 use mcorten87\rabbitmq_api\objects\VirtualHost;
@@ -76,12 +75,18 @@ class JobBindingToExchangeDelete extends JobBase
     }
 
     /**
-     * JobExchangeCreate constructor.
+     * JobBindingToExchangeDelete constructor.
      * @param VirtualHost $virtualHost
      * @param ExchangeName $exchange
+     * @param ExchangeName $to
+     * @param RoutingKey|null $routingKey
      */
-    public function __construct(VirtualHost $virtualHost, ExchangeName $exchange, ExchangeName $to, RoutingKey $routingKey = null)
-    {
+    public function __construct(
+        VirtualHost $virtualHost,
+        ExchangeName $exchange,
+        ExchangeName $to,
+        RoutingKey $routingKey = null
+    ) {
         $this->virtualHost = $virtualHost;
         $this->exchange = $exchange;
         $this->toExchange = $to;

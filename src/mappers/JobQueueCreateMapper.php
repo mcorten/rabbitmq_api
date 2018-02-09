@@ -2,12 +2,10 @@
 declare(strict_types=1);
 namespace mcorten87\rabbitmq_api\mappers;
 
-
 use mcorten87\rabbitmq_api\jobs\JobBase;
 use mcorten87\rabbitmq_api\jobs\JobQueueCreate;
 use mcorten87\rabbitmq_api\objects\Method;
 use mcorten87\rabbitmq_api\objects\Url;
-use mcorten87\rabbitmq_api\services\MqManagementConfig;
 
 class JobQueueCreateMapper extends BaseMapper
 {
@@ -22,7 +20,8 @@ class JobQueueCreateMapper extends BaseMapper
      */
     protected function mapUrl(JobBase $job) : Url
     {
-        return new Url('queues/'
+        return new Url(
+            'queues/'
             .urlencode((string)$job->getVirtualHost())
             .'/'.urlencode((string)$job->getQueueName())
         );
@@ -32,7 +31,8 @@ class JobQueueCreateMapper extends BaseMapper
      * @param JobQueueCreate $job
      * @return array
      */
-    protected function mapConfig(JobBase $job) : array {
+    protected function mapConfig(JobBase $job) : array
+    {
         $body = [
             'auto_delete'   => $job->isAutoDelete(),
             'durable'       => $job->isDurable(),

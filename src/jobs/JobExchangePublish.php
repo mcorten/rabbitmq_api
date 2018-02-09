@@ -3,7 +3,6 @@
 namespace mcorten87\rabbitmq_api\jobs;
 
 use mcorten87\rabbitmq_api\objects\DeliveryMode;
-use mcorten87\rabbitmq_api\objects\Exchange;
 use mcorten87\rabbitmq_api\objects\ExchangeName;
 use mcorten87\rabbitmq_api\objects\Message;
 use mcorten87\rabbitmq_api\objects\RoutingKey;
@@ -70,9 +69,12 @@ class JobExchangePublish extends JobBase
     }
 
     /**
-     * JobExchangeCreate constructor.
+     * JobExchangePublish constructor.
      * @param VirtualHost $virtualHost
      * @param ExchangeName $exchangeName
+     * @param Message $message
+     * @param DeliveryMode $deliveryMode
+     * @param RoutingKey|null $routingKey
      */
     public function __construct(
         VirtualHost $virtualHost,

@@ -37,8 +37,9 @@ class JobExchangeDelete extends JobBase
     }
 
     /**
-     * JobExchangeVirtualHostList constructor.
+     * JobExchangeDelete constructor.
      * @param VirtualHost $virtualHost
+     * @param ExchangeName $exchangeName
      */
     public function __construct(VirtualHost $virtualHost, ExchangeName $exchangeName)
     {

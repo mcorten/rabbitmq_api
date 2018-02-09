@@ -2,13 +2,11 @@
 declare(strict_types=1);
 namespace mcorten87\rabbitmq_api\mappers;
 
-
 use mcorten87\rabbitmq_api\exceptions\WrongArgumentException;
 use mcorten87\rabbitmq_api\jobs\JobBase;
 use mcorten87\rabbitmq_api\jobs\JobExchangeCreate;
 use mcorten87\rabbitmq_api\objects\Method;
 use mcorten87\rabbitmq_api\objects\Url;
-use mcorten87\rabbitmq_api\services\MqManagementConfig;
 
 class JobExchangeCreateMapper extends BaseMapper
 {
@@ -18,8 +16,9 @@ class JobExchangeCreateMapper extends BaseMapper
     }
 
     /**
-     * @param JobExchangeCreate $job
+     * @param JobBase $job
      * @return Url
+     * @throws WrongArgumentException
      */
     protected function mapUrl(JobBase $job) : Url
     {
@@ -27,14 +26,20 @@ class JobExchangeCreateMapper extends BaseMapper
             throw new WrongArgumentException($job, JobExchangeCreate::class);
         }
 
-        return new Url('exchanges/'.urlencode((string)$job->getVirtualHost()).'/'.urlencode((string)$job->getExchangeName()));
+        return new Url(
+            'exchanges/'
+            .urlencode((string)$job->getVirtualHost())
+            .'/'.urlencode((string)$job->getExchangeName())
+        );
     }
 
     /**
-     * @param JobExchangeCreate $job
+     * @param JobBase $job
      * @return array
+     * @throws WrongArgumentException
      */
-    protected function mapConfig(JobBase $job) : array {
+    protected function mapConfig(JobBase $job) : array
+    {
         if (!$job instanceof JobExchangeCreate) {
             throw new WrongArgumentException($job, JobExchangeCreate::class);
         }
