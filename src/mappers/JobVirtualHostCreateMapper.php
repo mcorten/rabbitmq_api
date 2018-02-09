@@ -11,7 +11,6 @@ class JobVirtualHostCreateMapper extends BaseMapper
 {
 
     /**
-     * @param JobVirtualHostCreate $job
      * @return Method
      */
     protected function mapMethod() : Method
