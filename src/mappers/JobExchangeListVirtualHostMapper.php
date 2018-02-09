@@ -6,7 +6,6 @@ use mcorten87\rabbitmq_api\jobs\JobBase;
 use mcorten87\rabbitmq_api\jobs\JobExchangeListVirtualHost;
 use mcorten87\rabbitmq_api\objects\Method;
 use mcorten87\rabbitmq_api\objects\Url;
-use mcorten87\rabbitmq_api\services\MqManagementConfig;
 
 class JobExchangeListVirtualHostMapper  extends BaseMapper
 {
