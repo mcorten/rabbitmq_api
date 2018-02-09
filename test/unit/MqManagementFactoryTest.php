@@ -20,7 +20,6 @@ use mcorten87\rabbitmq_api\jobs\JobVirtualHostList;
 use mcorten87\rabbitmq_api\mappers\JobPermissionCreateMapper;
 use mcorten87\rabbitmq_api\mappers\JobPermissionDeleteMapper;
 use mcorten87\rabbitmq_api\mappers\JobPermissionListAllMapper;
-use mcorten87\rabbitmq_api\mappers\JobPermissionListMapper;
 use mcorten87\rabbitmq_api\mappers\JobPermissionListUserMapper;
 use mcorten87\rabbitmq_api\mappers\JobPermissionListVirtualHostMapper;
 use mcorten87\rabbitmq_api\mappers\JobQueueCreateMapper;
@@ -62,6 +61,10 @@ class MqManagementFactoryTest extends TestCase
     /**
      * MqManagementFactoryTest constructor.
      * setUp gets called after the datapProvicers, in this case it is not good enough
+     * @param null $name
+     * @param array $data
+     * @param string $dataName
+     * @throws \Exception
      */
     public function __construct($name = null, array $data = [], $dataName = '')
     {
@@ -79,7 +82,8 @@ class MqManagementFactoryTest extends TestCase
     }
 
 
-    public function providerGetJobMapper() {
+    public function providerGetJobMapper()
+    {
         $ret = [];
         $ret = array_merge($ret, $this->providerGetJobVirtaulHostMapper());
         $ret = array_merge($ret, $this->providerGetJobQueueMapper());
@@ -88,7 +92,8 @@ class MqManagementFactoryTest extends TestCase
         return $ret;
     }
 
-    private function providerGetJobVirtaulHostMapper() {
+    private function providerGetJobVirtaulHostMapper()
+    {
         $virtualHost = new VirtualHost('/test/');
 
         return [
@@ -98,7 +103,8 @@ class MqManagementFactoryTest extends TestCase
         ];
     }
 
-    private function providerGetJobQueueMapper() {
+    private function providerGetJobQueueMapper()
+    {
         $virtualHost = new VirtualHost('/test/');
         $queueName = new QueueName('test');
 
@@ -110,7 +116,8 @@ class MqManagementFactoryTest extends TestCase
         ];
     }
 
-    private function providerGetJobUserMapper() {
+    private function providerGetJobUserMapper()
+    {
         $user = new User('test');
         $userTag = new UserTag(UserTag::MONITORING);
 
@@ -121,7 +128,8 @@ class MqManagementFactoryTest extends TestCase
         ];
     }
 
-    private function providerGetJobPermissionMapper() {
+    private function providerGetJobPermissionMapper()
+    {
         $virtualHost = new VirtualHost('/test/');
         $user = new User('test');
 
@@ -139,8 +147,14 @@ class MqManagementFactoryTest extends TestCase
      * Tests if we get the right mapper if we insert a job
      *
      * @dataProvider providerGetJobMapper
+     * @param $job
+     * @param $mapperExpected
+     * @throws \Exception
+     * @throws \mcorten87\rabbitmq_api\exceptions\NoMapperForJob
+     * @throws \mcorten87\rabbitmq_api\exceptions\WrongServiceContainerMappingException
      */
-    public function testGetJobMapper($job, $mapperExpected) {
+    public function testGetJobMapper($job, $mapperExpected)
+    {
         $mapper = $this->factory->getJobMapper($job);
         $this->assertTrue(get_class($mapperExpected) === get_class($mapper));
     }
@@ -150,13 +164,38 @@ class MqManagementFactoryTest extends TestCase
      *
      * @expectedException \mcorten87\rabbitmq_api\exceptions\NoMapperForJob
      */
-    public function testNonExistingJob() {
+    public function testNonExistingJob()
+    {
         $job = new JobDoesNotExist();
         $this->factory->getJobMapper($job);
     }
 
 
-    public function testNonExistingJobNowExistsByUsingTheOverride() {
+    /**
+     * @expectedException \mcorten87\rabbitmq_api\exceptions\WrongServiceContainerMappingException
+     */
+    public function testJobMappingThatIsNotAJobBase()
+    {
+        $class = new ReflectionClass(MqManagementFactory::class);
+        $property = $class->getProperty('container');
+        $property->setAccessible(true);
+
+        $job = new JobDoesNotExist();
+
+        $property->getValue($this->factory)->register(JobDoesNotExist::class, \stdClass::class);
+
+        $this->factory->getJobMapper($job);
+    }
+
+
+    /**
+     * @throws \Exception
+     * @throws \ReflectionException
+     * @throws \mcorten87\rabbitmq_api\exceptions\NoMapperForJob
+     * @throws \mcorten87\rabbitmq_api\exceptions\WrongServiceContainerMappingException
+     */
+    public function testNonExistingJobNowExistsByUsingTheOverride()
+    {
         $class = new ReflectionClass(MqManagementFactory::class);
         $method = $class->getMethod('registerMapper');
         $method->setAccessible(true);
@@ -168,7 +207,6 @@ class MqManagementFactoryTest extends TestCase
             $job,
         ]);
 
-        $job = new JobDoesNotExist();
         $mapper = $this->factory->getJobMapper($job);
 
         $this->assertInstanceOf(JobQueueListMapper::class, $mapper);
