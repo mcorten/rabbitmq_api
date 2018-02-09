@@ -15,9 +15,6 @@ class MqManagermentService
      * MqManagermentService constructor.
      *
      * @param MqManagementFactory $factory
-     * @param Host $host
-     * @param User $user
-     * @param Password $password
      */
     public function __construct(MqManagementFactory $factory, MqManagementConfig $config)
     {

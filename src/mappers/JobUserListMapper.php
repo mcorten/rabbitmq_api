@@ -7,13 +7,11 @@ use mcorten87\rabbitmq_api\jobs\JobBase;
 use mcorten87\rabbitmq_api\jobs\JobUserList;
 use mcorten87\rabbitmq_api\objects\Method;
 use mcorten87\rabbitmq_api\objects\Url;
-use mcorten87\rabbitmq_api\services\MqManagementConfig;
 
 class JobUserListMapper  extends BaseMapper
 {
 
     /**
-     * @param JobUserList $job
      * @return Method
      */
     protected function mapMethod() : Method {
