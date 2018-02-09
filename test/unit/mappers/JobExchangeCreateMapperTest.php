@@ -1,7 +1,9 @@
 <?php
-namespace mcorten87\rabbitmq_api\test\unit\jobs;
+namespace mcorten87\rabbitmq_api\test\unit\mappers;
 
+use mcorten87\rabbitmq_api\exceptions\WrongArgumentException;
 use mcorten87\rabbitmq_api\jobs\JobExchangeCreate;
+use mcorten87\rabbitmq_api\jobs\JobQueueListVirtualHost;
 use mcorten87\rabbitmq_api\mappers\JobExchangeCreateMapper;
 use mcorten87\rabbitmq_api\MqManagementConfig;
 use mcorten87\rabbitmq_api\objects\ExchangeName;
@@ -21,6 +23,9 @@ class JobExchangeCreateMapperTest extends TestCase
     /**
      * MqManagementFactoryTest constructor.
      * setUp gets called after the datapProvicers, in this case it is not good enough
+     * @param null $name
+     * @param array $data
+     * @param string $dataName
      */
     public function __construct($name = null, array $data = [], $dataName = '')
     {
@@ -33,8 +38,20 @@ class JobExchangeCreateMapperTest extends TestCase
         parent::__construct($name, $data, $dataName);
     }
 
+    /**
+     * @expectedException \mcorten87\rabbitmq_api\exceptions\WrongArgumentException
+     */
+    public function testIfExceptionIsThrownWhenWrongArgumentIsGiven()
+    {
+        $job = new JobQueueListVirtualHost(new VirtualHost('/'));
 
-    public function testBasicJob() {
+        $mapper = new JobExchangeCreateMapper($this->config);
+        $mapper->map($job);
+    }
+
+
+    public function testBasicJob()
+    {
         $virtualHost = new VirtualHost('/t!@#$%^&*()-=[]\'\;/.,mest/');
         $exchangeName = new ExchangeName('t!@#$%^&*()-=[]\'\;/.,mest');
         $job = new JobExchangeCreate($virtualHost, $exchangeName);
