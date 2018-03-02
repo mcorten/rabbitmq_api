@@ -14,6 +14,7 @@ build:
                     format: 'clover'
     dependencies:
         after:
+            - 'sudo apt-get install socat'
             - 'wget --progress=bar:force http://www.rabbitmq.com/releases/rabbitmq-server/v3.6.14/rabbitmq-server_3.6.14-1_all.deb'
             - 'sudo dpkg -i rabbitmq-server_3.6.14-1_all.deb'
             - 'sudo rabbitmq-plugins enable rabbitmq_management'
