@@ -1,5 +1,7 @@
 <?php
 
+namespace mcorten87\rabbitmq_api\test\integration;
+
 use mcorten87\rabbitmq_api\jobs\JobBindingToQueueCreate;
 use mcorten87\rabbitmq_api\jobs\JobExchangeCreate;
 use mcorten87\rabbitmq_api\jobs\JobExchangeDelete;
@@ -9,7 +11,6 @@ use mcorten87\rabbitmq_api\jobs\JobExchangeListVirtualHost;
 use mcorten87\rabbitmq_api\jobs\JobExchangePublish;
 use mcorten87\rabbitmq_api\jobs\JobPermissionCreate;
 use mcorten87\rabbitmq_api\jobs\JobQueueCreate;
-use mcorten87\rabbitmq_api\jobs\JobQueueList;
 use mcorten87\rabbitmq_api\jobs\JobVirtualHostCreate;
 use mcorten87\rabbitmq_api\jobs\JobVirtualHostDelete;
 use mcorten87\rabbitmq_api\objects\DeliveryMode;
@@ -20,12 +21,6 @@ use mcorten87\rabbitmq_api\objects\QueueName;
 use mcorten87\rabbitmq_api\objects\VirtualHost;
 use PHPUnit\Framework\TestCase;
 
-/**
- * Created by PhpStorm.
- * User: mathijs
- * Date: 26-3-17
- * Time: 21:14
- */
 class ExchangeTest extends TestCase
 {
     private static $exchangeName;
@@ -65,7 +60,7 @@ class ExchangeTest extends TestCase
 
     public function testCreateBasicExchange()
     {
-        $job = new JobExchangeCreate(self::$virtualHost,self::$exchangeName);
+        $job = new JobExchangeCreate(self::$virtualHost, self::$exchangeName);
         $response = Bootstrap::getFactory()->getJobService()->execute($job);
         $this->assertTrue($response->isSuccess());
     }
@@ -74,7 +69,7 @@ class ExchangeTest extends TestCase
     {
         $exchangeName = new ExchangeName(((string)self::$exchangeName).'-with-arguments');
 
-        $job = new JobExchangeCreate(self::$virtualHost,$exchangeName);
+        $job = new JobExchangeCreate(self::$virtualHost, $exchangeName);
         $job->addArgument(new ExchangeArgument(ExchangeArgument::ALTERNATE_EXCHAGE, self::$exchangeName));
         $response = Bootstrap::getFactory()->getJobService()->execute($job);
         $this->assertTrue($response->isSuccess());
@@ -85,7 +80,7 @@ class ExchangeTest extends TestCase
      */
     public function testListExchanges()
     {
-        $job = new JobExchangeList(self::$virtualHost,self::$exchangeName);
+        $job = new JobExchangeList(self::$virtualHost, self::$exchangeName);
         $response = Bootstrap::getFactory()->getJobService()->execute($job);
         $this->assertTrue($response->isSuccess());
     }
@@ -102,7 +97,8 @@ class ExchangeTest extends TestCase
         $message = new Message("test integration tests");
         $deliveryMode = new DeliveryMode(DeliveryMode::PERSISTENT);
 
-        // create all the queues and create a binding form the exchange to the queue so we can test if the message actually arrives in the queues
+        // create all the queues and create a binding form the exchange to the queue
+        // so we can test if the message actually arrives in the queues
         foreach ($queues as $queue) {
             $job = new JobQueueCreate(self::$virtualHost, $queue);
             $job->setDurable(false);
@@ -170,7 +166,7 @@ class ExchangeTest extends TestCase
 
     public function testExchangeDelete()
     {
-        $job = new JobExchangeDelete(self::$virtualHost,self::$exchangeName);
+        $job = new JobExchangeDelete(self::$virtualHost, self::$exchangeName);
         $response = Bootstrap::getFactory()->getJobService()->execute($job);
         $this->assertTrue($response->isSuccess());
 
@@ -178,5 +174,4 @@ class ExchangeTest extends TestCase
         $response = Bootstrap::getFactory()->getJobService()->execute($job);
         $this->assertFalse($response->isSuccess());
     }
-
 }

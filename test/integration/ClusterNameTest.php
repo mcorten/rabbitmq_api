@@ -1,15 +1,11 @@
 <?php
 
+namespace mcorten87\rabbitmq_api\test\integration;
+
 use mcorten87\rabbitmq_api\jobs\JobClusterNameList;
 use mcorten87\rabbitmq_api\jobs\JobClusterNameUpdate;
 use PHPUnit\Framework\TestCase;
 
-/**
- * Created by PhpStorm.
- * User: mathijs
- * Date: 26-3-17
- * Time: 21:14
- */
 class ClusterNameTest extends TestCase
 {
     public static function tearDownAfterClass()

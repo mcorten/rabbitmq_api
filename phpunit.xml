@@ -1,4 +1,4 @@
-<phpunit colors="true" bootstrap="test/integration/Bootstrap.php" stopOnError="true" stopOnFailure="true" stopOnSkipped="true" strict="true">
+<phpunit colors="true" bootstrap="test/integration/BootstrapInit.php" stopOnError="true" stopOnFailure="true" stopOnSkipped="true" strict="true">
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">./src/</directory>

@@ -1,5 +1,7 @@
 <?php
 
+namespace mcorten87\rabbitmq_api\test\integration;
+
 use mcorten87\rabbitmq_api\jobs\JobBindingListAll;
 use mcorten87\rabbitmq_api\jobs\JobBindingListBetweenQueueAndExchange;
 use mcorten87\rabbitmq_api\jobs\JobBindingListExchange;
@@ -12,7 +14,6 @@ use mcorten87\rabbitmq_api\jobs\JobPermissionCreate;
 use mcorten87\rabbitmq_api\jobs\JobQueueCreate;
 use mcorten87\rabbitmq_api\jobs\JobVirtualHostCreate;
 use mcorten87\rabbitmq_api\jobs\JobVirtualHostDelete;
-use mcorten87\rabbitmq_api\MqManagementFactory;
 use mcorten87\rabbitmq_api\objects\ExchangeName;
 use mcorten87\rabbitmq_api\objects\QueueName;
 use mcorten87\rabbitmq_api\objects\RoutingKey;
@@ -31,6 +32,7 @@ class BindingExchangeToQueueTest extends TestCase
     private static $queueName;
     private static $exchangeName;
     private static $routingKey;
+
 
     public static function setUpBeforeClass()
     {
@@ -90,7 +92,12 @@ class BindingExchangeToQueueTest extends TestCase
 
     public function testCreateBinding()
     {
-        $job = new JobBindingToQueueCreate(self::$virtualHost, self::$queueName, self::$exchangeName, self::$routingKey);
+        $job = new JobBindingToQueueCreate(
+            self::$virtualHost,
+            self::$queueName,
+            self::$exchangeName,
+            self::$routingKey
+        );
         $response = Bootstrap::getFactory()->getJobService()->execute($job);
         $this->assertTrue($response->isSuccess());
 
@@ -144,7 +151,7 @@ class BindingExchangeToQueueTest extends TestCase
 
     public function testListAllBindings()
     {
-        $job = new JobBindingListAll(self::$virtualHost, self::$queueName);
+        $job = new JobBindingListAll();
         $response = Bootstrap::getFactory()->getJobService()->execute($job);
         $this->assertTrue($response->isSuccess());
 
@@ -180,7 +187,12 @@ class BindingExchangeToQueueTest extends TestCase
 
     public function testDeleteBinding()
     {
-        $job = new JobBindingToQueueDelete(self::$virtualHost, self::$queueName, self::$exchangeName, self::$routingKey);
+        $job = new JobBindingToQueueDelete(
+            self::$virtualHost,
+            self::$queueName,
+            self::$exchangeName,
+            self::$routingKey
+        );
         $response = Bootstrap::getFactory()->getJobService()->execute($job);
         $this->assertTrue($response->isSuccess());
 

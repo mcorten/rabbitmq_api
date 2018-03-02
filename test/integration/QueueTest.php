@@ -1,5 +1,7 @@
 <?php
 
+namespace mcorten87\rabbitmq_api\test\integration;
+
 use mcorten87\rabbitmq_api\jobs\JobPermissionCreate;
 use mcorten87\rabbitmq_api\jobs\JobQueueCreate;
 use mcorten87\rabbitmq_api\jobs\JobQueueDelete;
@@ -12,12 +14,6 @@ use mcorten87\rabbitmq_api\objects\QueueName;
 use mcorten87\rabbitmq_api\objects\VirtualHost;
 use PHPUnit\Framework\TestCase;
 
-/**
- * Created by PhpStorm.
- * User: mathijs
- * Date: 26-3-17
- * Time: 21:14
- */
 class QueueTest extends TestCase
 {
     private static $virtualHost;
@@ -122,5 +118,4 @@ class QueueTest extends TestCase
         $response = Bootstrap::getFactory()->getJobService()->execute($job);
         $this->assertFalse($response->isSuccess());
     }
-
 }

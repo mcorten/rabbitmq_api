@@ -1,5 +1,7 @@
 <?php
 
+namespace mcorten87\rabbitmq_api\test\integration;
+
 use mcorten87\rabbitmq_api\jobs\JobUserCreate;
 use mcorten87\rabbitmq_api\jobs\JobUserDelete;
 use mcorten87\rabbitmq_api\jobs\JobUserList;
@@ -9,12 +11,6 @@ use mcorten87\rabbitmq_api\objects\User;
 use mcorten87\rabbitmq_api\objects\UserTag;
 use PHPUnit\Framework\TestCase;
 
-/**
- * Created by PhpStorm.
- * User: mathijs
- * Date: 26-3-17
- * Time: 21:14
- */
 class UserTest extends TestCase
 {
     private static $user;

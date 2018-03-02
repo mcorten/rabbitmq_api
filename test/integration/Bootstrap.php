@@ -1,16 +1,13 @@
 <?php
 
+namespace mcorten87\rabbitmq_api\test\integration;
+
 use mcorten87\rabbitmq_api\MqManagementConfig;
 use mcorten87\rabbitmq_api\MqManagementFactory;
 use mcorten87\rabbitmq_api\objects\Password;
 use mcorten87\rabbitmq_api\objects\Url;
 use mcorten87\rabbitmq_api\objects\User;
 use mcorten87\rabbitmq_api\services\MqManagermentService;
-
-chdir(__DIR__);
-chdir('../../src/');
-
-require '../vendor/autoload.php';
 
 class Bootstrap
 {
@@ -46,7 +43,7 @@ class Bootstrap
         }
 
         $factory = new MqManagementFactory();
-        $mqManagement = new MqManagermentService($factory, $config);
+        new MqManagermentService($factory, $config);
 
         self::$factory = $factory;
         self::$config = $config;
@@ -79,5 +76,3 @@ class Bootstrap
         return new MqManagementConfig($user, $password, $url);
     }
 }
-
-Bootstrap::setup();
