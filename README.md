@@ -24,8 +24,8 @@ so only use this is you want to contribute
 | X |  |  |  | /api/extensions |
 | X |  |  |  | /api/definitions |
 | X |  |  |  | /api/definitions/vhost |
-|  |  |  |  | /api/connections |
-|  |  |  |  | /api/vhosts/vhost/connections |
+| X |  |  |  | /api/connections |
+| X |  |  |  | /api/vhosts/vhost/connections |
 |  |  |  |  | /api/connections/name |
 |  |  |  |  | /api/connections/name/channels |
 |  |  |  |  | /api/channels |
