@@ -22,8 +22,8 @@ so only use this is you want to contribute
 | X | X |  |  | /api/cluster-name |
 | X |  |  |  | /api/nodes |
 | X |  |  |  | /api/extensions |
-|  |  |  |  | /api/definitions |
-|  |  |  |  | /api/definitions/vhost |
+| X |  |  |  | /api/definitions |
+| X |  |  |  | /api/definitions/vhost |
 |  |  |  |  | /api/connections |
 |  |  |  |  | /api/vhosts/vhost/connections |
 |  |  |  |  | /api/connections/name |
