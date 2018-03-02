@@ -22,8 +22,5 @@ class NodesTest extends TestCase
         $body = $response->getBody();
         $this->assertTrue(is_array($body));
         $this->assertTrue(isset($body[0]));
-
-        $this->assertTrue(is_string($body[0]->os_pid));
-        $this->assertNotEmpty($body[0]->os_pid);
     }
 }
